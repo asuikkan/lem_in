@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/04 16:33:12 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/04 16:40:24 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+char	*ft_strrchr(const char *str, int c)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	char	*temp;
+	char	*found;
 
-	while (1)
+	found = NULL;
+	temp = (char *)str;
+	while (*temp)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		if (*temp == c)
+			found = temp;
+		temp++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	if (*temp == c)
+		found = temp;
+	return (found);
 }

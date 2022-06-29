@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/18 16:35:05 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/18 17:05:06 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
-	int		ret;
-	char	buf[1024 + 1];
+	char			*new;
+	unsigned int	i;
 
-	while (1)
+	new = ft_strnew(ft_strlen(s));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (s[i])
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		new[i] = f(i, s[i]);
+		i++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	return (new);
 }

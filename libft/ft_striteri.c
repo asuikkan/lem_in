@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/16 16:37:54 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/16 16:42:20 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static void	read_output(void)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	int		ret;
-	char	buf[1024 + 1];
+	unsigned int	i;
 
-	while (1)
+	i = 0;
+	while (*s)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		f(i, s);
+		i++;
+		s++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
 }

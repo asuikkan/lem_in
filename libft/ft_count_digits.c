@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_count_digits.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/03/21 11:51:19 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/03/21 11:51:22 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+size_t	ft_count_digits(long long nb)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	size_t	count;
 
-	while (1)
+	count = 0;
+	if (nb == 0)
+		count = 1;
+	while (nb > 0)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		count++;
+		nb /= 10;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	return (count);
 }

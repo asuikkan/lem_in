@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/19 10:57:07 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/19 11:04:04 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+char	*ft_strsub(const char *s, unsigned int start, size_t len)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	char			*sub;
+	unsigned int	i;
 
-	while (1)
+	sub = ft_strnew(len);
+	if (!sub)
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		sub[i] = s[start];
+		start++;
+		i++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	return (sub);
 }

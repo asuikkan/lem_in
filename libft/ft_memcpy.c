@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/05 12:36:24 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/17 11:33:56 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	char		*tempdest;
+	const char	*tempsrc;
 
-	while (1)
+	if (!dest && !src)
+		return (NULL);
+	tempdest = (char *)dest;
+	tempsrc = (const char *)src;
+	while (n-- > 0)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		*tempdest = *tempsrc;
+		tempdest++;
+		tempsrc++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	return (dest);
 }
