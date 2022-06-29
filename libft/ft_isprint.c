@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/12 10:26:20 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/17 11:31:15 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static void	read_output(void)
+int	ft_isprint(int c)
 {
-	int		ret;
-	char	buf[1024 + 1];
-
-	while (1)
-	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
-	}
-}
-
-int	main(void)
-{
-	read_output();
+	if (c >= 32 && c <= 126)
+		return (1);
 	return (0);
 }

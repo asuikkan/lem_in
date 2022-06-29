@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/04 11:14:54 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/04 11:23:28 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+char	*ft_strcat(char *dest, const char *src)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	char	*end;
 
-	while (1)
+	end = dest + ft_strlen(dest);
+	while (*src)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		*end = *src;
+		end++;
+		src++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	*end = '\0';
+	return (dest);
 }

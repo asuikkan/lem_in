@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/16 16:58:33 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/17 11:43:41 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+char	*ft_strmap(const char *s, char (*f)(char))
 {
-	int		ret;
-	char	buf[1024 + 1];
+	int		i;
+	size_t	len;
+	char	*new;
 
-	while (1)
+	len = ft_strlen(s);
+	new = ft_strnew(len);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (s[i])
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		new[i] = f(s[i]);
+		i++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	return (new);
 }

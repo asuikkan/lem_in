@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/05 17:01:58 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/05 17:33:10 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	unsigned char	*ts1;
+	unsigned char	*ts2;
 
-	while (1)
+	ts1 = (unsigned char *)s1;
+	ts2 = (unsigned char *)s2;
+	while (n-- > 0)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		if (*ts1 != *ts2)
+			return (*ts1 - *ts2);
+		ts1++;
+		ts2++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
 	return (0);
 }
