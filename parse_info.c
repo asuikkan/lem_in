@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   parse_info.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/29 13:03:34 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/29 13:03:35 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/06/30 12:59:55 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/06/30 12:59:57 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
+#include "lem_in.h"
 
-# define BUF_SIZE 1024
-
-# include "libft.h"
-
-typedef struct s_room
+int	check_ant_count(char *data)
 {
-	char	*name;
-	int		x;
-	int		y;
-}			t_room;
+	int	ret;
 
-typedef struct s_info
-{
-	int		ant_count;
-	t_room	*head;
-}			t_info;
-
-int	check_ant_count(char *data);
-
-#endif
+	ret = 0;
+	while (*data != '\n')
+	{
+		if (!ft_isdigit(*data))
+			return (-1);
+		ret = ret * 10 + (*data - '0');
+		data++;
+	}
+	return (ret);
+}
