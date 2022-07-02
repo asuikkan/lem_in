@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_info.c                                       :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/30 12:59:55 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/30 12:59:57 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/07/02 16:11:02 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/07/02 16:11:04 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int	check_ant_count(char *data)
+void	error_handler(void)
 {
-	int	ret;
-	int	i;
+	write(2, "ERROR\n", 6);
+	exit(1);
+}
 
-	ret = 0;
+static void	free_room(t_room *room)
+{
+	if (!room)
+		return ;
+	free_room(room->left);
+	free_room(room->right);
+	free(room);
+}
+
+void	free_info(t_info *info)
+{
+	int		i;
+
 	i = -1;
-	while (data[++i] != '\n')
+	while (++i < 128)
 	{
-		if (!ft_isdigit(data[i]))
-			return (-1);
-		ret = ret * 10 + (data[i] - '0');
+		if (info->table[i])
+			free_room(info->table[i]);
 	}
-	return (ret);
+	free(info);
 }
