@@ -84,7 +84,7 @@ int		ft_strnequ(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcat(char	*dest, const char *src, size_t destsize);
 size_t	ft_strclen(const char *str, int c);
-size_t  ft_count_digits(long long nb);
+size_t	ft_count_digits(long long nb);
 t_list	*ft_lstnew(const void *content, size_t content_size);
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
