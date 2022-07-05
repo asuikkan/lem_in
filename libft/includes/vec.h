@@ -25,6 +25,7 @@ typedef struct s_vec
 
 int		vec_copy(t_vec *dst, t_vec *src);
 int		vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
+int		vec_insert(t_vec *dst, void *src, size_t index);
 int		vec_new(t_vec *src, size_t init_len, size_t elem_size);
 int		vec_pop(void *dst, t_vec *src);
 int		vec_push(t_vec *dst, void *src);
