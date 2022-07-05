@@ -14,7 +14,7 @@
 
 void	vec_free(t_vec *src)
 {
-	if (!src)
+	if (!src || !src->memory)
 		return ;
 	free(src->memory);
 	src->memory = NULL;
