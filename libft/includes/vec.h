@@ -29,6 +29,7 @@ int		vec_insert(t_vec *dst, void *src, size_t index);
 int		vec_new(t_vec *src, size_t init_len, size_t elem_size);
 int		vec_pop(void *dst, t_vec *src);
 int		vec_push(t_vec *dst, void *src);
+int		vec_remove(t_vec *src, size_t index);
 int		vec_resize(t_vec *src, size_t target_len);
 void	vec_free(t_vec *src);
 void	*vec_get(t_vec *src, size_t index);
