@@ -12,23 +12,30 @@
 
 #include "lem_in.h"
 
-static void	save_info(t_info *info, char *line)
+static int	parse_info(t_info *info, char *line)
 {
 	static int	room_flag;
 
+	if ((info->ant_count < 0 || room_flag == 1) && line[0] == '#')
+	{
+		if (ft_strcmp(line, "##start") == 0 || ft_strcmp(line, "##end") == 0)
+			return (-1);
+	}
 	if (info->ant_count < 0)
 	{
-		info->ant_count = check_ant_count(line);
-		if (info->ant_count < 0)
-		{
-			free_info(info);
-			error_handler();
-		}
+		info->ant_count = parse_ant_count(line);
+		if (info->ant_count == -1)
+			return (-1);
 	}
-	room_flag = 1;
+	else if (room_flag == 0)
+	{
+		if (parse_room(info, line) == -1)
+			return (-1);
+	}
+	return (1);
 }
 
-static void	save_line(char *buf, t_info *info)
+static int	save_line(char *buf, t_info *info)
 {
 	static int	start;
 	int			len;
@@ -40,12 +47,13 @@ static void	save_line(char *buf, t_info *info)
 	else
 		line = lem_in_strnjoin(line, buf, start, len);
 	if (!line)
-	{
-		free_info(info);
-		error_handler();
-	}
+		return (-1);
 	if (line[len - 1] == '\n')
-		save_info(info, line);
+	{
+		parse_info(info, line);
+		ft_strdel(&line);
+	}
+	return (1);
 }
 
 void	read_output(t_info *info)
@@ -61,6 +69,10 @@ void	read_output(t_info *info)
 		if (ret < 0)
 			return ;
 		buf[ret] = '\0';
-		save_line(buf, info);
+		if (save_line(buf, info) == -1)
+		{
+			free_info(info);
+			error_handler();
+		}
 	}
 }
