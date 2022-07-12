@@ -41,7 +41,7 @@ static int	parse_name(t_room *room, char *line)
 	if (!room->name)
 		return (-1);
 	room->name = ft_strncpy(room->name, line, len);
-	line = line + len;
+	ft_memmove(line, line + len + 1, ft_strlen(line) - len);
 	return (1);
 }
 
@@ -66,7 +66,7 @@ static int	parse_x(t_room *room, char *line)
 		if (nb > COORD_LIMIT)
 			return (-1);
 	}
-	line += len;
+	ft_memmove(line, line + len + 1, ft_strlen(line) - len);
 	room->x = (int)nb;
 	return (1);
 }
@@ -90,25 +90,28 @@ static int	parse_y(t_room *room, char *line)
 		if (nb > COORD_LIMIT)
 			return (-1);
 	}
-	line += len;
+	ft_memmove(line, line + len, ft_strlen(line) - len);
 	room->y = (int)nb;
 	return (1);
 }
 
-int	parse_room(t_info *info, char *line)  //tee parsetus loppuun, taa on rikki!
+int	parse_room(t_info *info, char *line, int start_flag, int end_flag)
 {
-	t_room	room;
-	t_vec	table;
-	char	*temp;
+	t_room		room;
 
-	temp = line;
-	if (parse_name(&room, temp) == -1)
+	if (parse_name(&room, line) == -1)
 		return (-1);
-	if (parse_x(&room, temp) == -1)
+	if (parse_x(&room, line) == -1)
 		return (-1);
-	if (parse_y(&room, temp) == -1)
+	if (parse_y(&room, line) == -1)
 		return (-1);
-	if (!info->room_table)
-		info->room_table = &table;
+	if (*line != '\n')
+		return (-1);
+	if (push_room(info, &room) == -1)
+		return (-1);
+	if (start_flag == 1)
+		return (add_start(info, &room));
+	if (end_flag == 1)
+		return (add_end(info, &room));
 	return (1);
 }

@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   room_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/07/12 17:39:45 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/07/12 17:39:46 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static int	initialize_info(t_info *info)
+int	add_start(t_info *info, t_room *room)
 {
-	info->ant_count = -1;
-	info->room_table = NULL;
-	info->start = NULL;
-	info->end = NULL;
-	return (1);
+
 }
 
-int	main(void)
+int	add_end(t_info *info, t_room *room)
 {
-	t_info	info;
+	
+}
 
-	initialize_info(&info);
-	read_output(&info);
-	return (0);
+int	push_room(t_info *info, t_room *room)
+{
+	static t_vec	table;
+
+	if (!info->room_table)
+	{
+		if (vec_new(&table, 2, sizeof(t_room)) == -1)
+			return (-1);
+		info->room_table = &table;
+	}
+	if (vec_push(info->room_table, &room) == -1)
+		return (-1);
+	return (1);
 }
