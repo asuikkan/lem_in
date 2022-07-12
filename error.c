@@ -21,5 +21,4 @@ void	error_handler(void)
 void	free_info(t_info *info)
 {
 	vec_free(info->room_table);
-	free(info);
 }
