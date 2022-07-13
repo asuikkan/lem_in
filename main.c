@@ -29,5 +29,6 @@ int	main(void)
 
 	initialize_info(&info);
 	read_output(&info);
+	free_info(&info);
 	return (0);
 }

@@ -45,19 +45,18 @@ char	*lem_in_strndup(char *buf, int start, int n)
 	return (ret);
 }
 
-char	*lem_in_strnjoin(char **line, char *buf, int start, int n)
+char	*lem_in_strnjoin(char *line, char *buf, int start, int n)
 {
 	char	*ret;
 	int		i;
 
-	ret = ft_strnew(ft_strlen(*line) + n);
+	ret = ft_strnew(ft_strlen(line) + n);
 	if (!ret)
 		return (NULL);
 	i = -1;
 	while (line[++i])
-		ret[i] = (*line)[i];
+		ret[i] = line[i];
 	while (n--)
-		ret[i++] = buf[start];
-	ft_strdel(line);
+		ret[i++] = buf[start++];
 	return (ret);
 }
