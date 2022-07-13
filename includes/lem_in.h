@@ -13,7 +13,7 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
-# define BUF_SIZE 1024
+# define BUF_SIZE 2
 # define COORD_LIMIT 2147483647
 
 # include "libft.h"
@@ -23,6 +23,7 @@ typedef struct s_room
 	char			*name;
 	int				x;
 	int				y;
+	char			**links;
 }					t_room;
 
 typedef struct s_info
@@ -31,15 +32,18 @@ typedef struct s_info
 	t_vec	*room_table;
 	char	*start;
 	char	*end;
+	int		start_flag;
+	int		end_flag;
 }			t_info;
 
 char	*lem_in_strndup(char *buf, int start, int n);
-char	*lem_in_strnjoin(char *line, char *buf, int start, int n);
+char	*lem_in_strnjoin(char **line, char *buf, int start, int n);
 int		add_start(t_info *info, t_room *room);
-int		add_start(t_info *info, t_room *room);
+int		add_end(t_info *info, t_room *room);
 int		lem_in_line_len(char *buf, int start);
-int		parse_ant_count(char *data);
-int		parse_room(t_info *info, char *line, int start_flag, int end_flag);
+int		parse_ant_count(t_info *info, char *data);
+int		parse_link(t_info *info, char *line);
+int		parse_room(t_info *info, char *line);
 int		push_room(t_info *info, t_room *room);
 void	error_handler(void);
 void	free_info(t_info *info);
