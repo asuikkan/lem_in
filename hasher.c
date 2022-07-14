@@ -12,6 +12,13 @@
 
 #include "lem_in.h"
 
+static int	init_hash_table(t_vec *dst, t_vec *src)
+{
+	if (vec_new(dst, src->len, src->elem_size) == -1)
+		return (-1);
+	return (1);
+}
+
 static unsigned long	hash(char *str)
 {
 	unsigned long	hash;
@@ -37,14 +44,11 @@ static void	add_to_list(t_room *dst, t_room *src)
 
 int	hasher(t_info *info)
 {
-	t_vec			hash_table;
 	t_room			*temp;
 	size_t			i;
 	unsigned long	index;
 
-	if (vec_new(
-			&hash_table, info->room_table.len,
-			info->room_table.elem_size) == -1)
+	if (init_hash_table(&info->hash_table, &info->room_table) == -1)
 		return (-1);
 	i = 0;
 	while (i < info->room_table.len)
@@ -53,13 +57,13 @@ int	hasher(t_info *info)
 		temp = vec_get(&info->room_table, i++);
 		index = hash(temp->name);
 		index = index % info->room_table.len;
-		if (!vec_get(&hash_table, index))
+		if (!info->hash_table.memory[index * info->hash_table.elem_size])
 		{
-			if (vec_insert(&hash_table, temp, index) == -1)
+			if (vec_overwrite(&info->hash_table, temp, index) == -1)
 				return (-1);
 		}
 		else
-			add_to_list(vec_get(&hash_table, index), temp);
+			add_to_list(vec_get(&info->hash_table, index), temp);
 	}
 	return (1);
 }
