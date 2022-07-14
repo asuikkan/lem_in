@@ -12,6 +12,27 @@
 
 #include "lem_in.h"
 
+static void	free_links(char ***links)
+{
+	int	i;
+
+	i = -1;
+	while ((*links)[++i])
+		ft_strdel(&(*links)[i]);
+	free(*links);
+}
+
+int	free_room(t_room *room)
+{
+	if (room->name)
+		free(room->name);
+	if (room->links)
+		free_links(&room->links);
+	if (room->next)
+		free_room(room->next);
+	return (-1);
+}
+
 void	error_handler(void)
 {
 	write(2, "ERROR\n", 6);
@@ -21,22 +42,21 @@ void	error_handler(void)
 void	free_info(t_info *info)
 {
 	size_t	i;
-	//size_t	j;
 	t_room	*temp;
 
-	i = 0;
-	while (i < info->room_table->len)
+	if (info->room_table.len > 0)
 	{
-		temp = vec_get(info->room_table, i);
-		free(temp->name);
-		/*j = 0;
-		while (temp->links[j])
-			ft_strdel(&temp->links[j++]);*/
-		i++;
+		i = 0;
+		while (i < info->room_table.len)
+		{
+			temp = vec_get(&info->room_table, i);
+			free_room(temp);
+			i++;
+		}
 	}
 	if (info->start)
 		free(info->start);
 	if (info->end)
 		free(info->end);
-	vec_free(info->room_table);
+	vec_free(&info->room_table);
 }

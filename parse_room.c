@@ -103,17 +103,18 @@ int	parse_room(t_info *info, char *line)
 	t_room		room;
 
 	room.name = NULL;
+	room.next = NULL;
+	room.links = NULL;
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)
-		return (-1);
+		return (free_room(&room));
 	if (parse_y(&room, line) == -1)
-		return (-1);
+		return (free_room(&room));
 	if (*line != '\n')
-		return (-1);
-	room.next = NULL;
+		return (free_room(&room));
 	if (push_room(info, &room) == -1)
-		return (-1);
+		return (free_room(&room));
 	if (info->start_flag == 1)
 		return (add_start(info, &room));
 	if (info->end_flag == 1)
