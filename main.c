@@ -53,6 +53,7 @@ int	main(void)
 		error_handler();
 	}
 	print_rooms(info.room_table);
+	print_rooms(info.hash_table);
 	free_info(&info);
 	return (0);
 }
