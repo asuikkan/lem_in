@@ -17,7 +17,10 @@ static int	rooms_read(t_info *info, char *line)
 	if (info->room_table.len == 0)
 		return (0);
 	if (!ft_strchr(line, ' '))
+	{
+		info->room_flag = 1;
 		return (1);
+	}
 	return (0);
 }
 
@@ -46,13 +49,23 @@ static int	parse_info(t_info *info, char *line)
 		return (comment_check(info, line));
 	else if (info->ant_count < 0)
 		return (parse_ant_count(info, line));
-	else if (!rooms_read(info, line))
+	else if (!info->room_flag)
 	{
-		if (parse_room(info, line) == -1)
-			return (-1);
+		if (!rooms_read(info, line))
+			return (parse_room(info, line));
 	}
-	else
+	if (info->room_flag)
+	{
+		if (!info->adj_matrix)
+		{
+			if (hasher(info) == -1)
+				return (-1);
+			info->adj_matrix = create_matrix(info->room_table.len);
+			if (!info->adj_matrix)
+				return (-1);
+		}
 		return (parse_link(info, line));
+	}
 	return (1);
 }
 
