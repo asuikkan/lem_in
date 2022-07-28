@@ -14,12 +14,10 @@
 
 static void	bits_to_char(char *temp, unsigned char c)
 {
-	int	i;
 	int	j;
 
 	temp[0] = (c >> 4) & 0xf;
 	temp[1] = c & 0xf;
-	i = 2;
 	j = -1;
 	while (++j < 2)
 	{
