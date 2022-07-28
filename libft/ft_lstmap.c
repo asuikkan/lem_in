@@ -15,7 +15,7 @@
 static void	delete_link(void *content, size_t content_size)
 {
 	ft_memdel(&content);
-	content_size = 0;
+	(void)content_size;
 }
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
