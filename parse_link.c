@@ -12,22 +12,50 @@
 
 #include "lem_in.h"
 
-static int	save_link(t_info *info, char *node1, char *node2) // jatka täältä!!!!
+static void	add_to_matrix(t_info *info, t_room *room1, t_room *room2)
+{
+	if (room1 == room2)
+		info->adj_matrix[room1->matrix_index][room1->matrix_index] = 2;
+	else
+	{
+		info->adj_matrix[room1->matrix_index][room2->matrix_index] = 1;
+		info->adj_matrix[room2->matrix_index][room1->matrix_index] = 1;
+	}
+}
+
+static t_room	*validate_node(t_vec *table, char *room_name, int index)
 {
 	t_room	*temp;
-	int		index;
 
-	index = hash(node1, info->room_table.len);
-	temp = vec_get(&info->hash_table, index);
-	if (ft_strcmp(node1, temp->name))
+	temp = vec_get(table, index);
+	if (ft_strcmp(temp->name, room_name))
 	{
 		while (temp->next)
 		{
 			temp = temp->next;
-			if (!ft_strcmp(node1, temp->name))
-				return (1);
+			if (!ft_strcmp(temp->name, room_name))
+				return (temp);
 		}
+		return (NULL);
 	}
+	return (temp);
+}
+
+static int	save_link(t_info *info, char *node1, char *node2)
+{
+	t_room	*room1;
+	t_room	*room2;
+	int		index;
+
+	index = hash(node1, info->room_table.len);
+	room1 = validate_node(&info->hash_table, node1, index);
+	if (!room1)
+		return (-1);
+	index = hash(node2, info->room_table.len);
+	room2 = validate_node(&info->hash_table, node2, index);
+	if (!room2)
+		return (-1);
+	add_to_matrix(info, room1, room2);
 	return (1);
 }
 
