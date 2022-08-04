@@ -104,6 +104,7 @@ int	parse_room(t_info *info, char *line)
 
 	room.name = NULL;
 	room.next = NULL;
+	room.distance = -1;
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)

@@ -24,6 +24,7 @@ typedef struct s_room
 	int				x;
 	int				y;
 	int				matrix_index;
+	int				distance;
 	struct s_room	*next;
 }					t_room;
 
@@ -33,8 +34,8 @@ typedef struct s_info
 	t_vec	room_table;
 	t_vec	hash_table;
 	int		**adj_matrix;
-	char	*start;
-	char	*end;
+	t_room	*start;
+	t_room	*end;
 	int		start_flag;
 	int		end_flag;
 	int		room_flag;
@@ -55,6 +56,7 @@ int				read_output(t_info *info);
 int				**create_matrix(size_t size);
 unsigned long	hash(char *str, size_t len);
 void			error_handler(void);
+void			find_distances(t_info *info, int i, int dist);
 void			free_info(t_info *info);
 
 #endif
