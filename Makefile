@@ -19,7 +19,7 @@ NAME	= lem_in
 INC		= ./includes
 
 SRC		= main.c reader.c parse_room.c line_helpers.c error.c room_aux.c	\
-		  parse_link.c hasher.c matrix.c distance.c
+		  parse_link.c hasher.c matrix.c distance.c pathfinder.c a_star.c
 
 OBJ		= $(SRC:.c=.o)
 
