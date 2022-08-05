@@ -18,19 +18,20 @@ void	error_handler(void)
 	exit(1);
 }
 
-static void	free_matrix(int	**matrix)
+static void	free_matrix(int	**matrix, int size)
 {
-	size_t	i;
+	int	i;
 
 	if (!matrix)
 		return ;
 	i = 0;
-	while (matrix[i])
+	while (i < size)
 	{
-		ft_memdel((void **)&matrix[i]);
+		free(matrix[i]);
+		matrix[i] = NULL;
 		i++;
 	}
-	ft_memdel((void **)matrix);
+	free(matrix);
 }
 
 static void	free_room(t_room *room)
@@ -63,5 +64,10 @@ void	free_info(t_info *info)
 {
 	free_table(&info->room_table);
 	vec_free(&info->hash_table);
-	free_matrix(info->adj_matrix);
+	if (info->adj_matrix)
+		free_matrix(info->adj_matrix, info->room_count);
+	if (info->start)
+		free(info->start);
+	if (info->end)
+		free(info->end);
 }

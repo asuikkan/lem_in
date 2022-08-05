@@ -31,6 +31,7 @@ typedef struct s_room
 typedef struct s_info
 {
 	int		ant_count;
+	int		room_count;
 	t_vec	room_table;
 	t_vec	hash_table;
 	int		**adj_matrix;

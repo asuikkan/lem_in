@@ -12,17 +12,17 @@
 
 #include "lem_in.h"
 
-static void	print_adj_matrix(int **matrix)
+static void	print_adj_matrix(int **matrix, int size)
 {
 	int	i;
 	int	j;
 
 	i = -1;
 	ft_printf("\nMATRIX:\n");
-	while (matrix[++i])
+	while (++i < size)
 	{
 		j = -1;
-		while (matrix[i][++j] >= 0)
+		while (++j < size)
 		{
 			ft_printf("%d", matrix[i][j]);
 		}
@@ -57,6 +57,7 @@ static void	print_rooms(t_vec room_table)
 static int	initialize_info(t_info *info)
 {
 	info->ant_count = -1;
+	info->room_count = -1;
 	if (vec_new(&info->room_table, 2, sizeof(t_room)) == -1)
 		return (-1);
 	info->hash_table.memory = NULL;
@@ -85,7 +86,7 @@ int	main(void)
 	}
 	find_distances(&info, info.end->matrix_index, 1);
 	print_rooms(info.room_table);
-	print_adj_matrix(info.adj_matrix);
+	print_adj_matrix(info.adj_matrix, info.room_count);
 	free_info(&info);
 	return (0);
 }
