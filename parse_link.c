@@ -71,7 +71,7 @@ int	parse_link(t_info *info, char *line)
 	node1 = ft_strsub(line, 0, node1_len);
 	if (!node1)
 		return (-1);
-	ft_memmove(line, line + node1_len + 1, ft_strlen(line) - node1_len + 1);
+	ft_memmove(line, line + node1_len + 1, ft_strlen(line) - node1_len);
 	node2 = ft_strdup(line);
 	if (!node2)
 		return (-1);

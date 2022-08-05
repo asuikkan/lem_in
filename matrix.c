@@ -17,17 +17,15 @@ int	**create_matrix(size_t size)
 	int		**matrix;
 	size_t	i;
 
-	matrix = ft_memalloc(sizeof(int *) * (size + 1));
+	matrix = ft_memalloc(sizeof(int *) * size);
 	if (!matrix)
 		return (NULL);
-	matrix[size] = NULL;
 	i = 0;
 	while (i < size)
 	{
-		matrix[i] = ft_memalloc(sizeof(int) * (size + 1));
+		matrix[i] = ft_memalloc(sizeof(int) * size);
 		if (!matrix[i])
 			return (NULL);
-		matrix[i][size] = -1;
 		i++;
 	}
 	return (matrix);
