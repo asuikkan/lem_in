@@ -84,7 +84,11 @@ int	main(void)
 		free_info(&info);
 		error_handler();
 	}
-	find_distances(&info, info.end->matrix_index, 1);
+	if (iterate_matrix(&info) == -1)
+	{
+		free_info(&info);
+		error_handler();
+	}
 	pathfinder(&info);
 	print_rooms(info.room_table);
 	print_adj_matrix(info.adj_matrix, info.room_count);
