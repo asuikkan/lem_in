@@ -60,6 +60,7 @@ int				add_start(t_info *info, t_room *room);
 int				add_end(t_info *info, t_room *room);
 int				pathfinder(t_info *info);
 int				hasher(t_info *info);
+int				iterate_matrix(t_info *info);
 int				lem_in_line_len(char *buf, int start);
 int				parse_ant_count(t_info *info, char *data);
 int				parse_link(t_info *info, char *line);
@@ -69,7 +70,6 @@ int				read_output(t_info *info);
 int				**create_matrix(size_t size);
 unsigned long	hash(char *str, size_t len);
 void			error_handler(void);
-void			find_distances(t_info *info, int i, int dist);
 void			free_info(t_info *info);
 
 #endif

@@ -1,13 +1,13 @@
 2
 #comment
-asd 4 4
-1 0 2
+room0 4 4
+room1 0 2
 ##start
-0 2 0
+start 2 0
 ##end
-4 2 6
-2 4 2
-asd-2
-4-asd
-0-4
-asd-0
+end 2 6
+room2 4 2
+room0-room2
+start-room0
+end-room2
+room0-end
