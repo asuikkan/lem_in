@@ -12,18 +12,7 @@
 
 #include "lem_in.h"
 
-static int	find_index(int **adj_matrix, int *checked, int i, int size)
-{
-	int	j;
-
-	j = -1;
-	while (++j < size)
-	{
-		if ()
-	}
-}
-
-static void	add_distance(t_info *info, int i, int dist)
+/*static void	add_distance(t_info *info, int i, int dist)
 {
 	int		j;
 	t_room	*temp;
@@ -38,24 +27,23 @@ static void	add_distance(t_info *info, int i, int dist)
 				temp->distance = dist;
 		}
 	}
-}
+}*/
 
 int	iterate_matrix(t_info *info)
 {
-	static int	*checked;
-	int			index;
-	int			dist;
+	t_vec	queue;
+	int		*visited;
+	int		dist;
+	int		i;
 
-	checked = ft_memalloc(sizeof(int) * info->room_count);
-	if (!checked)
+	if (vec_new(&queue, 2, sizeof(int)) == -1)
 		return (-1);
-	dist = 1;
-	index = info->end->matrix_index;
-	while (index != info->start->matrix_index)
+	visited = 
+	dist = 0;
+	i = -1;
+	while (++i < info->room_count)
 	{
-		add_distance(info, index, dist);
-		checked[index] = 1;
-		index = find_index(info->adj_matrix, checked, index, info->room_count);
+		
 	}
 	return (1);
 }
