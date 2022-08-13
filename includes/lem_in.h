@@ -15,6 +15,8 @@
 
 # define BUF_SIZE 2
 # define COORD_LIMIT 2147483647
+# define QUEUE info->bfs_distance.queue
+# define QUEUE_TOP_INDEX info->bfs_distance.queue.len - 1 
 
 # include "libft.h"
 
@@ -35,6 +37,12 @@ typedef struct s_room
 	struct s_room	*next;
 }					t_room;
 
+typedef struct s_bfs_distance
+{
+	t_vec	queue;
+	int		*visited;
+}			t_bfs_distance;
+
 typedef struct s_info
 {
 	int				ant_count;
@@ -45,13 +53,8 @@ typedef struct s_info
 	int				**adj_matrix;
 	t_room			*start;
 	t_room			*end;
+	t_bfs_distance	bfs_distance;
 }					t_info;
-
-typedef struct s_bfs
-{
-	t_vec	queue;
-	int		**visited;
-}			t_bfs;
 
 char			*lem_in_strndup(char *buf, int start, int n);
 char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
