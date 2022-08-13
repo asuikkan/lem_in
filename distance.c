@@ -28,22 +28,3 @@
 		}
 	}
 }*/
-
-int	iterate_matrix(t_info *info)
-{
-	t_vec	queue;
-	int		*visited;
-	int		dist;
-	int		i;
-
-	if (vec_new(&queue, 2, sizeof(int)) == -1)
-		return (-1);
-	visited = 
-	dist = 0;
-	i = -1;
-	while (++i < info->room_count)
-	{
-		
-	}
-	return (1);
-}

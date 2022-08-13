@@ -12,12 +12,6 @@
 
 #include "lem_in.h"
 
-void	error_handler(void)
-{
-	write(2, "ERROR\n", 6);
-	exit(1);
-}
-
 static void	free_matrix(int	**matrix, int size)
 {
 	int	i;
@@ -60,14 +54,14 @@ static void	free_table(t_vec *table)
 	vec_free(table);
 }
 
-void	free_info(t_info *info)
+void	free_and_exit(t_info *info, int error_flag)
 {
+	if (error_flag)
+		write(1, "ERROR\n", 6);
 	free_table(&info->room_table);
 	vec_free(&info->hash_table);
-	if (info->adj_matrix)
-		free_matrix(info->adj_matrix, info->room_count);
-	if (info->start)
-		free(info->start);
-	if (info->end)
-		free(info->end);
+	free_matrix(info->adj_matrix, info->room_count);
+	free(info->start);
+	free(info->end);
+	exit(1);
 }
