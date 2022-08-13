@@ -20,7 +20,7 @@ int	add_start(t_info *info, t_room *room)
 	if (!info->start)
 		return (-1);
 	ft_memcpy(info->start, room, sizeof(room));
-	info->start_flag = 0;
+	info->flags.start_flag = 0;
 	return (1);
 }
 
@@ -37,7 +37,7 @@ int	add_end(t_info *info, t_room *room)
 	end->distance = 0;
 	room->distance = 0;
 	ft_memcpy(info->end, room, sizeof(room));
-	info->end_flag = 0;
+	info->flags.end_flag = 0;
 	return (1);
 }
 
