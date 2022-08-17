@@ -14,8 +14,6 @@
 
 static int	initialize_bfs_distance(t_info *info)
 {
-	if (vec_new(&QUEUE, 2, sizeof(int)) == -1)
-		return (-1);
 	info->bfs_distance.visited = ft_memalloc(sizeof(int) * info->room_count);
 	if (!info->bfs_distance.visited)
 		return (-1);
@@ -25,19 +23,19 @@ static int	initialize_bfs_distance(t_info *info)
 static int	bfs(t_info *info)
 {
 	t_room	*temp;
+	int		*t;
 	int		index;
 	int		i;
 	int		dist;
 
 	index = info->end->matrix_index;
 	info->bfs_distance.visited[index] = 1;
-	if (vec_push(&QUEUE, &index) == -1)
+	if (llist_new(info->bfs_distance.queue, &index, sizeof(int)) == -1)
 		return (-1);
 	dist = 1;
-	while (QUEUE.len > 0)
+	while (info->bfs_distance.queue)
 	{
-		if (vec_pop(&index, &QUEUE) == -1)
-			return (-1);
+		llist_pop(info->bfs_distance.queue);
 		i = -1;
 		while (++i < info->room_count)
 		{
