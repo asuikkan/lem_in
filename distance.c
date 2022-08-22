@@ -12,53 +12,78 @@
 
 #include "lem_in.h"
 
+static int	clean_distance(t_bfs_distance *bfs, int ret)
+{
+	llist_free(&bfs->queue);
+	bfs->queue = NULL;
+	free(bfs->visited);
+	bfs->visited = NULL;
+	free(bfs->index);
+	bfs->index = NULL;
+	return (ret);
+}
+
 static int	initialize_bfs_distance(t_info *info)
 {
-	QUEUE = llist_new(&END->matrix_index, sizeof(int));
-	if (!QUEUE)
+	info->bfs_distance.queue = llist_new(&info->end->matrix_index, sizeof(int));
+	if (!info->bfs_distance.queue)
 		return (-1);
-	VISITED = ft_memalloc(sizeof(int) * info->room_count);
-	if (!VISITED)
+	info->bfs_distance.visited = ft_memalloc(sizeof(int) * info->room_count);
+	if (!info->bfs_distance.visited)
 		return (-1);
-	DISTANCE_INDEX = (int *)malloc(sizeof(int));
-	if (!DISTANCE_INDEX)
+	info->bfs_distance.index = (int *)malloc(sizeof(int));
+	if (!info->bfs_distance.index)
 		return (-1);
+	return (1);
+}
+
+static int	check_adjacent(t_info *info, int distance)
+{
+	t_room	*temp;
+	int		i;
+
+	i = -1;
+	while (++i < info->room_count)
+	{
+		if (info->adj_matrix[*info->bfs_distance.index][i] == 1
+			&& !info->bfs_distance.visited[i])
+		{
+			temp = vec_get(&info->room_table, i);
+			temp->distance = distance;
+			info->bfs_distance.visited[i] = 1;
+			if (llist_push_back(
+					&info->bfs_distance.queue,
+					&i,
+					sizeof(int)) == -1)
+				return (-1);
+		}
+	}
 	return (1);
 }
 
 static int	bfs(t_info *info)
 {
-	t_room	*temp;
-	int		i;
-	int		dist;
+	int		distance;
 
-	VISITED[END->matrix_index] = 1;
-	dist = 1;
-	while (QUEUE)
+	info->bfs_distance.visited[info->end->matrix_index] = 1;
+	distance = 1;
+	while (info->bfs_distance.queue)
 	{
-		ft_memcpy(DISTANCE_INDEX, llist_copy_front(QUEUE), sizeof(int));
-		llist_pop(&QUEUE);
-		i = -1;
-		while (++i < info->room_count)
-		{
-			if (ADJ_MATRIX[*DISTANCE_INDEX][i] == 1 && !VISITED[i])
-			{
-				temp = vec_get(&info->room_table, i);
-				temp->distance = dist;
-				VISITED[i] = 1;
-				if (llist_push_back(&QUEUE, &i, sizeof(int)) == -1)
-					return (-1);
-			}
-		}
-		dist++;
+		llist_copy_front(
+			info->bfs_distance.index,
+			info->bfs_distance.queue,
+			sizeof(int));
+		llist_pop(&info->bfs_distance.queue);
+		if (check_adjacent(info, distance) == -1)
+			return (-1);
+		distance++;
 	}
 	return (1);
 }
 
 int	add_distances(t_info *info)
 {
-	if (initialize_bfs_distance(info) == -1)
-		return (-1);
-	bfs(info);
-	return (1);
+	if (initialize_bfs_distance(info) == -1 || bfs(info) == -1)
+		return (clean_distance(&info->bfs_distance, -1));
+	return (clean_distance(&info->bfs_distance, 1));
 }

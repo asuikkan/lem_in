@@ -63,5 +63,4 @@ void	free_and_exit(t_info *info, int error_flag)
 	free_matrix(info->adj_matrix, info->room_count);
 	free(info->start);
 	free(info->end);
-	exit(1);
 }
