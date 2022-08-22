@@ -85,9 +85,20 @@ void	llist_pop(t_llist **dst)
 	*dst = temp;
 }
 
-void	*llist_copy_front(t_llist *src)
+void	*llist_copy_front(void *dst, t_llist *src, size_t size)
 {
 	if (!src || !src->content)
 		return (NULL);
-	return (src->content);
+	return (ft_memcpy(dst, src->content, size));
+}
+
+void	llist_free(t_llist **src)
+{
+	while (*src)
+	{
+		free((*src)->content);
+		(*src)->content = NULL;
+		free(*src);
+		*src = (*src)->next;
+	}
 }
