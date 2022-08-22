@@ -12,44 +12,82 @@
 
 #include "lem_in.h"
 
-int	llist_new(t_llist *new, void *content, size_t size)
+t_llist	*llist_new(void *content, size_t size)
 {
+	t_llist	*new;
+
+	if (!content || !size)
+		return (NULL);
 	if (size == 0)
-		return (-1);
+		return (NULL);
 	new = (t_llist *)malloc(sizeof(t_llist));
 	if (!new)
-		return (-1);
+		return (NULL);
 	new->content = (void *)malloc(size);
 	if (!new->content)
-		return (-1);
+		return (NULL);
 	ft_memcpy(new->content, content, size);
+	new->size = size;
 	new->next = NULL;
+	return (new);
+}
+
+int	llist_push_back(t_llist **dst, void *content, size_t size)
+{
+	t_llist	*current;
+
+	if (!content || !size)
+		return (-1);
+	if (!*dst)
+		*dst = llist_new(content, size);
+	else
+	{
+		current = *dst;
+		while (current->next)
+			current = current->next;
+		current->next = llist_new(content, size);
+		if (!current->next)
+			return (-1);
+	}
 	return (1);
 }
 
-int	llist_push_back(const t_llist *dst, void *content, size_t size)
+int	llist_push(t_llist *dst, void *content, size_t size)
 {
-	t_llist *current;
+	t_llist	*temp;
 
+	if (!content || !size)
+		return (-1);
 	if (!dst)
-		return (-1);
-	current = dst;
-	while (current->next)
-		current = current->next;
-	if (llist_new(current->next, content, size) == -1)
-		return (-1);
+		dst = llist_new(content, size);
+	else
+	{
+		temp = NULL;
+		temp = llist_new(content, size);
+		if (!temp)
+			return (-1);
+		temp->next = dst;
+		dst = temp;
+	}
 	return (1);
 }
 
-void	llist_pop(t_llist *dst)
+void	llist_pop(t_llist **dst)
 {
-	t_llist *temp;
+	t_llist	*temp;
 
-	if (!dst)
+	if (!*dst)
 		return ;
-	temp = dst->next;
-	free(dst->content);
-	dst->content = NULL;
-	free(dst);
-	dst = temp;
+	temp = (*dst)->next;
+	free((*dst)->content);
+	(*dst)->content = NULL;
+	free(*dst);
+	*dst = temp;
+}
+
+void	*llist_copy_front(t_llist *src)
+{
+	if (!src || !src->content)
+		return (NULL);
+	return (src->content);
 }
