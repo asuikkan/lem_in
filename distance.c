@@ -14,8 +14,14 @@
 
 static int	initialize_bfs_distance(t_info *info)
 {
-	info->bfs_distance.visited = ft_memalloc(sizeof(int) * info->room_count);
-	if (!info->bfs_distance.visited)
+	QUEUE = llist_new(&END->matrix_index, sizeof(int));
+	if (!QUEUE)
+		return (-1);
+	VISITED = ft_memalloc(sizeof(int) * info->room_count);
+	if (!VISITED)
+		return (-1);
+	DISTANCE_INDEX = (int *)malloc(sizeof(int));
+	if (!DISTANCE_INDEX)
 		return (-1);
 	return (1);
 }
@@ -23,28 +29,24 @@ static int	initialize_bfs_distance(t_info *info)
 static int	bfs(t_info *info)
 {
 	t_room	*temp;
-	int		*t;
-	int		index;
 	int		i;
 	int		dist;
 
-	index = info->end->matrix_index;
-	info->bfs_distance.visited[index] = 1;
-	if (llist_new(info->bfs_distance.queue, &index, sizeof(int)) == -1)
-		return (-1);
+	VISITED[END->matrix_index] = 1;
 	dist = 1;
-	while (info->bfs_distance.queue)
+	while (QUEUE)
 	{
-		llist_pop(info->bfs_distance.queue);
+		ft_memcpy(DISTANCE_INDEX, llist_copy_front(QUEUE), sizeof(int));
+		llist_pop(&QUEUE);
 		i = -1;
 		while (++i < info->room_count)
 		{
-			if (info->adj_matrix[index][i] == 1 && !info->bfs_distance.visited[i])
+			if (ADJ_MATRIX[*DISTANCE_INDEX][i] == 1 && !VISITED[i])
 			{
 				temp = vec_get(&info->room_table, i);
-				temp->distance = 1;
-				info->bfs_distance.visited[i] = 1;
-				if (vec_insert(&QUEUE, &i, 0) == -1)
+				temp->distance = dist;
+				VISITED[i] = 1;
+				if (llist_push_back(&QUEUE, &i, sizeof(int)) == -1)
 					return (-1);
 			}
 		}
