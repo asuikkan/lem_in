@@ -25,6 +25,13 @@ typedef struct s_llist
 	struct s_llist	*next;
 }					t_llist;
 
+enum e_found_path
+{
+	ERROR,
+	NOT_FOUND,
+	FOUND
+};
+
 typedef struct s_path
 {
 	t_llist	*path;
@@ -45,6 +52,7 @@ typedef struct s_room
 	int				y;
 	int				matrix_index;
 	int				distance;
+	int				parent;
 	struct s_room	*next;
 }					t_room;
 
@@ -88,7 +96,7 @@ int				lem_in_line_len(char *buf, int start);
 void			*llist_copy_front(void *dst, t_llist *src, size_t size);
 void			llist_free(t_llist **src);
 t_llist			*llist_new(void *content, size_t size);
-int				llist_push(t_llist *dst, void *content, size_t size);
+int				llist_push(t_llist **dst, void *content, size_t size);
 int				llist_push_back(t_llist **dst, void *content, size_t size);
 void			llist_pop(t_llist **dst);
 int				parse_ant_count(t_info *info, char *data);
