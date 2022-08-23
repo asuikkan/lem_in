@@ -31,17 +31,20 @@ static int	initialize_bfs_distance(t_info *info)
 	info->bfs_distance.visited = ft_memalloc(sizeof(int) * info->room_count);
 	if (!info->bfs_distance.visited)
 		return (-1);
-	info->bfs_distance.index = (int *)malloc(sizeof(int));
+	info->bfs_distance.index = ft_memalloc(sizeof(int));
 	if (!info->bfs_distance.index)
 		return (-1);
 	return (1);
 }
 
-static int	check_adjacent(t_info *info, int distance)
+static int	check_adjacent(t_info *info)
 {
 	t_room	*temp;
 	int		i;
+	int		distance;
 
+	temp = vec_get(&info->room_table, *info->bfs_distance.index);
+	distance = temp->distance + 1;
 	i = -1;
 	while (++i < info->room_count)
 	{
@@ -63,10 +66,7 @@ static int	check_adjacent(t_info *info, int distance)
 
 static int	bfs(t_info *info)
 {
-	int		distance;
-
 	info->bfs_distance.visited[info->end->matrix_index] = 1;
-	distance = 1;
 	while (info->bfs_distance.queue)
 	{
 		llist_copy_front(
@@ -74,9 +74,8 @@ static int	bfs(t_info *info)
 			info->bfs_distance.queue,
 			sizeof(int));
 		llist_pop(&info->bfs_distance.queue);
-		if (check_adjacent(info, distance) == -1)
+		if (check_adjacent(info) == -1)
 			return (-1);
-		distance++;
 	}
 	return (1);
 }
