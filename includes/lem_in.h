@@ -25,6 +25,12 @@ typedef struct s_llist
 	struct s_llist	*next;
 }					t_llist;
 
+typedef struct s_path
+{
+	t_llist	*path;
+	int		length;
+}			t_path;
+
 typedef struct s_read_flags
 {
 	int	start_flag;
@@ -49,6 +55,14 @@ typedef struct s_bfs_distance
 	int		*index;
 }			t_bfs_distance;
 
+typedef struct s_bfs_path
+{
+	t_llist	*queue;
+	int		*visited;
+	int		*closed;
+	int		*index;
+}			t_bfs_path;
+
 typedef struct s_info
 {
 	int				ant_count;
@@ -60,6 +74,7 @@ typedef struct s_info
 	t_room			*start;
 	t_room			*end;
 	t_bfs_distance	bfs_distance;
+	t_bfs_path		bfs_path;
 }					t_info;
 
 char			*lem_in_strndup(char *buf, int start, int n);
