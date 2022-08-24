@@ -104,10 +104,11 @@ int	parse_room(t_info *info, char *line)
 
 	room.name = NULL;
 	room.next = NULL;
-	if (info->flags.end_flag)
-		room.distance = 0;
-	else
+	room.parent = NULL;
+	if (!info->flags.end_flag)
 		room.distance = -1;
+	else
+		room.distance = 0;
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)
