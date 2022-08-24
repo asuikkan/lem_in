@@ -28,15 +28,9 @@ typedef struct s_llist
 enum e_found_path
 {
 	ERROR,
-	NOT_FOUND,
-	FOUND
+	PATH_NOT_FOUND,
+	PATH_FOUND
 };
-
-typedef struct s_path
-{
-	t_llist	*path;
-	int		length;
-}			t_path;
 
 typedef struct s_read_flags
 {
@@ -71,6 +65,24 @@ typedef struct s_bfs_path
 	int		*index;
 }			t_bfs_path;
 
+typedef struct s_path
+{
+	t_llist	*path;
+	int		length;
+}			t_path;
+
+typedef struct s_paths
+{
+	t_vec	paths;
+	int		total_time;
+}			t_paths;
+
+typedef struct s_pathsets
+{
+	t_paths	best;
+	t_paths	current;
+}			t_pathsets;
+
 typedef struct s_info
 {
 	int				ant_count;
@@ -83,6 +95,7 @@ typedef struct s_info
 	int				end;
 	t_bfs_distance	bfs_distance;
 	t_bfs_path		bfs_path;
+	t_pathsets		pathsets;
 }					t_info;
 
 char			*lem_in_strndup(char *buf, int start, int n);
