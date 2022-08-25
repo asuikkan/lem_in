@@ -25,11 +25,11 @@ typedef struct s_llist
 	struct s_llist	*next;
 }					t_llist;
 
-enum e_found_path
+enum e_pathset_check
 {
 	ERROR,
-	PATH_NOT_FOUND,
-	PATH_FOUND
+	PATHSET_UPGRADED,
+	PATHSET_NOT_UPGRADED
 };
 
 typedef struct s_read_flags

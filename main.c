@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	print_adj_matrix(int **matrix, int size)
+/*static void	print_adj_matrix(int **matrix, int size)
 {
 	int	i;
 	int	j;
@@ -29,9 +29,9 @@ static void	print_adj_matrix(int **matrix, int size)
 		ft_printf("\n");
 	}
 	ft_printf("\n");
-}
+}*/
 
-static void	print_rooms(t_vec room_table)
+/*static void	print_rooms(t_vec room_table)
 {
 	t_room	*temp;
 	size_t	i;
@@ -52,7 +52,7 @@ static void	print_rooms(t_vec room_table)
 		}
 		i++;
 	}
-}
+}*/
 
 static int	path_found(t_info *info)
 {
@@ -100,9 +100,10 @@ int	main(void)
 		free_and_exit(&info, 1);
 	if (!path_found(&info))
 		free_and_exit(&info, 1);
-	//pathfinder(&info);
-	print_rooms(info.room_table);
-	print_adj_matrix(info.adj_matrix, info.room_count);
+	pathfinder(&info);
+	//print_rooms(info.room_table);
+	//print_adj_matrix(info.adj_matrix, info.room_count);
+	print_path(&info);
 	free_and_exit(&info, 0);
 	return (0);
 }
