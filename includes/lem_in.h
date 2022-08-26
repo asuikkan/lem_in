@@ -50,12 +50,12 @@ typedef struct s_room
 	struct s_room	*next;
 }					t_room;
 
-typedef struct s_bfs_distance
+typedef struct s_bfs
 {
 	t_llist	*queue;
 	int		*visited;
 	int		*index;
-}			t_bfs_distance;
+}			t_bfs;
 
 typedef struct s_bfs_path
 {
@@ -65,9 +65,16 @@ typedef struct s_bfs_path
 	int		*index;
 }			t_bfs_path;
 
+typedef struct s_edge
+{
+	int	from;
+	int	to;
+	int	flow;
+}		t_edge;
+
 typedef struct s_path
 {
-	t_llist	*path;
+	t_llist	*room;
 	int		length;
 }			t_path;
 
@@ -90,10 +97,11 @@ typedef struct s_info
 	t_read_flags	flags;
 	t_vec			room_table;
 	t_vec			hash_table;
+	t_vec			edge_list;
 	int				**adj_matrix;
 	int				start;
 	int				end;
-	t_bfs_distance	bfs_distance;
+	t_bfs			bfs;
 	t_bfs_path		bfs_path;
 	t_pathsets		pathsets;
 }					t_info;

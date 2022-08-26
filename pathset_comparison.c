@@ -12,25 +12,6 @@
 
 #include "lem_in.h"
 
-static void	close_path_rooms(t_info *info) // jatka laittamalla pathin indexi suljetuksi
-{
-	t_path	*path;
-	int		i;
-	int		
-
-	i = -1;
-	while (++i < info->pathsets.current.paths.len)
-	{
-		path = vec_get(&info->pathsets.current.paths, i);
-		while (path)
-		{
-			info->bfs_path.closed[]
-		}
-		
-	}
-	
-}
-
 static int	calculate_time(t_info *info, int new_length)
 {
 	int	time_reduction;
@@ -47,12 +28,12 @@ int	is_better_path(t_info *info, t_room *end)
 	t_room	*previous;
 
 	new.length = 1;
-	if (llist_push(&new.path, &end->matrix_index, sizeof(int)) == -1)
+	if (llist_push(&new.room, &end->matrix_index, sizeof(int)) == -1)
 		return (-1);
 	previous = end->parent;
 	while (previous)
 	{
-		if (llist_push(&new.path, &previous->matrix_index, sizeof(int)) == -1)
+		if (llist_push(&new.room, &previous->matrix_index, sizeof(int)) == -1)
 			return (-1);
 		new.length++;
 		previous = previous->parent;
@@ -62,7 +43,6 @@ int	is_better_path(t_info *info, t_room *end)
 		if (vec_push(&info->pathsets.current.paths, &new) == -1)
 			return (-1);
 		info->pathsets.current.total_time = calculate_time(info, new.length);
-		close_path_rooms(info);
 		return (1);
 	}
 	return (0);
