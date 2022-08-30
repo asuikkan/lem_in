@@ -46,6 +46,7 @@ typedef struct s_room
 	int				y;
 	int				matrix_index;
 	int				distance;
+	t_vec			edges;
 	struct s_room	*parent;
 	struct s_room	*next;
 }					t_room;
@@ -69,7 +70,7 @@ typedef struct s_edge
 {
 	int	from;
 	int	to;
-	int	flow;
+	int	flow: 1;
 }		t_edge;
 
 typedef struct s_path
@@ -110,6 +111,8 @@ char			*lem_in_strndup(char *buf, int start, int n);
 char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
 int				add_distances(t_info *info);
 int				add_end(t_info *info, t_room *room);
+int				add_to_edge_list(t_vec *edge_list, int room1, int room2);
+int				add_edge_rooms(t_vec *edge_list, t_room *room1, t_room *room2);
 int				add_start(t_info *info, t_room *room);
 int				hasher(t_info *info);
 int				is_better_path(t_info *info, t_room *end);

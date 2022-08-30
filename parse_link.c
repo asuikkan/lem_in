@@ -55,6 +55,13 @@ static int	save_link(t_info *info, char *node1, char *node2)
 	room2 = validate_node(&info->hash_table, node2, index);
 	if (!room2)
 		return (-1);
+	if (!add_to_edge_list(&info->edge_list, room1->matrix_index, room2->matrix_index))
+		return (-1);
+	if (!add_edge_rooms(
+		&info->edge_list,
+		vec_get(&info->room_table, room1->matrix_index),
+		vec_get(&info->room_table, room2->matrix_index)))
+			return (-1);
 	add_to_matrix(info, room1, room2);
 	return (1);
 }
