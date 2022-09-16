@@ -22,6 +22,8 @@ static void	free_matrix(int	**matrix)
 {
 	size_t	i;
 
+	if (!matrix)
+		return ;
 	i = 0;
 	while (matrix[i])
 	{
@@ -31,22 +33,10 @@ static void	free_matrix(int	**matrix)
 	ft_memdel((void **)matrix);
 }
 
-static void	free_links(char ***links)
-{
-	int	i;
-
-	i = -1;
-	while ((*links)[++i])
-		ft_strdel(&(*links)[i]);
-	free(*links);
-}
-
 static void	free_room(t_room *room)
 {
 	if (room->name)
 		ft_strdel(&room->name);
-	if (room->links)
-		free_links(&room->links);
 	if (room->next)
 		free_room(room->next);
 }

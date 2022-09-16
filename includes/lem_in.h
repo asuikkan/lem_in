@@ -23,7 +23,7 @@ typedef struct s_room
 	char			*name;
 	int				x;
 	int				y;
-	char			**links;
+	int				matrix_index;
 	struct s_room	*next;
 }					t_room;
 

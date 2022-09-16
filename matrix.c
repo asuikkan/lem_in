@@ -27,6 +27,7 @@ int	**create_matrix(size_t size)
 		matrix[i] = ft_memalloc(sizeof(int) * (size + 1));
 		if (!matrix[i])
 			return (NULL);
+		matrix[i][size] = -1;
 		i++;
 	}
 	return (matrix);
