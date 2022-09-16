@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   free .c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -59,5 +59,6 @@ void	free_and_exit(t_info *info, int error_flag)
 	free_table(&info->room_table);
 	vec_free(&info->hash_table);
 	free_matrix(info->adj_matrix, info->room_count);
+	free_paths(&info->best_pathset.paths);
 	exit(1);
 }

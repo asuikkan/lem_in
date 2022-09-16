@@ -54,8 +54,7 @@ typedef enum e_adj_state
 	NO_LINK,
 	NO_FLOW,
 	FLOW,
-	NEGATIVE_FLOW,
-	SELF_LINK
+	NEGATIVE_FLOW
 }	t_adj_state;
 
 typedef struct s_path
@@ -123,6 +122,7 @@ void			llist_pop(t_llist **dst);
 unsigned long	hash(char *str, size_t len);
 void			error_handler(void);
 void			free_and_exit(t_info *info, int error_flag);
+void			free_paths(t_vec *paths);
 void			initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2);
 void			update_flow(t_info *info);
 
