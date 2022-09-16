@@ -25,7 +25,7 @@ static int	clean_distance(t_bfs_distance *bfs, int ret)
 
 static int	initialize_bfs_distance(t_info *info)
 {
-	info->bfs_distance.queue = llist_new(&info->end->matrix_index, sizeof(int));
+	info->bfs_distance.queue = llist_new(&info->end, sizeof(int));
 	if (!info->bfs_distance.queue)
 		return (-1);
 	info->bfs_distance.visited = ft_memalloc(sizeof(int) * info->room_count);
@@ -66,7 +66,7 @@ static int	check_adjacent(t_info *info)
 
 static int	bfs(t_info *info)
 {
-	info->bfs_distance.visited[info->end->matrix_index] = 1;
+	info->bfs_distance.visited[info->end] = 1;
 	while (info->bfs_distance.queue)
 	{
 		llist_copy_front(

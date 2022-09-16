@@ -27,17 +27,9 @@ static int	rooms_read(t_info *info, char *line)
 static int	comment_check(t_info *info, char *line)
 {
 	if (ft_strcmp(line, "##start\n") == 0)
-	{
-		if (info->start)
-			return (-1);
 		info->flags.start_flag = 1;
-	}
 	else if (ft_strcmp(line, "##end\n") == 0)
-	{
-		if (info->end)
-			return (-1);
 		info->flags.end_flag = 1;
-	}
 	if ((info->flags.start_flag || info->flags.end_flag) && info->ant_count < 0)
 		return (-1);
 	return (1);
@@ -119,7 +111,7 @@ int	read_output(t_info *info)
 			return (-1);
 		}
 	}
-	if (line || !info->adj_matrix || !info->start || !info->end)
+	if (line || !info->adj_matrix || info->start < 0 || info->end < 0)
 		return (-1);
 	return (1);
 }

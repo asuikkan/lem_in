@@ -26,7 +26,7 @@ static int	initialize_bfs_path(t_info *info)
 	return (1);
 }
 
-static int	check_adjacent(t_info *info) // jatka taalta!
+static int	check_adjacent(t_info *info)
 {
 	t_room	*temp;
 	int		i;
@@ -37,6 +37,9 @@ static int	check_adjacent(t_info *info) // jatka taalta!
 		if (info->adj_matrix[*info->bfs_path.index][i] == 1
 			&& !info->bfs_path.visited[i])
 		{
+			temp = vec_get(&info->room_table, i);
+			if (!temp->parent)
+				temp->parent = vec_get(&info->room_table, *info->bfs_path.index);
 			if (llist_push_back(
 					&info->bfs_path.queue,
 					&i,
@@ -44,12 +47,13 @@ static int	check_adjacent(t_info *info) // jatka taalta!
 				return (-1);
 		}
 	}
+	return (1);
 }
 
-static int	bfs_path(t_info *info, int start)
+static int	bfs_path(t_info *info)
 {
-	info->bfs_path.visited[start] = 1;
-	llist_push_back(&info->bfs_path.queue, &start, sizeof(int));
+	info->bfs_path.visited[info->start] = 1;
+	llist_push_back(&info->bfs_path.queue, &info->start, sizeof(int));
 	while (info->bfs_path.queue)
 	{
 		llist_copy_front(
@@ -60,13 +64,14 @@ static int	bfs_path(t_info *info, int start)
 		if (check_adjacent(info) == -1)
 			return (-1);
 	}
+	return (1);
 }
 
 int	pathfinder(t_info *info)
 {
 	if (initialize_bfs_path(info) == -1)
 		return (-1);
-	if (bfs_path(info, info->start->matrix_index) == -1)
+	if (bfs_path(info) == -1)
 		return (-1);
 	return (1);
 }

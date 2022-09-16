@@ -54,6 +54,16 @@ static void	print_rooms(t_vec room_table)
 	}
 }
 
+static int	path_found(t_info *info)
+{
+	t_room	*temp;
+
+	temp = vec_get(&info->room_table, info->start);
+	if (temp->distance < 0)
+		return (0);
+	return (1);
+}
+
 static int	initialize_info(t_info *info)
 {
 	info->ant_count = -1;
@@ -64,8 +74,8 @@ static int	initialize_info(t_info *info)
 	info->room_table.memory = NULL;
 	info->hash_table.memory = NULL;
 	info->adj_matrix = NULL;
-	info->start = NULL;
-	info->end = NULL;
+	info->start = -1;
+	info->end = -1;
 	info->bfs_distance.queue = NULL;
 	info->bfs_distance.visited = NULL;
 	info->bfs_distance.index = NULL;
@@ -85,6 +95,8 @@ int	main(void)
 	if (read_output(&info) == -1)
 		free_and_exit(&info, 1);
 	if (add_distances(&info) == -1)
+		free_and_exit(&info, 1);
+	if (!path_found(&info))
 		free_and_exit(&info, 1);
 	//pathfinder(&info);
 	print_rooms(info.room_table);
