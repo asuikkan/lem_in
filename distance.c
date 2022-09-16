@@ -18,7 +18,7 @@ void	find_distances(t_info *info, int i, int dist)
 	t_room	*temp;
 
 	j = -1;
-	while (info->adj_matrix[i][++j] >= 0)
+	while (++j < info->room_count)
 	{
 		if (info->adj_matrix[i][j] == 1)
 		{
