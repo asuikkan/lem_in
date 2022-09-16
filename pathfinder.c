@@ -69,23 +69,32 @@ static int	bfs_path(t_info *info)
 			sizeof(int));
 		llist_pop(&info->bfs_path.queue);
 		if (check_adjacent(info) == -1)
-			return (-1);
+			return (ERROR);
 	}
 	return (1);
 }
 
-int	pathfinder(t_info *info)
+static int	pathset_upgraded(t_info *info)
 {
-	int	situation;
+	int	state;
+
+	state = bfs_path(info);
+	if (state == ERROR)
+		free_and_exit(info, 1);
+	if (state == PATHSET_NOT_FOUND)
+		return (0);
+	if (state == PATHSET_FOUND)
+		return (1);
+}
+
+int	pathfinder(t_info *info) //jatka taalta!
+{
 
 	if (initialize_bfs_and_pathsets(info) == -1)
 		return (-1);
-	situation = bfs_path(info);
-	while (situation == PATHSET_UPGRADED)
-		bfs_path(info);
-	if (situation == ERROR)
-		return (-1);
-	if (situation == PATHSET_NOT_UPGRADED)
-		return (1);
+	while (available_paths(info))
+	{
+		
+	}
 	return (1);
 }

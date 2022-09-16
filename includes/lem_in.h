@@ -28,8 +28,8 @@ typedef struct s_llist
 enum e_pathset_check
 {
 	ERROR,
-	PATHSET_UPGRADED,
-	PATHSET_NOT_UPGRADED
+	PATHSET_NOT_FOUND,
+	PATHSET_FOUND
 };
 
 typedef struct s_read_flags
