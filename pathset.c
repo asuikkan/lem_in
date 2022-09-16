@@ -12,11 +12,28 @@
 
 #include "lem_in.h"
 
+static void	calculate_total_time(t_pathset *pathset, int ant_count) //jatka!
+{
+	int		time;
+	int		current_time;
+	t_path	*path;
+	size_t	i;
+
+	path = vec_get(&pathset->paths, 0);
+	current_time = path->length;
+	i = 0;
+	while (i < pathset->paths.len)
+	{
+
+		i++;
+	}
+}
+
 static int	initialize_path(t_path *path, t_room *start)
 {
 	if (llist_push_back(&path->rooms, start, sizeof(t_room *)) == -1)
-		retrun (-1);
-	path->length = 0;
+		return (-1);
+	path->length = 1;
 	return (1);
 }
 
@@ -25,6 +42,24 @@ static int	initialize_pathset(t_pathset *pathset)
 	if (vec_new(&pathset->paths, 1, sizeof(t_path)) == -1)
 		return (-1);
 	pathset->total_time = 0;
+	return (1);
+}
+
+static int	insert_to_position(t_pathset *pathset, t_path *path)
+{
+	size_t	i;
+	t_path	*current;
+
+	i = 0;
+	while (i < pathset->paths.len)
+	{
+		current = vec_get(&pathset->paths, i);
+		if (current->length >= path->length)
+			break ;
+		i++;
+	}
+	if (vec_insert(&pathset->paths, path, i) == -1)
+		return (-1);
 	return (1);
 }
 
@@ -39,8 +74,6 @@ static int	save_path(t_info *info, t_pathset *pathset, int start)
 	current = vec_get(&info->room_table, start);
 	if (initialize_path(&new, current) == -1)
 		return (-1);
-	if (vec_push(&pathset->paths, &new) == -1)
-		return (-1);
 	i = 0;
 	while (i < current->links.len)
 	{
@@ -50,9 +83,12 @@ static int	save_path(t_info *info, t_pathset *pathset, int start)
 			link = vec_get(&info->room_table, link_index);
 			if (llist_push_back(&new.rooms, link, sizeof(t_room *)) == -1)
 				return (-1);
+			new.length++;
 			current = link;
 		}
 	}
+	if (insert_to_position(pathset, &new) == -1)
+		return (-1);
 	return (1);
 }
 
@@ -75,5 +111,6 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 				return (-1);
 		}
 	}
+	calculate_total_time(new_pathset, info->ant_count);
 	return (1);
 }
