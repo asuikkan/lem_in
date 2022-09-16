@@ -18,7 +18,7 @@ static int	rooms_read(t_info *info, char *line)
 		return (0);
 	if (!ft_strchr(line, ' '))
 	{
-		info->room_flag = 1;
+		info->flags.room_flag = 1;
 		return (1);
 	}
 	return (0);
@@ -30,15 +30,15 @@ static int	comment_check(t_info *info, char *line)
 	{
 		if (info->start)
 			return (-1);
-		info->start_flag = 1;
+		info->flags.start_flag = 1;
 	}
 	else if (ft_strcmp(line, "##end\n") == 0)
 	{
 		if (info->end)
 			return (-1);
-		info->end_flag = 1;
+		info->flags.end_flag = 1;
 	}
-	if ((info->start_flag || info->end_flag) && info->ant_count < 0)
+	if ((info->flags.start_flag || info->flags.end_flag) && info->ant_count < 0)
 		return (-1);
 	return (1);
 }
@@ -49,12 +49,12 @@ static int	parse_info(t_info *info, char *line)
 		return (comment_check(info, line));
 	else if (info->ant_count < 0)
 		return (parse_ant_count(info, line));
-	else if (!info->room_flag)
+	else if (!info->flags.room_flag)
 	{
 		if (!rooms_read(info, line))
 			return (parse_room(info, line));
 	}
-	if (info->room_flag)
+	if (info->flags.room_flag)
 	{
 		if (!info->adj_matrix)
 		{
@@ -98,10 +98,12 @@ static int	save_line(char *buf, t_info *info, char **line)
 
 int	read_output(t_info *info)
 {
-	static char	buf[BUF_SIZE + 1];
-	char		*line;
-	int			bytes;
+	static char		buf[BUF_SIZE + 1];
+	char			*line;
+	int				bytes;
 
+	if ((vec_new(&info->room_table, 2, sizeof(t_room))) == -1)
+		return (-1);
 	line = NULL;
 	while (1)
 	{
@@ -117,7 +119,7 @@ int	read_output(t_info *info)
 			return (-1);
 		}
 	}
-	if (line || !info->adj_matrix)
+	if (line || !info->adj_matrix || !info->start || !info->end)
 		return (-1);
 	return (1);
 }

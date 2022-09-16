@@ -116,9 +116,9 @@ int	parse_room(t_info *info, char *line)
 	room.matrix_index = info->room_table.len;
 	if (push_room(info, &room) == -1)
 		return (-1);
-	if (info->start_flag == 1)
+	if (info->flags.start_flag == 1)
 		return (add_start(info, &room));
-	if (info->end_flag == 1)
+	if (info->flags.end_flag == 1)
 		return (add_end(info, &room));
 	return (1);
 }
