@@ -68,20 +68,19 @@ typedef struct s_edge
 
 typedef struct s_path
 {
-	t_llist	*room;
+	t_llist	*rooms;
 	int		length;
 }			t_path;
 
 typedef struct s_pathset
 {
-	t_vec	pathset;
+	t_vec	paths;
 	int		total_time;
 }			t_pathset;
 
 typedef struct s_bfs
 {
 	t_llist		*queue;
-	t_pathset	*current_path;
 	int			*visited;
 	int			*parent;
 	int			current;
@@ -120,6 +119,7 @@ int				parse_room(t_info *info, char *line);
 int				pathfinder(t_info *info);
 int				push_room(t_info *info, t_room *room);
 int				read_output(t_info *info);
+int				save_pathset(t_info *info, t_pathset *new_pathset);
 t_adj_state		**create_matrix(size_t size);
 void			*llist_copy_front(void *dst, t_llist *src);
 void			llist_free(t_llist **src);
