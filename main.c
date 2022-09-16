@@ -84,6 +84,6 @@ int	main(void)
 	//pathfinder(&info);
 	print_rooms(info.room_table);
 	print_adj_matrix(info.adj_matrix, info.room_count);
-	//free_info(&info);
+	free_and_exit(&info, 0);
 	return (0);
 }
