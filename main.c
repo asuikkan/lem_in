@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-/*static void	print_adj_matrix(int **matrix, int size)
+static void	print_adj_matrix(t_adj_state **matrix, int size)
 {
 	int	i;
 	int	j;
@@ -29,7 +29,7 @@
 		ft_printf("\n");
 	}
 	ft_printf("\n");
-}*/
+}
 
 static void	print_edges(t_room *room)
 {
@@ -72,16 +72,6 @@ static void	print_rooms(t_vec room_table)
 	}
 }
 
-static int	path_found(t_info *info)
-{
-	t_room	*temp;
-
-	temp = vec_get(&info->room_table, info->start);
-	if (temp->distance < 0)
-		return (0);
-	return (1);
-}
-
 static int	initialize_info(t_info *info)
 {
 	info->ant_count = -1;
@@ -91,13 +81,14 @@ static int	initialize_info(t_info *info)
 	info->flags.room_flag = 0;
 	info->room_table.memory = NULL;
 	info->hash_table.memory = NULL;
-	info->adj_list.memory = NULL;
 	info->start = -1;
 	info->end = -1;
 	info->bfs.queue = NULL;
 	info->bfs.visited = NULL;
 	info->bfs.current = NULL;
+	info->bfs.parent = NULL;
 	info->edge_list.memory = NULL;
+	info->adj_matrix = NULL;
 	info->best_path.pathset.memory = NULL;
 	return (1);
 }
@@ -110,13 +101,9 @@ int	main(void)
 		free_and_exit(&info, 1);
 	if (read_output(&info) == -1)
 		free_and_exit(&info, 1);
-	/*if (add_distances(&info) == -1)
-		free_and_exit(&info, 1);*/
-	if (!path_found(&info))
-		free_and_exit(&info, 1);
 	//pathfinder(&info);
 	print_rooms(info.room_table);
-	//print_adj_matrix(info.adj_matrix, info.room_count);
+	print_adj_matrix(info.adj_matrix, info.room_count);
 	//print_path(&info);
 	free_and_exit(&info, 0);
 	return (0);

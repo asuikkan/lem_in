@@ -14,7 +14,7 @@
 
 int	initialize_bfs(t_info *info)
 {
-	if (vec_new(&info->bfs.current_path, 2, sizeof(t_path)) == -1)
+	if (vec_new(&info->bfs.current_path->pathset, 2, sizeof(t_path)) == -1)
 		return (-1);
 	info->bfs.current_path->total_time = 0;
 	info->bfs.visited = ft_memalloc(sizeof(int) * info->room_count);
@@ -23,10 +23,10 @@ int	initialize_bfs(t_info *info)
 	info->bfs.current = ft_memalloc(sizeof(int));
 	if (!info->bfs.current)
 		return (-1);
-	info->bfs.parents = (int *)malloc(sizeof(int) * info->room_count);
-	if (!info->bfs.parents)
+	info->bfs.parent = (int *)malloc(sizeof(int) * info->room_count);
+	if (!info->bfs.parent)
 		return (-1);
-	ft_memset(info->bfs.parents, -1, info->room_count);
+	ft_memset(info->bfs.parent, -1, info->room_count);
 	return (1);
 }
 
@@ -45,8 +45,8 @@ static int	check_adjacent(t_info *info)
 		target = get_link(edge, current->index);
 		if (!info->bfs.visited[target])
 		{
-			if (info->bfs.parents[target] < 0)
-				info->bfs.parents[target] = *info->bfs.current;
+			if (info->bfs.parent[target] < 0)
+				info->bfs.parent[target] = *info->bfs.current;
 			info->bfs.visited[target] = 1;
 			if (llist_push_back(
 					&info->bfs.queue,
