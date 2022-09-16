@@ -84,7 +84,7 @@ static int	initialize_info(t_info *info)
 	info->bfs.visited = NULL;
 	info->bfs.parent = NULL;
 	info->adj_matrix = NULL;
-	info->best_path.pathset.memory = NULL;
+	info->best_pathset.paths.memory = NULL;
 	return (1);
 }
 
@@ -96,7 +96,8 @@ int	main(void)
 		free_and_exit(&info, 1);
 	if (read_output(&info) == -1)
 		free_and_exit(&info, 1);
-	pathfinder(&info);
+	if (pathfinder(&info) == -1)
+		free_and_exit(&info, 1);
 	print_rooms(info.room_table);
 	print_adj_matrix(info.adj_matrix, info.room_count);
 	//print_path(&info);

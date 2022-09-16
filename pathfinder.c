@@ -37,7 +37,8 @@ int	pathfinder(t_info *info)
 		if (save_pathset(info, &new_pathset) == -1)
 			return (-1);
 		compare_pathsets(info, &new_pathset);
-		break ;
+		if (reset_bfs(info) == -1)
+			return (-1);
 	}
 	return (1);
 }
