@@ -104,7 +104,6 @@ int	parse_room(t_info *info, char *line)
 
 	room.name = NULL;
 	room.next = NULL;
-	room.links = NULL;
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)
@@ -113,6 +112,7 @@ int	parse_room(t_info *info, char *line)
 		return (-1);
 	if (*line != '\n')
 		return (-1);
+	room.matrix_index = info->room_table.len;
 	if (push_room(info, &room) == -1)
 		return (-1);
 	if (info->start_flag == 1)

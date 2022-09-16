@@ -116,5 +116,7 @@ int	read_output(t_info *info)
 			return (-1);
 		}
 	}
+	if (line || !info->adj_matrix)
+		return (-1);
 	return (1);
 }
