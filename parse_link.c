@@ -16,7 +16,7 @@ static t_room	*validate_node(t_vec *table, char *room_name, int index)
 {
 	t_room	*temp;
 
-	temp = vec_get(table, index);
+	temp = *(t_room **)vec_get(table, index);
 	if (ft_strcmp(temp->name, room_name))
 	{
 		while (temp->next)
@@ -44,13 +44,8 @@ static int	save_link(t_info *info, char *node1, char *node2)
 	room2 = validate_node(&info->hash_table, node2, index);
 	if (!room2)
 		return (-1);
-	if (!add_to_edge_list(&info->edge_list, room1->index, room2->index))
+	if (!add_adjacency(room1, room2))
 		return (-1);
-	if (!add_adjacency(
-		&info->edge_list,
-		vec_get(&info->room_table, room1->index),
-		vec_get(&info->room_table, room2->index)))
-			return (-1);
 	initialize_flow(info->adj_matrix, room1, room2);
 	return (1);
 }

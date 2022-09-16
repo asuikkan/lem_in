@@ -31,19 +31,17 @@ static void	print_adj_matrix(t_adj_state **matrix, int size)
 	ft_printf("\n");
 }
 
-static void	print_edges(t_room *room)
+static void	print_links(t_room *room)
 {
 	size_t	i;
-	t_edge	*edge;
+	int		link;
 
+	ft_printf("LINKS:\n");
 	i = 0;
-	while (i < room->edges.len)
+	while (i < room->links.len)
 	{
-		edge = vec_get(&room->edges, i);
-		ft_printf("edge_from = %d\n", edge->from);
-		ft_printf("edge_to   = %d\n", edge->to);
-		ft_printf("edge_flow = %d\n", edge->flow);
-		i++;
+		link = *(int *)vec_get(&room->links, i++);
+		ft_printf("%d\n", link);
 	}
 }
 
@@ -58,8 +56,7 @@ static void	print_rooms(t_vec room_table)
 		temp = vec_get(&room_table, i);
 		ft_printf("name  = %s\n", temp->name);
 		ft_printf("index = %d\n", temp->index);
-		ft_printf("dist  = %d\n", temp->distance);
-		print_edges(temp);
+		print_links(temp);
 		ft_printf("\n");
 		/*while (temp->next)
 		{
@@ -87,7 +84,6 @@ static int	initialize_info(t_info *info)
 	info->bfs.visited = NULL;
 	info->bfs.current = NULL;
 	info->bfs.parent = NULL;
-	info->edge_list.memory = NULL;
 	info->adj_matrix = NULL;
 	info->best_path.pathset.memory = NULL;
 	return (1);

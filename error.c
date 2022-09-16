@@ -31,7 +31,7 @@ static void	free_matrix(t_adj_state	**matrix, size_t size)
 static void	free_room(t_room *room)
 {
 	ft_strdel(&room->name);
-	vec_free(&room->edges);
+	vec_free(&room->links);
 }
 
 static void	free_table(t_vec *table)
@@ -59,6 +59,5 @@ void	free_and_exit(t_info *info, int error_flag)
 	free_table(&info->room_table);
 	vec_free(&info->hash_table);
 	free_matrix(info->adj_matrix, info->room_count);
-	vec_free(&info->edge_list);
 	exit(1);
 }
