@@ -34,6 +34,15 @@ int	initialize_bfs(t_info *info)
 	return (1);
 }
 
+int	reset_bfs(t_info *info)
+{
+	free(info->bfs.visited);
+	free(info->bfs.parent);
+	if (initialize_bfs(info) == -1)
+		return (-1);
+	return (1);
+}
+
 static int	check_adjacent(t_info *info)
 {
 	t_room	*current;

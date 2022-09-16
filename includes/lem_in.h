@@ -97,7 +97,7 @@ typedef struct s_info
 	int				start;
 	int				end;
 	t_bfs			bfs;
-	t_pathset		best_path;
+	t_pathset		best_pathset;
 }					t_info;
 
 char			*lem_in_strndup(char *buf, int start, int n);
@@ -108,6 +108,7 @@ int				add_to_edge_list(t_vec *edge_list, int room1, int room2);
 int				add_adjacency(t_room *room1, t_room *room2);
 int				add_start(t_info *info, t_room *room);
 int				bfs(t_info *info);
+int				compare_pathsets(t_info *info, t_pathset *new_pathset);
 int				get_link(t_edge *edge, int current);
 int				hasher(t_info *info);
 int				initialize_bfs(t_info *info);
@@ -119,6 +120,7 @@ int				parse_room(t_info *info, char *line);
 int				pathfinder(t_info *info);
 int				push_room(t_info *info, t_room *room);
 int				read_output(t_info *info);
+int				reset_bfs(t_info *info);
 int				save_pathset(t_info *info, t_pathset *new_pathset);
 t_adj_state		**create_matrix(size_t size);
 void			*llist_copy_front(void *dst, t_llist *src);
