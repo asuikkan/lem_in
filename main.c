@@ -68,6 +68,11 @@ static int	initialize_info(t_info *info)
 	info->end = NULL;
 	info->bfs_distance.queue = NULL;
 	info->bfs_distance.visited = NULL;
+	info->bfs_distance.index = NULL;
+	info->bfs_path.queue = NULL;
+	info->bfs_path.visited = NULL;
+	info->bfs_path.closed = NULL;
+	info->bfs_path.index = NULL;
 	return (1);
 }
 
