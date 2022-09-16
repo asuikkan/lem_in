@@ -98,8 +98,7 @@ static int	initialize_info(t_info *info)
 	info->bfs.visited = NULL;
 	info->bfs.current = NULL;
 	info->edge_list.memory = NULL;
-	info->pathsets.best.paths.memory = NULL;
-	info->pathsets.current.paths.memory = NULL;
+	info->best_path.pathset.memory = NULL;
 	return (1);
 }
 

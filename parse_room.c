@@ -18,7 +18,6 @@ static void	initialize_room(t_info *info, t_room *room)
 	room->next = NULL;
 	room->edges.memory = NULL;
 	room->edges.elem_size = sizeof(t_edge);
-	room->parent = NULL;
 	if (!info->flags.end_flag)
 		room->distance = -1;
 	else

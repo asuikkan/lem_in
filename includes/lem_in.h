@@ -47,16 +47,8 @@ typedef struct s_room
 	int				index;
 	int				distance;
 	t_vec			edges;
-	struct s_room	*parent;
 	struct s_room	*next;
 }					t_room;
-
-typedef struct s_bfs
-{
-	t_llist	*queue;
-	int		*visited;
-	int		*current;
-}			t_bfs;
 
 typedef struct s_edge
 {
@@ -71,17 +63,20 @@ typedef struct s_path
 	int		length;
 }			t_path;
 
-typedef struct s_paths
+typedef struct s_pathset
 {
-	t_vec	paths;
+	t_vec	pathset;
 	int		total_time;
-}			t_paths;
+}			t_pathset;
 
-typedef struct s_pathsets
+typedef struct s_bfs
 {
-	t_paths	best;
-	t_paths	current;
-}			t_pathsets;
+	t_llist		*queue;
+	t_pathset	*current_path;
+	int			*visited;
+	int			*parents;
+	int			*current;
+}				t_bfs;
 
 typedef struct s_info
 {
@@ -95,7 +90,7 @@ typedef struct s_info
 	int				start;
 	int				end;
 	t_bfs			bfs;
-	t_pathsets		pathsets;
+	t_pathset		best_path;
 }					t_info;
 
 char			*lem_in_strndup(char *buf, int start, int n);
@@ -108,7 +103,7 @@ int				add_start(t_info *info, t_room *room);
 int				bfs(t_info *info);
 int				get_link(t_edge *edge, int current);
 int				hasher(t_info *info);
-int				initialize_bfs_and_pathsets(t_info *info);
+int				initialize_bfs(t_info *info);
 int				is_better_path(t_info *info, t_room *end);
 int				lem_in_line_len(char *buf, int start);
 int				parse_ant_count(t_info *info, char *data);
