@@ -18,24 +18,8 @@ void	error_handler(void)
 	exit(1);
 }
 
-static void	free_room(t_room *room)
-{
-	if (!room)
-		return ;
-	free_room(room->left);
-	free_room(room->right);
-	free(room);
-}
-
 void	free_info(t_info *info)
 {
-	int		i;
-
-	i = -1;
-	while (++i < 128)
-	{
-		if (info->table[i])
-			free_room(info->table[i]);
-	}
+	vec_free(info->room_table);
 	free(info);
 }
