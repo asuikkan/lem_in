@@ -19,17 +19,25 @@
 
 typedef struct s_room
 {
-	char	*name;
-	int		x;
-	int		y;
-}			t_room;
+	char			*name;
+	int				x;
+	int				y;
+	struct s_room	*left;
+	struct s_room	*right;
+}					t_room;
 
 typedef struct s_info
 {
 	int		ant_count;
-	t_room	*head;
+	t_room	*table[128];
 }			t_info;
 
-int	check_ant_count(char *data);
+char	*lem_in_strndup(char *buf, int start, int n);
+char	*lem_in_strnjoin(char *line, char *buf, int start, int n);
+int		lem_in_line_len(char *buf, int start);
+int		check_ant_count(char *data);
+void	error_handler(void);
+void	free_info(t_info *info);
+void	read_output(t_info *info);
 
 #endif
