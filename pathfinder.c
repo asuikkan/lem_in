@@ -26,27 +26,7 @@ static int	initialize_bfs_and_pathsets(t_info *info)
 	if (vec_new(&info->pathsets.current.paths, 2, sizeof(t_path)) == -1)
 		return (-1);
 	info->pathsets.current.total_time = 0;
-	return (1);
-}
-
-static int	save_path(t_info *info, t_room *end)
-{
-	t_path	new;
-	t_room	*previous;
-
-	new.length = 1;
-	if (llist_push(&new.path, &end->matrix_index, sizeof(int)) == -1)
-		return (-1);
-	previous = end->parent;
-	while (previous)
-	{
-		if (llist_push(&new.path, &previous->matrix_index, sizeof(int)) == -1)
-			return (-1);
-		new.length++;
-		previous = previous->parent;
-	}
-	if (vec_push(&info->pathsets.current.paths, &new) == -1)
-		return (-1);
+	info->pathsets.best.total_time = 0;
 	return (1);
 }
 
@@ -65,7 +45,7 @@ static int	check_adjacent(t_info *info)
 			if (!temp->parent)
 				temp->parent = vec_get(&info->room_table, *info->bfs_path.index);
 			if (i == info->end)
-				return (save_path(info, temp));
+				return (is_better_path(info, temp));
 			if (llist_push_back(
 					&info->bfs_path.queue,
 					&i,
