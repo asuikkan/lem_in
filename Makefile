@@ -18,7 +18,8 @@ NAME	= lem_in
 
 INC		= ./includes
 
-SRC		= main.c reader.c parse_info.c line_helpers.c error.c room_aux.c
+SRC		= main.c reader.c parse_room.c line_helpers.c error.c room_aux.c	\
+		  parse_link.c
 
 OBJ		= $(SRC:.c=.o)
 

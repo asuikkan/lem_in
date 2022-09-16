@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_link.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/07/13 13:51:52 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/07/13 13:51:53 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static int	initialize_info(t_info *info)
+int	parse_link(t_info *info, char *line) // jatka taalta!
 {
-	info->ant_count = -1;
-	info->room_table = NULL;
-	info->start = NULL;
-	info->end = NULL;
-	info->start_flag = 0;
-	info->end_flag = 0;
+	/*int		i;
+	t_room	*temp;
+
+	if (!info->start || !info->end)
+		return (-1);
+	i = -1;
+	while (++i < info->room_table->len)
+	{
+		temp = vec_get(info->room_table, i);
+		temp
+	}*/
+	(void)info;
+	(void)line;
 	return (1);
-}
-
-int	main(void)
-{
-	t_info	info;
-
-	initialize_info(&info);
-	read_output(&info);
-	return (0);
 }

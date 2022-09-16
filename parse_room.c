@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_info.c                                       :+:      :+:    :+:   */
+/*   parse_room.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,20 +12,23 @@
 
 #include "lem_in.h"
 
-int	parse_ant_count(char *data)
+int	parse_ant_count(t_info *info, char *line)
 {
-	int	ret;
-	int	i;
+	long	nb;
+	int		i;
 
-	ret = 0;
+	nb = 0;
 	i = -1;
-	while (data[++i] != '\n')
+	while (line[++i] != '\n')
 	{
-		if (!ft_isdigit(data[i]))
+		if (!ft_isdigit(line[i]))
 			return (-1);
-		ret = ret * 10 + (data[i] - '0');
+		nb = nb * 10 + (line[i] - '0');
+		if (nb > COORD_LIMIT)
+			return (-1);
 	}
-	return (ret);
+	info->ant_count = nb;
+	return (1);
 }
 
 static int	parse_name(t_room *room, char *line)
@@ -95,7 +98,7 @@ static int	parse_y(t_room *room, char *line)
 	return (1);
 }
 
-int	parse_room(t_info *info, char *line, int start_flag, int end_flag)
+int	parse_room(t_info *info, char *line)
 {
 	t_room		room;
 
@@ -109,9 +112,9 @@ int	parse_room(t_info *info, char *line, int start_flag, int end_flag)
 		return (-1);
 	if (push_room(info, &room) == -1)
 		return (-1);
-	if (start_flag == 1)
+	if (info->start_flag == 1)
 		return (add_start(info, &room));
-	if (end_flag == 1)
+	if (info->end_flag == 1)
 		return (add_end(info, &room));
 	return (1);
 }
