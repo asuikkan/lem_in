@@ -15,17 +15,20 @@
 
 # define BUF_SIZE 2
 # define COORD_LIMIT 2147483647
+# define END info->end
+# define ADJ_MATRIX info->adj_matrix
+# define DISTANCE_INDEX info->bfs_distance.index
 # define QUEUE info->bfs_distance.queue
-# define QUEUE_TOP_INDEX info->bfs_distance.queue.len - 1 
+# define VISITED info->bfs_distance.visited
 
 # include "libft.h"
 
 typedef struct s_llist
 {
-	void	*content;
-	size_t	size;
-	s_llist	*next;
-}			t_llist;
+	void			*content;
+	size_t			size;
+	struct s_llist	*next;
+}					t_llist;
 
 typedef struct s_read_flags
 {
@@ -48,6 +51,7 @@ typedef struct s_bfs_distance
 {
 	t_llist	*queue;
 	int		*visited;
+	int		*index;
 }			t_bfs_distance;
 
 typedef struct s_info
@@ -71,9 +75,11 @@ int				pathfinder(t_info *info);
 int				hasher(t_info *info);
 int				add_distances(t_info *info);
 int				lem_in_line_len(char *buf, int start);
-int				llist_new(t_llist *new, void *content, size_t size);
-int				llist_push_back(const t_llist *dst, void *content, size_t size);
-void			llist_pop(t_llist *dst);
+void			*llist_get_front(t_llist *src);
+t_llist			*llist_new(void *content, size_t size);
+int				llist_push(t_llist *dst, void *content, size_t size);
+int				llist_push_back(t_llist **dst, void *content, size_t size);
+void			llist_pop(t_llist **dst);
 int				parse_ant_count(t_info *info, char *data);
 int				parse_link(t_info *info, char *line);
 int				parse_room(t_info *info, char *line);
