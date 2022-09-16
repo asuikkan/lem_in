@@ -58,15 +58,14 @@ static int	initialize_info(t_info *info)
 {
 	info->ant_count = -1;
 	info->room_count = -1;
-	if (vec_new(&info->room_table, 2, sizeof(t_room)) == -1)
-		return (-1);
+	info->flags.end_flag = 0;
+	info->flags.start_flag = 0;
+	info->flags.room_flag = 0;
+	info->room_table.memory = NULL;
 	info->hash_table.memory = NULL;
 	info->adj_matrix = NULL;
 	info->start = NULL;
 	info->end = NULL;
-	info->start_flag = 0;
-	info->end_flag = 0;
-	info->room_flag = 0;
 	return (1);
 }
 
@@ -75,23 +74,14 @@ int	main(void)
 	t_info	info;
 
 	if (initialize_info(&info) == -1)
-	{
-		free_info(&info);
-		error_handler();
-	}
+		free_and_exit(&info, 1);
 	if (read_output(&info) == -1)
-	{
-		free_info(&info);
-		error_handler();
-	}
-	if (iterate_matrix(&info) == -1)
-	{
-		free_info(&info);
-		error_handler();
-	}
-	pathfinder(&info);
+		free_and_exit(&info, 1);
+	if (add_distances(&info) == -1)
+		free_and_exit(&info, 1);
+	//pathfinder(&info);
 	print_rooms(info.room_table);
 	print_adj_matrix(info.adj_matrix, info.room_count);
-	free_info(&info);
+	//free_info(&info);
 	return (0);
 }
