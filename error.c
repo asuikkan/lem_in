@@ -64,8 +64,4 @@ void	free_info(t_info *info)
 	free_table(&info->room_table);
 	vec_free(&info->hash_table);
 	free_matrix(info->adj_matrix);
-	if (info->start)
-		free(info->start);
-	if (info->end)
-		free(info->end);
 }

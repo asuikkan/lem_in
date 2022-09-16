@@ -16,20 +16,27 @@ int	add_start(t_info *info, t_room *room)
 {
 	if (info->start)
 		return (-1);
-	info->start = ft_strdup(room->name);
+	info->start = (t_room *)malloc(sizeof(t_room));
 	if (!info->start)
 		return (-1);
+	ft_memcpy(info->start, room, sizeof(t_room));
 	info->start_flag = 0;
 	return (1);
 }
 
 int	add_end(t_info *info, t_room *room)
 {
+	t_room	*end;
+
 	if (info->end)
 		return (-1);
-	info->end = ft_strdup(room->name);
+	info->end = (t_room *)malloc(sizeof(t_room));
 	if (!info->end)
 		return (-1);
+	end = vec_get(&info->room_table, room->matrix_index);
+	end->distance = 0;
+	room->distance = 0;
+	ft_memcpy(info->end, room, sizeof(t_room));
 	info->end_flag = 0;
 	return (1);
 }
