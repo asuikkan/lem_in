@@ -24,6 +24,8 @@ static t_room	*find_next_room(t_info *info, t_room *room)
 	i = -1;
 	while (++i < info->room_count)
 	{
+		if (i == room->matrix_index)
+			continue ;
 		if (info->adj_matrix[room->matrix_index][i] == 1)
 		{
 			temp = vec_get(&info->room_table, i);
@@ -39,9 +41,12 @@ static int	shortest_path(t_info *info, t_vec *path, int *closed_list)
 	t_room	*current;
 
 	current = info->start;
-	while (current != info->end)
+	while (current->distance > 0)
 	{
 		current = find_next_room(info, current);
+		ft_printf("current name: %s\n", current->name);
+		ft_printf("current adr:  %p\n", current);
+		ft_printf("end adr:      %p\n", info->end);
 		if (!current)
 		{
 			free(path);

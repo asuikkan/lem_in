@@ -16,10 +16,10 @@ int	add_start(t_info *info, t_room *room)
 {
 	if (info->start)
 		return (-1);
-	info->start = (t_room *)malloc(sizeof(t_room));
+	info->start = (t_room *)malloc(sizeof(room));
 	if (!info->start)
 		return (-1);
-	ft_memcpy(info->start, room, sizeof(t_room));
+	ft_memcpy(info->start, room, sizeof(room));
 	info->start_flag = 0;
 	return (1);
 }
@@ -30,13 +30,13 @@ int	add_end(t_info *info, t_room *room)
 
 	if (info->end)
 		return (-1);
-	info->end = (t_room *)malloc(sizeof(t_room));
+	info->end = (t_room *)malloc(sizeof(room));
 	if (!info->end)
 		return (-1);
 	end = vec_get(&info->room_table, room->matrix_index);
 	end->distance = 0;
 	room->distance = 0;
-	ft_memcpy(info->end, room, sizeof(t_room));
+	ft_memcpy(info->end, room, sizeof(room));
 	info->end_flag = 0;
 	return (1);
 }
