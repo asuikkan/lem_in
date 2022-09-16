@@ -12,30 +12,45 @@
 
 #include "lem_in.h"
 
+static int	save_link(t_info *info, char *node1, char *node2) // jatka täältä!!!!
+{
+	t_room	*temp;
+	int		index;
+
+	index = hash(node1, info->room_table.len);
+	temp = vec_get(&info->hash_table, index);
+	if (ft_strcmp(node1, temp->name))
+	{
+		while (temp->next)
+		{
+			temp = temp->next;
+			if (!ft_strcmp(node1, temp->name))
+				return (1);
+		}
+	}
+	return (1);
+}
+
 int	parse_link(t_info *info, char *line)
 {
-	int		i;
-	int		len;
 	char	*node1;
 	char	*node2;
+	int		node1_len;
 
 	node1 = NULL;
 	node2 = NULL;
-	len = ft_strlen(line);
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == '-')
-		{
-			node1 = ft_strsub(line, 0, i);
-			ft_printf("node1 = %s\n", node1);
-			node2 = ft_strsub(line, i + 1, len - i - 2);
-			ft_printf("node2 = %s\n", node2);
-			break ;
-		}
-	}
-	if (!node1 || !node2)
+	node1_len = ft_strclen(line, '-');
+	node1 = ft_strsub(line, 0, node1_len);
+	if (!node1)
 		return (-1);
-	(void)info;
+	ft_memmove(line, line + node1_len + 1, ft_strlen(line) - node1_len + 1);
+	node2 = ft_strdup(line);
+	if (!node2)
+		return (-1);
+	node2[ft_strlen(node2) - 1] = '\0';
+	if (save_link(info, node1, node2) == -1)
+		return (-1);
+	ft_strdel(&node1);
+	ft_strdel(&node2);
 	return (1);
 }
