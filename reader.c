@@ -15,24 +15,27 @@
 static int	parse_info(t_info *info, char *line)
 {
 	static int	room_flag;
+	static int	start_flag;
+	static int	end_flag;
 
-	if ((info->ant_count < 0 || room_flag == 1) && line[0] == '#')
+	if (line[0] == '#')
 	{
-		if (ft_strcmp(line, "##start") == 0 || ft_strcmp(line, "##end") == 0)
+		if (ft_strcmp(line, "##start\n") == 0)
+			start_flag = 1;
+		else if (ft_strcmp(line, "##end\n") == 0)
+			end_flag = 1;
+		if ((start_flag || end_flag) && (info->ant_count < 0 || room_flag == 1))
 			return (-1);
 	}
-	if (info->ant_count < 0)
+	else if (info->ant_count < 0)
 	{
-		info->ant_count = parse_ant_count(line);
-		if (info->ant_count == -1)
-			return (-1);
+		info->ant_count = parse_ant_count(line); // tee tama paremmin!
+		return (info->ant_count);
 	}
 	else if (room_flag == 0)
-	{
-		if (parse_room(info, line) == -1)
-			return (-1);
-	}
-	return (1);
+		return (parse_room(info, line, start_flag, end_flag));
+	else
+		return (1);
 }
 
 static int	save_line(char *buf, t_info *info)
@@ -41,18 +44,24 @@ static int	save_line(char *buf, t_info *info)
 	int			len;
 	static char	*line;
 
-	len = lem_in_line_len(buf, start);
-	if (!line)
-		line = lem_in_strndup(buf, start, len);
-	else
-		line = lem_in_strnjoin(line, buf, start, len);
-	if (!line)
-		return (-1);
-	if (line[len - 1] == '\n')
+	while (buf[start])
 	{
-		parse_info(info, line);
-		ft_strdel(&line);
+		len = lem_in_line_len(buf, start);
+		if (!line)
+			line = lem_in_strndup(buf, start, len);
+		else
+			line = lem_in_strnjoin(line, buf, start, len);
+		if (!line)
+			return (-1);
+		if (line[len - 1] == '\n')
+		{
+			if (parse_info(info, line) == -1)
+				return (-1);
+			ft_strdel(&line);
+		}
+		start += len;
 	}
+	start = 0;
 	return (1);
 }
 

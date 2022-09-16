@@ -29,19 +29,6 @@ int	lem_in_line_len(char *buf, int start)
 	return (len);
 }
 
-/*char	*lem_in_strncpy(char *buf, char *line, int start, int len)
-{
-	int	i;
-	int	j;
-
-	line[len] = '\0';
-	i = -1;
-	j = start;
-	while (++i < len)
-		line[i] = buf[j++];
-	return (line);
-}*/
-
 char	*lem_in_strndup(char *buf, int start, int n)
 {
 	int		i;
