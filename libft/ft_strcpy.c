@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/03 15:56:31 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/04 12:18:56 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static void	read_output(void)
+char	*ft_strcpy(char *dest, const char *src)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	int	i;
 
-	while (1)
+	i = 0;
+	while (src[i])
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		dest[i] = src[i];
+		i++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	dest[i] = '\0';
+	return (dest);
 }

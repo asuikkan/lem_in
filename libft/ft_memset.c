@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/03 11:52:47 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/03 13:53:50 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
 
-static void	read_output(void)
+void	*ft_memset(void *str, int c, size_t n)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	unsigned char	*ptr;
+	unsigned char	uc;
+	unsigned long	i;
 
-	while (1)
+	ptr = (unsigned char *)str;
+	uc = c;
+	i = 0;
+	while (i < n)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		ptr[i] = uc;
+		i++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	return (str);
 }

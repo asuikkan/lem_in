@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 15:52:00 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/06/28 15:52:04 by asuikkan         ###   ########.fr       */
+/*   Created: 2021/11/04 15:10:38 by asuikkan          #+#    #+#             */
+/*   Updated: 2021/11/04 15:33:30 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	read_output(void)
+char	*ft_strchr(const char *str, int c)
 {
-	int		ret;
-	char	buf[1024 + 1];
+	char	*temp;
 
-	while (1)
+	temp = (char *)str;
+	while (*temp)
 	{
-		ret = read(0, buf, 1024);
-		if (ret == 0)
-			return ;
-		if (ret < 0)
-			return ;
-		buf[ret] = '\0';
+		if (*temp == (char)c)
+			return (temp);
+		temp++;
 	}
-}
-
-int	main(void)
-{
-	read_output();
-	return (0);
+	if (*temp == (char)c)
+		return (temp);
+	return (NULL);
 }
