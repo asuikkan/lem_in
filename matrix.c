@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_link.c                                       :+:      :+:    :+:   */
+/*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 13:51:52 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/13 13:51:53 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/07/27 16:22:07 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/07/27 16:22:10 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int	parse_link(t_info *info, char *line)
+int	**create_matrix(size_t size)
 {
-	int		i;
-	int		len;
-	char	*node1;
-	char	*node2;
+	int		**matrix;
+	size_t	i;
 
-	node1 = NULL;
-	node2 = NULL;
-	len = ft_strlen(line);
-	i = -1;
-	while (line[++i])
+	matrix = ft_memalloc(sizeof(int *) * (size + 1));
+	if (!matrix)
+		return (NULL);
+	matrix[size] = NULL;
+	i = 0;
+	while (i < size)
 	{
-		if (line[i] == '-')
-		{
-			node1 = ft_strsub(line, 0, i);
-			ft_printf("node1 = %s\n", node1);
-			node2 = ft_strsub(line, i + 1, len - i - 2);
-			ft_printf("node2 = %s\n", node2);
-			break ;
-		}
+		matrix[i] = ft_memalloc(sizeof(int) * (size + 1));
+		if (!matrix[i])
+			return (NULL);
+		i++;
 	}
-	if (!node1 || !node2)
-		return (-1);
-	(void)info;
-	return (1);
+	return (matrix);
 }
