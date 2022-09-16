@@ -14,7 +14,7 @@
 
 static int	rooms_read(t_info *info, char *line)
 {
-	if (!info->room_table)
+	if (info->room_table.len == 0)
 		return (0);
 	if (!ft_strchr(line, ' '))
 		return (1);
@@ -25,13 +25,13 @@ static int	comment_check(t_info *info, char *line)
 {
 	if (ft_strcmp(line, "##start\n") == 0)
 	{
-		if (info->start_flag)
+		if (info->start)
 			return (-1);
 		info->start_flag = 1;
 	}
 	else if (ft_strcmp(line, "##end\n") == 0)
 	{
-		if (info->end_flag)
+		if (info->end)
 			return (-1);
 		info->end_flag = 1;
 	}
@@ -80,41 +80,42 @@ static int	save_line(char *buf, t_info *info, char **line)
 			*line = lem_in_strnjoin(*line, buf, start, len);
 		if (!(*line))
 			return (-1);
-		if (buf[len - 1] != '\n')
-			return (1);
-		else
+		if (ft_strrchr(*line, '\n'))
 		{
 			if (parse_info(info, *line) == -1)
 				return (-1);
+			ft_strdel(line);
 		}
 		start += len;
 	}
 	start = 0;
-	return (0);
+	return (1);
 }
 
-void	read_output(t_info *info)
+int	read_output(t_info *info)
 {
 	static char	buf[BUF_SIZE + 1];
-	static char	*line;
+	char		*line;
 	int			bytes;
 	int			ret;
 
+	line = NULL;
 	while (1)
 	{
 		bytes = read(0, buf, BUF_SIZE);
 		if (bytes == 0)
-			return ;
+			break ;
 		if (bytes < 0)
-			return ;
+			return (-1);
 		buf[bytes] = '\0';
 		ret = save_line(buf, info, &line);
-		if (ret < 1)
-			ft_strdel(&line);
 		if (ret == -1)
 		{
-			free_info(info);
-			error_handler();
+			ft_strdel(&line);
+			return (-1);
 		}
 	}
+	if (info->room_table.len == 0 || info->hash_table.len == 0)
+		return (-1);
+	return (1);
 }

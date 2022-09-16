@@ -28,6 +28,13 @@ static unsigned long	hash(char *str)
 	return (hash);
 }
 
+static void	add_to_list(t_room *dst, t_room *src)
+{
+	while (dst->next)
+		dst = dst->next;
+	dst->next = src;
+}
+
 int	hasher(t_info *info)
 {
 	t_vec			hash_table;
@@ -36,23 +43,23 @@ int	hasher(t_info *info)
 	unsigned long	index;
 
 	if (vec_new(
-			&hash_table, info->room_table->len,
-			info->room_table->elem_size) == -1)
+			&hash_table, info->room_table.len,
+			info->room_table.elem_size) == -1)
 		return (-1);
 	i = 0;
-	while (i < info->room_table->len)
+	while (i < info->room_table.len)
 	{
 		index = 0;
-		temp = vec_get(info->room_table, i++);
+		temp = vec_get(&info->room_table, i++);
 		index = hash(temp->name);
-		index = index % info->room_table->len;
-		if (!vec_get(info->room_table, index))
+		index = index % info->room_table.len;
+		if (!vec_get(&hash_table, index))
 		{
 			if (vec_insert(&hash_table, temp, index) == -1)
 				return (-1);
 		}
 		else
-			
+			add_to_list(vec_get(&hash_table, index), temp);
 	}
 	return (1);
 }
