@@ -37,7 +37,7 @@ typedef struct s_info
 }			t_info;
 
 char	*lem_in_strndup(char *buf, int start, int n);
-char	*lem_in_strnjoin(char **line, char *buf, int start, int n);
+char	*lem_in_strnjoin(char *line, char *buf, int start, int n);
 int		add_start(t_info *info, t_room *room);
 int		add_end(t_info *info, t_room *room);
 int		lem_in_line_len(char *buf, int start);

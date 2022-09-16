@@ -102,6 +102,7 @@ int	parse_room(t_info *info, char *line)
 {
 	t_room		room;
 
+	room.name = NULL;
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)
