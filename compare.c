@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void	free_paths(t_vec *paths)
+void	free_paths(t_vec *paths) 
 {
 	size_t	i;
 	t_path	*path;
