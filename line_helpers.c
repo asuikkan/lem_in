@@ -32,14 +32,12 @@ int	lem_in_line_len(char *buf, int start)
 char	*lem_in_strndup(char *buf, int start, int n)
 {
 	int		i;
-	int		j;
 	char	*ret;
 
 	ret = ft_strnew(n);
 	if (!ret)
 		return (NULL);
 	i = -1;
-	j = start;
 	while (++i < n)
 		ret[i] = buf[start++];
 	return (ret);

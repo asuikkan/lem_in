@@ -111,6 +111,7 @@ int	parse_room(t_info *info, char *line)
 		return (-1);
 	if (*line != '\n')
 		return (-1);
+	room.next = NULL;
 	if (push_room(info, &room) == -1)
 		return (-1);
 	if (info->start_flag == 1)

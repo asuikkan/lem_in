@@ -43,22 +43,27 @@ static int	comment_check(t_info *info, char *line)
 static int	parse_info(t_info *info, char *line)
 {
 	static int	room_flag;
-	int			ret;
 
-	ret = 1;
 	if (line[0] == '#')
-		ret = comment_check(info, line);
+		return (comment_check(info, line));
 	else if (info->ant_count < 0)
-		ret = parse_ant_count(info, line);
+		return (parse_ant_count(info, line));
 	else if (room_flag == 0)
 	{
-		ret = parse_room(info, line);
-		if (ret == -1 && rooms_read(info, line) == 1)
+		if (parse_room(info, line) == -1)
+		{
+			if (!rooms_read(info, line))
+				return (-1);
+			if (!info->start || !info->end)
+				return (-1);
+			if (hasher(info) == -1)
+				return (-1);
 			room_flag = 1;
+		}
 	}
-	if (room_flag == 1 && line[0] != '#')
-		ret = parse_link(info, line);
-	return (ret);
+	if (room_flag == 1)
+		return (parse_link(info, line));
+	return (1);
 }
 
 static int	save_line(char *buf, t_info *info, char **line)
