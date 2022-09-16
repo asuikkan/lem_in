@@ -22,6 +22,11 @@ static void	print_rooms(t_vec room_table)
 	{
 		temp = vec_get(&room_table, i);
 		ft_printf("%s\n", temp->name);
+		while (temp->next)
+		{
+			temp = temp->next;
+			ft_printf("%s\n", temp->name);
+		}
 		i++;
 	}
 }
@@ -31,10 +36,12 @@ static int	initialize_info(t_info *info)
 	info->ant_count = -1;
 	if (vec_new(&info->room_table, 2, sizeof(t_room)) == -1)
 		return (-1);
+	info->adj_matrix = NULL;
 	info->start = NULL;
 	info->end = NULL;
 	info->start_flag = 0;
 	info->end_flag = 0;
+	info->room_flag = 0;
 	return (1);
 }
 
