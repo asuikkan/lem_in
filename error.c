@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-static void	free_matrix(int	**matrix, int size)
+static void	free_matrix(t_adj_state	**matrix, size_t size)
 {
-	int	i;
+	size_t	i;
 
 	if (!matrix)
 		return ;

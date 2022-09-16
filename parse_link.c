@@ -51,6 +51,7 @@ static int	save_link(t_info *info, char *node1, char *node2)
 		vec_get(&info->room_table, room1->index),
 		vec_get(&info->room_table, room2->index)))
 			return (-1);
+	initialize_flow(info->adj_matrix, room1, room2);
 	return (1);
 }
 

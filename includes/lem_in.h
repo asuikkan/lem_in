@@ -50,6 +50,15 @@ typedef struct s_room
 	struct s_room	*next;
 }					t_room;
 
+typedef enum e_adj_state
+{
+	NO_LINK,
+	FLOW,
+	NO_FLOW,
+	SELF_LINK
+}	t_adj_state;
+
+
 typedef struct s_edge
 {
 	int	from;
@@ -74,7 +83,7 @@ typedef struct s_bfs
 	t_llist		*queue;
 	t_pathset	*current_path;
 	int			*visited;
-	int			*parents;
+	int			*parent;
 	int			*current;
 }				t_bfs;
 
@@ -85,8 +94,8 @@ typedef struct s_info
 	t_read_flags	flags;
 	t_vec			room_table;
 	t_vec			hash_table;
+	t_adj_state		**adj_matrix;
 	t_vec			edge_list;
-	t_vec			adj_list;
 	int				start;
 	int				end;
 	t_bfs			bfs;
@@ -112,7 +121,7 @@ int				parse_room(t_info *info, char *line);
 int				pathfinder(t_info *info);
 int				push_room(t_info *info, t_room *room);
 int				read_output(t_info *info);
-int				**create_matrix(size_t size);
+t_adj_state		**create_matrix(size_t size);
 void			*llist_copy_front(void *dst, t_llist *src, size_t size);
 void			llist_free(t_llist **src);
 t_llist			*llist_new(void *content, size_t size);
@@ -122,5 +131,6 @@ void			llist_pop(t_llist **dst);
 unsigned long	hash(char *str, size_t len);
 void			error_handler(void);
 void			free_and_exit(t_info *info, int error_flag);
+void			initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2);
 
 #endif

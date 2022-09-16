@@ -21,18 +21,18 @@ static int	augmenting_paths(t_info *info)
 		free_and_exit(info, 1);
 	if (state == PATH_NOT_FOUND)
 		return (0);
-	if (state == PATH_FOUND)
+	else
 		return (1);
 }
 
 int	pathfinder(t_info *info)
 {
-	if (initialize_bfs_and_pathsets(info) == -1)
+	if (initialize_bfs(info) == -1)
 		return (-1);
 	while (augmenting_paths(info))
 	{
-		add_flow(info);
-		save_pathset(info);
+		//add_flow(info);
+		//save_pathset(info);
 	}
 	return (1);
 }
