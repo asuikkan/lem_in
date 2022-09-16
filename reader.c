@@ -61,38 +61,37 @@ static int	parse_info(t_info *info, char *line)
 	return (ret);
 }
 
-static int	save_line(char *buf, t_info *info)
+static int	save_line(char *buf, t_info *info, char **line)
 {
 	int			len;
 	static int	start;
-	static char	*line;
 
 	while (buf[start])
 	{
 		len = lem_in_line_len(buf, start);
-		if (!line)
-			line = lem_in_strndup(buf, start, len);
+		if (!(*line))
+			*line = lem_in_strndup(buf, start, len);
 		else
-			line = lem_in_strnjoin(&line, buf, start, len);
-		if (!line)
+			*line = lem_in_strnjoin(*line, buf, start, len);
+		if (!(*line))
 			return (-1);
-		if (line[len - 1] != '\n')
+		if (buf[len - 1] != '\n')
 			return (1);
 		else
 		{
-			if (parse_info(info, line) == -1)
+			if (parse_info(info, *line) == -1)
 				return (-1);
-			ft_strdel(&line);
 		}
 		start += len;
 	}
 	start = 0;
-	return (1);
+	return (0);
 }
 
 void	read_output(t_info *info)
 {
 	static char	buf[BUF_SIZE + 1];
+	static char	*line;
 	int			bytes;
 	int			ret;
 
@@ -104,7 +103,9 @@ void	read_output(t_info *info)
 		if (bytes < 0)
 			return ;
 		buf[bytes] = '\0';
-		ret = save_line(buf, info);
+		ret = save_line(buf, info, &line);
+		if (ret < 1)
+			ft_strdel(&line);
 		if (ret == -1)
 		{
 			free_info(info);

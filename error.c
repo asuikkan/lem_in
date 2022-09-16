@@ -20,18 +20,23 @@ void	error_handler(void)
 
 void	free_info(t_info *info)
 {
-	/*size_t	i;
-	size_t	j;
+	size_t	i;
+	//size_t	j;
 	t_room	*temp;
 
 	i = 0;
 	while (i < info->room_table->len)
 	{
 		temp = vec_get(info->room_table, i);
-		j = 0;
+		free(temp->name);
+		/*j = 0;
 		while (temp->links[j])
-			ft_strdel(&temp->links[j++]);
+			ft_strdel(&temp->links[j++]);*/
 		i++;
-	}*/
+	}
+	if (info->start)
+		free(info->start);
+	if (info->end)
+		free(info->end);
 	vec_free(info->room_table);
 }
