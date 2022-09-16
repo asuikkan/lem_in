@@ -38,6 +38,7 @@ int	reset_bfs(t_info *info)
 {
 	free(info->bfs.visited);
 	free(info->bfs.parent);
+	llist_free(&info->bfs.queue);
 	if (initialize_bfs(info) == -1)
 		return (-1);
 	return (1);

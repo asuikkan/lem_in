@@ -102,11 +102,15 @@ void	*llist_copy_front(void *dst, t_llist *src)
 
 void	llist_free(t_llist **src)
 {
+	t_llist	*temp;
+
 	while (*src)
 	{
+		temp = (*src)->next;
 		free((*src)->content);
 		(*src)->content = NULL;
 		free(*src);
-		*src = (*src)->next;
+		*src = temp;
 	}
+	*src = NULL;
 }
