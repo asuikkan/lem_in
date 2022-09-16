@@ -12,16 +12,12 @@
 
 #include "lem_in.h"
 
-static void	initialize_room(t_info *info, t_room *room)
+static void	initialize_room(t_room *room)
 {
 	room->name = NULL;
 	room->next = NULL;
-	room->edges.memory = NULL;
-	room->edges.elem_size = sizeof(t_edge);
-	if (!info->flags.end_flag)
-		room->distance = -1;
-	else
-		room->distance = 0;
+	room->links.memory = NULL;
+	room->links.elem_size = sizeof(int);
 }
 
 static int	parse_name(t_room *room, char *line)
@@ -95,7 +91,7 @@ int	parse_room(t_info *info, char *line)
 {
 	t_room		room;
 
-	initialize_room(info, &room);
+	initialize_room(&room);
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)

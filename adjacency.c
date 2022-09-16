@@ -12,34 +12,41 @@
 
 #include "lem_in.h"
 
-int	get_link(t_edge *edge, int current)
+int	add_adjacency(t_room *room1, t_room *room2)
 {
-	if (edge->from == current)
-		return (edge->to);
+	if (vec_push(&room1->links, &room2->index) == -1)
+		return (-1);
+	if (vec_push(&room2->links, &room1->index) == -1)
+		return (-1);
+	return (1);
+}
+
+t_adj_state	**create_matrix(size_t size)
+{
+	t_adj_state	**matrix;
+	size_t		i;
+
+	matrix = ft_memalloc(sizeof(t_adj_state *) * size);
+	if (!matrix)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		matrix[i] = ft_memalloc(sizeof(t_adj_state) * size);
+		if (!matrix[i])
+			return (NULL);
+		i++;
+	}
+	return (matrix);
+}
+
+void	initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2)
+{
+	if (room1 == room2)
+		adj_matrix[room1->index][room2->index] = SELF_LINK;
 	else
-		return (edge->from);
-}
-
-int	add_to_edge_list(t_vec *edge_list, int room1, int room2)
-{
-	t_edge	edge;
-
-	edge.from = room1;
-	edge.to = room2;
-	edge.flow = 0;
-	if (vec_push(edge_list, &edge) == -1)
-		return (0);
-	return (1);
-}
-
-int	add_adjacency(t_vec *edge_list, t_room *room1, t_room *room2)
-{
-	t_edge *edge;
-
-	edge = vec_get(edge_list, edge_list->len - 1);
-	if (vec_push(&room1->edges, edge) == -1)
-		return (0);
-	if (vec_push(&room2->edges, edge) == -1)
-		return (0);
-	return (1);
+	{		
+		adj_matrix[room1->index][room2->index] = NO_FLOW;
+		adj_matrix[room2->index][room1->index] = NO_FLOW;
+	}
 }

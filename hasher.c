@@ -31,7 +31,7 @@ unsigned long	hash(char *str, size_t len)
 
 static int	init_hash_table(t_vec *dst, t_vec *src)
 {
-	if (vec_new(dst, src->len, src->elem_size) == -1)
+	if (vec_new(dst, src->len, sizeof(t_room *)) == -1)
 		return (-1);
 	return (1);
 }
@@ -59,7 +59,7 @@ int	hasher(t_info *info)
 		index = hash(temp->name, info->room_table.len);
 		if (!info->hash_table.memory[index * info->hash_table.elem_size])
 		{
-			if (vec_overwrite(&info->hash_table, temp, index) == -1)
+			if (vec_overwrite(&info->hash_table, &temp, index) == -1)
 				return (-1);
 		}
 		else

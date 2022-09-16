@@ -35,14 +35,12 @@ static int	check_adjacent(t_info *info)
 	t_room	*current;
 	size_t	i;
 	int		target;
-	t_edge	*edge;
 
 	current = vec_get(&info->room_table, *info->bfs.current);
 	i = 0;
-	while (i < current->edges.len)
+	while (i < current->links.len)
 	{
-		edge = vec_get(&current->edges, i++);
-		target = get_link(edge, current->index);
+		target = *(int *)vec_get(&current->links, i);
 		if (!info->bfs.visited[target])
 		{
 			if (info->bfs.parent[target] < 0)

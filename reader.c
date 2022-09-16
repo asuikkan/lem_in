@@ -55,8 +55,6 @@ static int	parse_info(t_info *info, char *line)
 			info->adj_matrix = create_matrix(info->room_table.len);
 			if (!info->adj_matrix)
 				return (-1);
-			if (vec_new(&info->edge_list, 2, sizeof(t_edge)) == -1)
-				return (-1);
 			info->room_count = info->room_table.len;
 		}
 		return (parse_link(info, line));

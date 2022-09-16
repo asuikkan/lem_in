@@ -45,8 +45,7 @@ typedef struct s_room
 	int				x;
 	int				y;
 	int				index;
-	int				distance;
-	t_vec			edges;
+	t_vec			links;
 	struct s_room	*next;
 }					t_room;
 
@@ -95,7 +94,6 @@ typedef struct s_info
 	t_vec			room_table;
 	t_vec			hash_table;
 	t_adj_state		**adj_matrix;
-	t_vec			edge_list;
 	int				start;
 	int				end;
 	t_bfs			bfs;
@@ -107,7 +105,7 @@ char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
 int				add_distances(t_info *info);
 int				add_end(t_info *info, t_room *room);
 int				add_to_edge_list(t_vec *edge_list, int room1, int room2);
-int				add_adjacency(t_vec *edge_list, t_room *room1, t_room *room2);
+int				add_adjacency(t_room *room1, t_room *room2);
 int				add_start(t_info *info, t_room *room);
 int				bfs(t_info *info);
 int				get_link(t_edge *edge, int current);
