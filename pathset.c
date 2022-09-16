@@ -16,17 +16,23 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count) //jatka!!!
 {
 	int		time;
 	int		sum;
+	int		ants;
 	t_path	*path;
 	size_t	i;
 
+	ants = ant_count;
 	sum = 0;
 	i = 0;
 	while (i < pathset->paths.len)
 	{
 		path = vec_get(&pathset->paths, i++);
 		sum += path->length;
-		path->length * i - sum;
+		if (ants < path->length * i - sum - 1)
+			break ;
+		ants -= path->length * i - sum - 1;
+		
 	}
+	time = 
 }
 
 static int	initialize_path(t_path *path, t_room *start)
