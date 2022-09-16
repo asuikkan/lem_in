@@ -36,26 +36,27 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count) //jatka!!!
 	pathset->total_time = time;
 }
 
-static int	initialize_path(t_path *path)
+static void	initialize_path(t_path *path)
 {
 	path->rooms = NULL;
 	path->length = 1;
-	return (1);
 }
 
-static int	initialize_pathset(t_pathset *pathset)
+/*static int	initialize_pathset(t_pathset *pathset)
 {
 	if (vec_new(&pathset->paths, 1, sizeof(t_path)) == -1)
 		return (-1);
 	pathset->total_time = 0;
 	return (1);
-}
+}*/
 
 static int	insert_to_position(t_pathset *pathset, t_path *path)
 {
 	size_t	i;
 	t_path	*current;
 
+	if (vec_new(&pathset->paths, 1, sizeof(t_path)) == -1)
+		return (-1);
 	i = 0;
 	while (i < pathset->paths.len)
 	{
@@ -64,7 +65,7 @@ static int	insert_to_position(t_pathset *pathset, t_path *path)
 			break ;
 		i++;
 	}
-	if (vec_insert(&pathset->paths, path, i) == -1) //seg fault taalla!
+	if (vec_insert(&pathset->paths, path, i) == -1)
 		return (-1);
 	return (1);
 }
@@ -77,10 +78,9 @@ static int	add_path(t_info *info, t_pathset *pathset, int start)
 	size_t	i;
 	int		link_index;
 
-	if (initialize_path(&new) == -1)
-		return (-1);
+	initialize_path(&new);
 	current = vec_get(&info->room_table, start);
-	if (llist_push_back(&new.rooms, current, sizeof(t_room *)) == -1)
+	if (llist_push_back(&new.rooms, &current, sizeof(t_room *)) == -1)
 		return (-1);
 	i = 0;
 	while (i < current->links.len)
@@ -89,7 +89,7 @@ static int	add_path(t_info *info, t_pathset *pathset, int start)
 		if (info->adj_matrix[current->index][link_index] == FLOW)
 		{
 			link = vec_get(&info->room_table, link_index);
-			if (llist_push_back(&new.rooms, link, sizeof(t_room *)) == -1)
+			if (llist_push_back(&new.rooms, &link, sizeof(t_room *)) == -1)
 				return (-1);
 			new.length++;
 			current = link;
@@ -106,8 +106,6 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 	size_t		i;
 	int			link;
 
-	if (initialize_pathset(new_pathset) == -1)
-		return (-1);
 	current = vec_get(&info->room_table, info->start);
 	i = 0;
 	while (i < current->links.len)

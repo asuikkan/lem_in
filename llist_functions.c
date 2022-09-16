@@ -112,5 +112,4 @@ void	llist_free(t_llist **src)
 		free(*src);
 		*src = temp;
 	}
-	*src = NULL;
 }

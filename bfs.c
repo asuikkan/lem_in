@@ -58,8 +58,7 @@ static int	check_adjacent(t_info *info)
 		if (!info->bfs.visited[target]
 			&& info->adj_matrix[current->index][target] != FLOW)
 		{
-			if (info->bfs.parent[target] < 0)
-				info->bfs.parent[target] = info->bfs.current;
+			info->bfs.parent[target] = info->bfs.current;
 			info->bfs.visited[target] = 1;
 			if (llist_push_back(
 					&info->bfs.queue,

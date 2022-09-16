@@ -18,7 +18,7 @@ NAME	= lem_in
 
 INC		= ./includes
 
-SRC		= main.c reader.c parse_room.c line_helpers.c error.c room_aux.c	\
+SRC		= main.c reader.c parse_room.c line_helpers.c free.c room_aux.c		\
 		  parse_link.c hasher.c pathfinder.c llist_functions.c				\
 		  parse_ants.c pathset.c flow.c bfs.c adjacency.c compare.c
 
