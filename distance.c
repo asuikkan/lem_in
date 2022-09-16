@@ -82,8 +82,6 @@ static int	bfs(t_info *info)
 
 int	add_distances(t_info *info)
 {
-	if (initialize_edges(info) == -1)
-		return (-1);
 	if (initialize_bfs(info) == -1 || bfs(info) == -1)
 		return (clean_distance(&info->bfs, -1));
 	return (clean_distance(&info->bfs, 1));

@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edges.c                                            :+:      :+:    :+:   */
+/*   parse_ants.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/26 16:11:24 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/08/26 16:11:27 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/08/30 13:00:21 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/08/30 13:00:23 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int	add_to_edge_list(t_vec *edge_list, int room1, int room2)
+int	parse_ant_count(t_info *info, char *line)
 {
-	t_edge	edge;
+	long	nb;
+	int		i;
 
-	edge.from = room1;
-	edge.to = room2;
-	edge.flow = 0;
-	if (vec_push(edge_list, &edge) == -1)
-		return (0);
+	nb = 0;
+	i = -1;
+	while (line[++i] != '\n')
+	{
+		if (!ft_isdigit(line[i]))
+			return (-1);
+		nb = nb * 10 + (line[i] - '0');
+		if (nb > COORD_LIMIT)
+			return (-1);
+	}
+	info->ant_count = nb;
 	return (1);
 }
 
-int	add_edge_rooms(t_vec *edge_list, t_room *room1, t_room *room2)
-{
-	t_edge *edge;
-
-	edge = vec_get(edge_list, edge_list->len - 1);
-	if (vec_push(&room1->edges, edge) == -1)
-		return (0);
-	if (vec_push(&room2->edges, edge) == -1)
-		return (0);
-	return (1);
-}

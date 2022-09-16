@@ -31,7 +31,23 @@
 	ft_printf("\n");
 }*/
 
-/*static void	print_rooms(t_vec room_table)
+static void	print_edges(t_room *room)
+{
+	size_t	i;
+	t_edge	*edge;
+
+	i = 0;
+	while (i < room->edges.len)
+	{
+		edge = vec_get(&room->edges, i);
+		ft_printf("edge_from = %d\n", edge->from);
+		ft_printf("edge_to   = %d\n", edge->to);
+		ft_printf("edge_flow = %d\n", edge->flow);
+		i++;
+	}
+}
+
+static void	print_rooms(t_vec room_table)
 {
 	t_room	*temp;
 	size_t	i;
@@ -42,17 +58,19 @@
 		temp = vec_get(&room_table, i);
 		ft_printf("name  = %s\n", temp->name);
 		ft_printf("index = %d\n", temp->matrix_index);
-		ft_printf("dist  = %d\n\n", temp->distance);
-		while (temp->next)
+		ft_printf("dist  = %d\n", temp->distance);
+		print_edges(temp);
+		ft_printf("\n");
+		/*while (temp->next)
 		{
 			temp = temp->next;
 			ft_printf("name  = %s\n", temp->name);
 			ft_printf("index = %d\n", temp->matrix_index);
 			ft_printf("dist  = %d\n\n", temp->distance);
-		}
+		}*/
 		i++;
 	}
-}*/
+}
 
 static int	path_found(t_info *info)
 {
@@ -101,8 +119,8 @@ int	main(void)
 		free_and_exit(&info, 1);
 	if (!path_found(&info))
 		free_and_exit(&info, 1);
-	pathfinder(&info);
-	//print_rooms(info.room_table);
+	//pathfinder(&info);
+	print_rooms(info.room_table);
 	//print_adj_matrix(info.adj_matrix, info.room_count);
 	//print_path(&info);
 	free_and_exit(&info, 0);

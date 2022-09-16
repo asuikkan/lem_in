@@ -12,23 +12,17 @@
 
 #include "lem_in.h"
 
-int	parse_ant_count(t_info *info, char *line)
+static void	initialize_room(t_info *info, t_room *room)
 {
-	long	nb;
-	int		i;
-
-	nb = 0;
-	i = -1;
-	while (line[++i] != '\n')
-	{
-		if (!ft_isdigit(line[i]))
-			return (-1);
-		nb = nb * 10 + (line[i] - '0');
-		if (nb > COORD_LIMIT)
-			return (-1);
-	}
-	info->ant_count = nb;
-	return (1);
+	room->name = NULL;
+	room->next = NULL;
+	room->edges.memory = NULL;
+	room->edges.elem_size = sizeof(t_edge);
+	room->parent = NULL;
+	if (!info->flags.end_flag)
+		room->distance = -1;
+	else
+		room->distance = 0;
 }
 
 static int	parse_name(t_room *room, char *line)
@@ -102,13 +96,7 @@ int	parse_room(t_info *info, char *line)
 {
 	t_room		room;
 
-	room.name = NULL;
-	room.next = NULL;
-	room.parent = NULL;
-	if (!info->flags.end_flag)
-		room.distance = -1;
-	else
-		room.distance = 0;
+	initialize_room(info, &room);
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)
