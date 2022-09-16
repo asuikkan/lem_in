@@ -48,6 +48,12 @@ typedef struct s_lists
 	int		*open;
 }			t_lists;
 
+typedef struct s_path
+{
+	t_vec	*rooms;
+	int		length;
+}			t_path;
+
 char			*lem_in_strndup(char *buf, int start, int n);
 char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
 int				add_start(t_info *info, t_room *room);
