@@ -12,6 +12,14 @@
 
 #include "lem_in.h"
 
+int	get_link(t_edge *edge, int current)
+{
+	if (edge->from == current)
+		return (edge->to);
+	else
+		return (edge->from);
+}
+
 int	add_to_edge_list(t_vec *edge_list, int room1, int room2)
 {
 	t_edge	edge;
@@ -24,7 +32,7 @@ int	add_to_edge_list(t_vec *edge_list, int room1, int room2)
 	return (1);
 }
 
-int	add_edge_rooms(t_vec *edge_list, t_room *room1, t_room *room2)
+int	add_adjacency(t_vec *edge_list, t_room *room1, t_room *room2)
 {
 	t_edge *edge;
 

@@ -28,12 +28,12 @@ int	is_better_path(t_info *info, t_room *end)
 	t_room	*previous;
 
 	new.length = 1;
-	if (llist_push(&new.room, &end->matrix_index, sizeof(int)) == -1)
+	if (llist_push(&new.room, &end->index, sizeof(int)) == -1)
 		return (-1);
 	previous = end->parent;
 	while (previous)
 	{
-		if (llist_push(&new.room, &previous->matrix_index, sizeof(int)) == -1)
+		if (llist_push(&new.room, &previous->index, sizeof(int)) == -1)
 			return (-1);
 		new.length++;
 		previous = previous->parent;

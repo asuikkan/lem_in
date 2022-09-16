@@ -12,17 +12,6 @@
 
 #include "lem_in.h"
 
-static void	add_to_matrix(t_info *info, t_room *room1, t_room *room2)
-{
-	if (room1 == room2)
-		info->adj_matrix[room1->matrix_index][room1->matrix_index] = 2;
-	else
-	{
-		info->adj_matrix[room1->matrix_index][room2->matrix_index] = 1;
-		info->adj_matrix[room2->matrix_index][room1->matrix_index] = 1;
-	}
-}
-
 static t_room	*validate_node(t_vec *table, char *room_name, int index)
 {
 	t_room	*temp;
@@ -55,14 +44,13 @@ static int	save_link(t_info *info, char *node1, char *node2)
 	room2 = validate_node(&info->hash_table, node2, index);
 	if (!room2)
 		return (-1);
-	if (!add_to_edge_list(&info->edge_list, room1->matrix_index, room2->matrix_index))
+	if (!add_to_edge_list(&info->edge_list, room1->index, room2->index))
 		return (-1);
-	if (!add_edge_rooms(
+	if (!add_adjacency(
 		&info->edge_list,
-		vec_get(&info->room_table, room1->matrix_index),
-		vec_get(&info->room_table, room2->matrix_index)))
+		vec_get(&info->room_table, room1->index),
+		vec_get(&info->room_table, room2->index)))
 			return (-1);
-	add_to_matrix(info, room1, room2);
 	return (1);
 }
 

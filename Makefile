@@ -20,7 +20,8 @@ INC		= ./includes
 
 SRC		= main.c reader.c parse_room.c line_helpers.c error.c room_aux.c	\
 		  parse_link.c hasher.c matrix.c distance.c pathfinder.c			\
-		  llist_functions.c pathset_comparison.c parse_ants.c edges.c
+		  llist_functions.c pathset_comparison.c parse_ants.c edges.c		\
+		  pathset.c
 
 OBJ		= $(SRC:.c=.o)
 
