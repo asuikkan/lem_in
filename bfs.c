@@ -23,9 +23,6 @@ static void	initialize_parent_list(int **list, int size)
 
 int	initialize_bfs(t_info *info)
 {
-	if (vec_new(&info->bfs.current_path->pathset, 2, sizeof(t_path)) == -1)
-		return (-1);
-	info->bfs.current_path->total_time = 0;
 	info->bfs.visited = ft_memalloc(sizeof(int) * info->room_count);
 	if (!info->bfs.visited)
 		return (-1);
@@ -48,7 +45,8 @@ static int	check_adjacent(t_info *info)
 	while (i < current->links.len)
 	{
 		target = *(int *)vec_get(&current->links, i++);
-		if (!info->bfs.visited[target])
+		if (!info->bfs.visited[target]
+			&& info->adj_matrix[current->index][target] != FLOW)
 		{
 			if (info->bfs.parent[target] < 0)
 				info->bfs.parent[target] = info->bfs.current;

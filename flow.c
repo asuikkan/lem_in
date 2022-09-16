@@ -14,8 +14,6 @@
 
 static void	update_link(t_adj_state **matrix, int from, int to, int state)
 {
-	if (state == FLOW)
-		return ;
 	if (state == NO_FLOW)
 	{
 		matrix[from][to] = FLOW;
