@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_link.c                                       :+:      :+:    :+:   */
+/*   vec_overwrite.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 13:51:52 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/13 13:51:53 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/07/14 17:40:33 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/07/14 17:40:35 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "vec.h"
 
-int	parse_link(t_info *info, char *line) // jatka taalta!
+int	vec_overwrite(t_vec *dst, void *src, size_t index)
 {
-	static int	hash_flag;
-
-	if (!hash_flag)
-	{
-		if (hasher(info) == -1)
-			return (-1);
-		hash_flag = 1;
-	}
-	/*int		i;
-	t_room	*temp;
-
-	if (!info->start || !info->end)
+	if (!dst || !src)
 		return (-1);
-	i = -1;
-	while (++i < info->room_table->len)
+	if (!dst->memory)
+		return (-1);
+	if (dst->alloc_size < (dst->len + 1) * dst->elem_size)
 	{
-		temp = vec_get(info->room_table, i);
-		temp
-	}*/
-	(void)info;
-	(void)line;
+		if (vec_resize(dst, dst->len * 2) == -1)
+			return (-1);
+	}
+	ft_memcpy(&dst->memory[index * dst->elem_size], src, dst->elem_size);
+	dst->len++;
 	return (1);
 }

@@ -42,26 +42,16 @@ static int	comment_check(t_info *info, char *line)
 
 static int	parse_info(t_info *info, char *line)
 {
-	static int	room_flag;
-
 	if (line[0] == '#')
 		return (comment_check(info, line));
 	else if (info->ant_count < 0)
 		return (parse_ant_count(info, line));
-	else if (room_flag == 0)
+	else if (!rooms_read(info, line))
 	{
 		if (parse_room(info, line) == -1)
-		{
-			if (!rooms_read(info, line))
-				return (-1);
-			if (!info->start || !info->end)
-				return (-1);
-			if (hasher(info) == -1)
-				return (-1);
-			room_flag = 1;
-		}
+			return (-1);
 	}
-	if (room_flag == 1)
+	else
 		return (parse_link(info, line));
 	return (1);
 }
@@ -97,7 +87,6 @@ int	read_output(t_info *info)
 	static char	buf[BUF_SIZE + 1];
 	char		*line;
 	int			bytes;
-	int			ret;
 
 	line = NULL;
 	while (1)
@@ -108,14 +97,11 @@ int	read_output(t_info *info)
 		if (bytes < 0)
 			return (-1);
 		buf[bytes] = '\0';
-		ret = save_line(buf, info, &line);
-		if (ret == -1)
+		if (save_line(buf, info, &line) == -1)
 		{
 			ft_strdel(&line);
 			return (-1);
 		}
 	}
-	if (info->room_table.len == 0 || info->hash_table.len == 0)
-		return (-1);
 	return (1);
 }
