@@ -39,7 +39,11 @@ int	llist_push_back(t_llist **dst, void *content, size_t size)
 	if (!content || !size)
 		return (-1);
 	if (!*dst)
+	{
 		*dst = llist_new(content, size);
+		if (!*dst)
+			return (-1);
+	}
 	else
 	{
 		current = *dst;
@@ -52,22 +56,26 @@ int	llist_push_back(t_llist **dst, void *content, size_t size)
 	return (1);
 }
 
-int	llist_push(t_llist *dst, void *content, size_t size)
+int	llist_push(t_llist **dst, void *content, size_t size)
 {
 	t_llist	*temp;
 
 	if (!content || !size)
 		return (-1);
-	if (!dst)
-		dst = llist_new(content, size);
+	if (!*dst)
+	{
+		*dst = llist_new(content, size);
+		if (!*dst)
+			return (-1);
+	}
 	else
 	{
 		temp = NULL;
 		temp = llist_new(content, size);
 		if (!temp)
 			return (-1);
-		temp->next = dst;
-		dst = temp;
+		temp->next = *dst;
+		*dst = temp;
 	}
 	return (1);
 }
