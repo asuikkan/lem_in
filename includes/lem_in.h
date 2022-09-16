@@ -58,14 +58,6 @@ typedef enum e_adj_state
 	SELF_LINK
 }	t_adj_state;
 
-
-typedef struct s_edge
-{
-	int	from;
-	int	to;
-	int	flow: 1;
-}		t_edge;
-
 typedef struct s_path
 {
 	t_llist	*rooms;
@@ -109,7 +101,6 @@ int				add_adjacency(t_room *room1, t_room *room2);
 int				add_start(t_info *info, t_room *room);
 int				bfs(t_info *info);
 int				compare_pathsets(t_info *info, t_pathset *new_pathset);
-int				get_link(t_edge *edge, int current);
 int				hasher(t_info *info);
 int				initialize_bfs(t_info *info);
 int				is_better_path(t_info *info, t_room *end);

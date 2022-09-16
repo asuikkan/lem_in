@@ -36,10 +36,9 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count) //jatka!!!
 	pathset->total_time = time;
 }
 
-static int	initialize_path(t_path *path, t_room *start)
+static int	initialize_path(t_path *path)
 {
-	if (llist_push_back(&path->rooms, start, sizeof(t_room *)) == -1)
-		return (-1);
+	path->rooms = NULL;
 	path->length = 1;
 	return (1);
 }
@@ -65,12 +64,12 @@ static int	insert_to_position(t_pathset *pathset, t_path *path)
 			break ;
 		i++;
 	}
-	if (vec_insert(&pathset->paths, path, i) == -1)
+	if (vec_insert(&pathset->paths, path, i) == -1) //seg fault taalla!
 		return (-1);
 	return (1);
 }
 
-static int	save_path(t_info *info, t_pathset *pathset, int start)
+static int	add_path(t_info *info, t_pathset *pathset, int start)
 {
 	t_path	new;
 	t_room	*current;
@@ -78,8 +77,10 @@ static int	save_path(t_info *info, t_pathset *pathset, int start)
 	size_t	i;
 	int		link_index;
 
+	if (initialize_path(&new) == -1)
+		return (-1);
 	current = vec_get(&info->room_table, start);
-	if (initialize_path(&new, current) == -1)
+	if (llist_push_back(&new.rooms, current, sizeof(t_room *)) == -1)
 		return (-1);
 	i = 0;
 	while (i < current->links.len)
@@ -114,7 +115,7 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 		link = *(int *)vec_get(&current->links, i++);
 		if (info->adj_matrix[current->index][link] == FLOW)
 		{
-			if (save_path(info, new_pathset, link) == -1)
+			if (add_path(info, new_pathset, link) == -1)
 				return (-1);
 		}
 	}
