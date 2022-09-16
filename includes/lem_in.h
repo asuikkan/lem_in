@@ -28,8 +28,8 @@ typedef struct s_llist
 enum e_pathset_check
 {
 	ERROR,
-	PATHSET_NOT_FOUND,
-	PATHSET_FOUND
+	PATH_NOT_FOUND,
+	PATH_FOUND
 };
 
 typedef struct s_read_flags
@@ -44,7 +44,7 @@ typedef struct s_room
 	char			*name;
 	int				x;
 	int				y;
-	int				matrix_index;
+	int				index;
 	int				distance;
 	t_vec			edges;
 	struct s_room	*parent;
@@ -55,16 +55,8 @@ typedef struct s_bfs
 {
 	t_llist	*queue;
 	int		*visited;
-	int		*index;
+	int		*current;
 }			t_bfs;
-
-typedef struct s_bfs_path
-{
-	t_llist	*queue;
-	int		*visited;
-	int		*closed;
-	int		*index;
-}			t_bfs_path;
 
 typedef struct s_edge
 {
@@ -99,11 +91,10 @@ typedef struct s_info
 	t_vec			room_table;
 	t_vec			hash_table;
 	t_vec			edge_list;
-	int				**adj_matrix;
+	t_vec			adj_list;
 	int				start;
 	int				end;
 	t_bfs			bfs;
-	t_bfs_path		bfs_path;
 	t_pathsets		pathsets;
 }					t_info;
 
@@ -112,9 +103,12 @@ char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
 int				add_distances(t_info *info);
 int				add_end(t_info *info, t_room *room);
 int				add_to_edge_list(t_vec *edge_list, int room1, int room2);
-int				add_edge_rooms(t_vec *edge_list, t_room *room1, t_room *room2);
+int				add_adjacency(t_vec *edge_list, t_room *room1, t_room *room2);
 int				add_start(t_info *info, t_room *room);
+int				bfs(t_info *info);
+int				get_link(t_edge *edge, int current);
 int				hasher(t_info *info);
+int				initialize_bfs_and_pathsets(t_info *info);
 int				is_better_path(t_info *info, t_room *end);
 int				lem_in_line_len(char *buf, int start);
 int				parse_ant_count(t_info *info, char *data);

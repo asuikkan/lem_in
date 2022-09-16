@@ -57,7 +57,7 @@ static void	print_rooms(t_vec room_table)
 	{
 		temp = vec_get(&room_table, i);
 		ft_printf("name  = %s\n", temp->name);
-		ft_printf("index = %d\n", temp->matrix_index);
+		ft_printf("index = %d\n", temp->index);
 		ft_printf("dist  = %d\n", temp->distance);
 		print_edges(temp);
 		ft_printf("\n");
@@ -91,17 +91,13 @@ static int	initialize_info(t_info *info)
 	info->flags.room_flag = 0;
 	info->room_table.memory = NULL;
 	info->hash_table.memory = NULL;
-	info->adj_matrix = NULL;
+	info->adj_list.memory = NULL;
 	info->start = -1;
 	info->end = -1;
 	info->bfs.queue = NULL;
 	info->bfs.visited = NULL;
-	info->bfs.index = NULL;
+	info->bfs.current = NULL;
 	info->edge_list.memory = NULL;
-	info->bfs_path.queue = NULL;
-	info->bfs_path.visited = NULL;
-	info->bfs_path.closed = NULL;
-	info->bfs_path.index = NULL;
 	info->pathsets.best.paths.memory = NULL;
 	info->pathsets.current.paths.memory = NULL;
 	return (1);
@@ -115,8 +111,8 @@ int	main(void)
 		free_and_exit(&info, 1);
 	if (read_output(&info) == -1)
 		free_and_exit(&info, 1);
-	if (add_distances(&info) == -1)
-		free_and_exit(&info, 1);
+	/*if (add_distances(&info) == -1)
+		free_and_exit(&info, 1);*/
 	if (!path_found(&info))
 		free_and_exit(&info, 1);
 	//pathfinder(&info);
