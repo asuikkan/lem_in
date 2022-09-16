@@ -39,18 +39,19 @@ static int	check_adjacent(t_info *info)
 	while (++i < info->room_count)
 	{
 		if (info->adj_matrix[*info->bfs_path.index][i] == 1
-			&& !info->bfs_path.visited[i])
+			&& !info->bfs_path.visited[i] && !info->bfs_path.closed[i])
 		{
 			temp = vec_get(&info->room_table, i);
 			if (!temp->parent)
 				temp->parent = vec_get(&info->room_table, *info->bfs_path.index);
 			if (i == info->end)
 				return (is_better_path(info, temp));
+			info->bfs_path.visited[i] = 1;
 			if (llist_push_back(
 					&info->bfs_path.queue,
 					&i,
 					sizeof(int)) == -1)
-				return (-1);
+				return (ERROR);
 		}
 	}
 	return (0);
@@ -75,9 +76,16 @@ static int	bfs_path(t_info *info)
 
 int	pathfinder(t_info *info)
 {
+	int	situation;
+
 	if (initialize_bfs_and_pathsets(info) == -1)
 		return (-1);
-	if (bfs_path(info) == -1)
+	situation = bfs_path(info);
+	while (situation == PATHSET_UPGRADED)
+		bfs_path(info);
+	if (situation == ERROR)
 		return (-1);
+	if (situation == PATHSET_NOT_UPGRADED)
+		return (1);
 	return (1);
 }
