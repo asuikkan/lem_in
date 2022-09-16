@@ -22,7 +22,7 @@ int	vec_pop(void *dst, t_vec *src)
 		dst,
 		&src->memory[(src->len - 1) * src->elem_size],
 		src->elem_size);
-	ft_bzero(&src->memory[src->len * src->elem_size], src->elem_size);
+	ft_bzero(&src->memory[(src->len - 1) * src->elem_size], src->elem_size);
 	src->len--;
 	return (1);
 }
