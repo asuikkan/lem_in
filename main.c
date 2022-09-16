@@ -40,13 +40,15 @@ static void	print_rooms(t_vec room_table)
 	while (i < room_table.len)
 	{
 		temp = vec_get(&room_table, i);
-		ft_printf("name = %s\n", temp->name);
-		ft_printf("matrix index = %d\n", temp->matrix_index);
+		ft_printf("name  = %s\n", temp->name);
+		ft_printf("index = %d\n", temp->matrix_index);
+		ft_printf("dist  = %d\n\n", temp->distance);
 		while (temp->next)
 		{
 			temp = temp->next;
-			ft_printf("name = %s\n", temp->name);
-			ft_printf("matrix index = %d\n", temp->matrix_index);
+			ft_printf("name  = %s\n", temp->name);
+			ft_printf("index = %d\n", temp->matrix_index);
+			ft_printf("dist  = %d\n\n", temp->distance);
 		}
 		i++;
 	}
@@ -81,6 +83,7 @@ int	main(void)
 		free_info(&info);
 		error_handler();
 	}
+	find_distances(&info, info.end->matrix_index, 1);
 	print_rooms(info.room_table);
 	print_adj_matrix(info.adj_matrix);
 	free_info(&info);
