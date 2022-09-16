@@ -12,30 +12,32 @@
 
 #include "lem_in.h"
 
-int	initialize_bfs_and_pathsets(t_info *info)
+int	initialize_bfs(t_info *info)
 {
+	if (vec_new(&info->bfs.current_path, 2, sizeof(t_path)) == -1)
+		return (-1);
+	info->bfs.current_path->total_time = 0;
 	info->bfs.visited = ft_memalloc(sizeof(int) * info->room_count);
 	if (!info->bfs.visited)
 		return (-1);
 	info->bfs.current = ft_memalloc(sizeof(int));
 	if (!info->bfs.current)
 		return (-1);
-	if (vec_new(&info->pathsets.current.paths, 2, sizeof(t_path)) == -1)
+	info->bfs.parents = (int *)malloc(sizeof(int) * info->room_count);
+	if (!info->bfs.parents)
 		return (-1);
-	info->pathsets.current.total_time = 0;
-	info->pathsets.best.total_time = 0;
+	ft_memset(info->bfs.parents, -1, info->room_count);
 	return (1);
 }
 
 static int	check_adjacent(t_info *info)
 {
 	t_room	*current;
-	t_room	*temp;
 	size_t	i;
 	int		target;
 	t_edge	*edge;
 
-	current = vec_get(&info->room_table, info->bfs.current);
+	current = vec_get(&info->room_table, *info->bfs.current);
 	i = 0;
 	while (i < current->edges.len)
 	{
@@ -43,9 +45,8 @@ static int	check_adjacent(t_info *info)
 		target = get_link(edge, current->index);
 		if (!info->bfs.visited[target])
 		{
-			temp = vec_get(&info->room_table, target);
-			if (!temp->parent)
-				temp->parent = vec_get(&info->room_table, *info->bfs.current);
+			if (info->bfs.parents[target] < 0)
+				info->bfs.parents[target] = *info->bfs.current;
 			info->bfs.visited[target] = 1;
 			if (llist_push_back(
 					&info->bfs.queue,
@@ -63,10 +64,7 @@ int	bfs(t_info *info)
 	llist_push_back(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
 	{
-		llist_copy_front(
-			info->bfs.current,
-			info->bfs.queue,
-			sizeof(int));
+		ft_memcpy(info->bfs.current, info->bfs.queue, sizeof(int));
 		if (*info->bfs.current == info->end)
 			return (PATH_FOUND);
 		llist_pop(&info->bfs.queue);
