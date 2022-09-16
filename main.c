@@ -76,9 +76,10 @@ static int	initialize_info(t_info *info)
 	info->adj_matrix = NULL;
 	info->start = -1;
 	info->end = -1;
-	info->bfs_distance.queue = NULL;
-	info->bfs_distance.visited = NULL;
-	info->bfs_distance.index = NULL;
+	info->bfs.queue = NULL;
+	info->bfs.visited = NULL;
+	info->bfs.index = NULL;
+	info->edge_list.memory = NULL;
 	info->bfs_path.queue = NULL;
 	info->bfs_path.visited = NULL;
 	info->bfs_path.closed = NULL;
@@ -103,7 +104,7 @@ int	main(void)
 	pathfinder(&info);
 	//print_rooms(info.room_table);
 	//print_adj_matrix(info.adj_matrix, info.room_count);
-	print_path(&info);
+	//print_path(&info);
 	free_and_exit(&info, 0);
 	return (0);
 }
