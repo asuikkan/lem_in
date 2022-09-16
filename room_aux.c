@@ -14,24 +14,18 @@
 
 int	add_start(t_info *info, t_room *room)
 {
-	if (info->start)
+	if (info->start >= 0)
 		return (-1);
-	info->start = (t_room *)malloc(sizeof(t_room));
-	if (!info->start)
-		return (-1);
-	ft_memcpy(info->start, room, sizeof(t_room));
+	info->start = room->matrix_index;
 	info->flags.start_flag = 0;
 	return (1);
 }
 
 int	add_end(t_info *info, t_room *room)
 {
-	if (info->end)
+	if (info->end >= 0)
 		return (-1);
-	info->end = (t_room *)malloc(sizeof(t_room));
-	if (!info->end)
-		return (-1);
-	ft_memcpy(info->end, room, sizeof(t_room));
+	info->end = room->matrix_index;
 	info->flags.end_flag = 0;
 	return (1);
 }

@@ -52,7 +52,7 @@ typedef struct s_room
 	int				y;
 	int				matrix_index;
 	int				distance;
-	int				parent;
+	struct s_room	*parent;
 	struct s_room	*next;
 }					t_room;
 
@@ -79,8 +79,8 @@ typedef struct s_info
 	t_vec			room_table;
 	t_vec			hash_table;
 	int				**adj_matrix;
-	t_room			*start;
-	t_room			*end;
+	int				start;
+	int				end;
 	t_bfs_distance	bfs_distance;
 	t_bfs_path		bfs_path;
 }					t_info;
