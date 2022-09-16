@@ -36,6 +36,7 @@ int	pathfinder(t_info *info)
 		update_flow(info);
 		if (save_pathset(info, &new_pathset) == -1)
 			return (-1);
+		compare_pathsets(info, &new_pathset);
 		break ;
 	}
 	return (1);

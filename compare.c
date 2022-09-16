@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void	compare_pathsets(t_info *info) //jatka taalta
+void	compare_pathsets(t_info *info, t_pathset *new_pathset)
 {
 	(void) info;
 }
