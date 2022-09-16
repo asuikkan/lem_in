@@ -15,11 +15,6 @@
 
 # define BUF_SIZE 2
 # define COORD_LIMIT 2147483647
-# define END info->end
-# define ADJ_MATRIX info->adj_matrix
-# define DISTANCE_INDEX info->bfs_distance.index
-# define QUEUE info->bfs_distance.queue
-# define VISITED info->bfs_distance.visited
 
 # include "libft.h"
 
@@ -75,7 +70,8 @@ int				pathfinder(t_info *info);
 int				hasher(t_info *info);
 int				add_distances(t_info *info);
 int				lem_in_line_len(char *buf, int start);
-void			*llist_get_front(t_llist *src);
+void			*llist_copy_front(void *dst, t_llist *src, size_t size);
+void			llist_free(t_llist **src);
 t_llist			*llist_new(void *content, size_t size);
 int				llist_push(t_llist *dst, void *content, size_t size);
 int				llist_push_back(t_llist **dst, void *content, size_t size);
