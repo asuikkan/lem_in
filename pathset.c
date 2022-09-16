@@ -12,20 +12,20 @@
 
 #include "lem_in.h"
 
-static void	calculate_total_time(t_pathset *pathset, int ant_count) //jatka!
+static void	calculate_total_time(t_pathset *pathset, int ant_count) //jatka!!!
 {
 	int		time;
-	int		current_time;
+	int		sum;
 	t_path	*path;
 	size_t	i;
 
-	path = vec_get(&pathset->paths, 0);
-	current_time = path->length;
+	sum = 0;
 	i = 0;
 	while (i < pathset->paths.len)
 	{
-
-		i++;
+		path = vec_get(&pathset->paths, i++);
+		sum += path->length;
+		path->length * i - sum;
 	}
 }
 
