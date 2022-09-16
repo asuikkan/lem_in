@@ -12,28 +12,19 @@
 
 #include "lem_in.h"
 
-static t_info	*initialize_info(void)
+static int	initialize_info(t_info *info)
 {
-	t_info	*info;
-	int		i;
-
-	info = (t_info *)malloc(sizeof(t_info));
-	if (!info)
-		return (NULL);
-	i = -1;
-	while (++i < 128)
-		info->table[i] = NULL;
 	info->ant_count = -1;
-	return (info);
+	info->room_table = NULL;
+	return (1);
 }
 
 int	main(void)
 {
-	t_info	*info;
+	t_info	info;
 
-	info = initialize_info();
-	if (!info)
+	if (initialize_info(&info) == -1)
 		error_handler();
-	read_output(info);
+	read_output(&info);
 	return (0);
 }
