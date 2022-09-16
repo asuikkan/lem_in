@@ -69,7 +69,7 @@ static int	form_path(t_info *info, t_vec *path, int *closed_list)
 	return (1);
 }
 
-int	pathfinder(t_info *info) //rikki!!!
+int	pathfinder(t_info *info)
 {
 	t_lists lists;
 	t_vec	path;
