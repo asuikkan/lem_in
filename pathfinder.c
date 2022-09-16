@@ -31,7 +31,8 @@ int	pathfinder(t_info *info)
 		return (-1);
 	while (augmenting_paths(info))
 	{
-		//add_flow(info);
+		update_flow(info);
+		break ;
 		//save_pathset(info);
 	}
 	return (1);

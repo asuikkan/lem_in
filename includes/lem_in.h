@@ -52,8 +52,9 @@ typedef struct s_room
 typedef enum e_adj_state
 {
 	NO_LINK,
-	FLOW,
 	NO_FLOW,
+	FLOW,
+	NEGATIVE_FLOW,
 	SELF_LINK
 }	t_adj_state;
 
@@ -83,7 +84,7 @@ typedef struct s_bfs
 	t_pathset	*current_path;
 	int			*visited;
 	int			*parent;
-	int			*current;
+	int			current;
 }				t_bfs;
 
 typedef struct s_info
@@ -120,7 +121,7 @@ int				pathfinder(t_info *info);
 int				push_room(t_info *info, t_room *room);
 int				read_output(t_info *info);
 t_adj_state		**create_matrix(size_t size);
-void			*llist_copy_front(void *dst, t_llist *src, size_t size);
+void			*llist_copy_front(void *dst, t_llist *src);
 void			llist_free(t_llist **src);
 t_llist			*llist_new(void *content, size_t size);
 int				llist_push(t_llist **dst, void *content, size_t size);
@@ -130,5 +131,6 @@ unsigned long	hash(char *str, size_t len);
 void			error_handler(void);
 void			free_and_exit(t_info *info, int error_flag);
 void			initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2);
+void			update_flow(t_info *info);
 
 #endif

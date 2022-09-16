@@ -93,11 +93,11 @@ void	llist_pop(t_llist **dst)
 	*dst = temp;
 }
 
-void	*llist_copy_front(void *dst, t_llist *src, size_t size)
+void	*llist_copy_front(void *dst, t_llist *src)
 {
-	if (!src || !src->content)
+	if (!dst || !src || !src->content)
 		return (NULL);
-	return (ft_memcpy(dst, src->content, size));
+	return (ft_memcpy(dst, src->content, src->size));
 }
 
 void	llist_free(t_llist **src)
