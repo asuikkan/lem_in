@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static int	initialize_bfs_path(t_info *info)
+static int	initialize_bfs_and_pathsets(t_info *info)
 {
 	info->bfs_path.visited = ft_memalloc(sizeof(int) * info->room_count);
 	if (!info->bfs_path.visited)
@@ -20,8 +20,32 @@ static int	initialize_bfs_path(t_info *info)
 	info->bfs_path.closed = ft_memalloc(sizeof(int) * info->room_count);
 	if (!info->bfs_path.closed)
 		return (-1);
-	info->bfs_distance.index = ft_memalloc(sizeof(int));
+	info->bfs_path.index = ft_memalloc(sizeof(int));
 	if (!info->bfs_path.index)
+		return (-1);
+	if (vec_new(&info->pathsets.current.paths, 2, sizeof(t_path)) == -1)
+		return (-1);
+	info->pathsets.current.total_time = 0;
+	return (1);
+}
+
+static int	save_path(t_info *info, t_room *end)
+{
+	t_path	new;
+	t_room	*previous;
+
+	new.length = 1;
+	if (llist_push(&new.path, &end->matrix_index, sizeof(int)) == -1)
+		return (-1);
+	previous = end->parent;
+	while (previous)
+	{
+		if (llist_push(&new.path, &previous->matrix_index, sizeof(int)) == -1)
+			return (-1);
+		new.length++;
+		previous = previous->parent;
+	}
+	if (vec_push(&info->pathsets.current.paths, &new) == -1)
 		return (-1);
 	return (1);
 }
@@ -40,6 +64,8 @@ static int	check_adjacent(t_info *info)
 			temp = vec_get(&info->room_table, i);
 			if (!temp->parent)
 				temp->parent = vec_get(&info->room_table, *info->bfs_path.index);
+			if (i == info->end)
+				return (save_path(info, temp));
 			if (llist_push_back(
 					&info->bfs_path.queue,
 					&i,
@@ -47,7 +73,7 @@ static int	check_adjacent(t_info *info)
 				return (-1);
 		}
 	}
-	return (1);
+	return (0);
 }
 
 static int	bfs_path(t_info *info)
@@ -69,7 +95,7 @@ static int	bfs_path(t_info *info)
 
 int	pathfinder(t_info *info)
 {
-	if (initialize_bfs_path(info) == -1)
+	if (initialize_bfs_and_pathsets(info) == -1)
 		return (-1);
 	if (bfs_path(info) == -1)
 		return (-1);
