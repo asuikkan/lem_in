@@ -42,17 +42,17 @@ typedef struct s_info
 	int		room_flag;
 }			t_info;
 
-typedef struct s_graph
+typedef struct s_lists
 {
 	int		*closed;
 	int		*open;
-}			t_graph;
+}			t_lists;
 
 char			*lem_in_strndup(char *buf, int start, int n);
 char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
 int				add_start(t_info *info, t_room *room);
 int				add_end(t_info *info, t_room *room);
-int				find_paths(t_info *info);
+int				pathfinder(t_info *info);
 int				hasher(t_info *info);
 int				lem_in_line_len(char *buf, int start);
 int				parse_ant_count(t_info *info, char *data);
@@ -62,7 +62,6 @@ int				push_room(t_info *info, t_room *room);
 int				read_output(t_info *info);
 int				**create_matrix(size_t size);
 unsigned long	hash(char *str, size_t len);
-void			a_star(t_vec *room_table, int **adj_matrix);
 void			error_handler(void);
 void			find_distances(t_info *info, int i, int dist);
 void			free_info(t_info *info);
