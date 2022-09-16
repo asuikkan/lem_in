@@ -66,7 +66,7 @@ static int	initialize_info(t_info *info)
 	info->adj_matrix = NULL;
 	info->start = NULL;
 	info->end = NULL;
-	info->bfs_distance.queue.memory = NULL;
+	info->bfs_distance.queue = NULL;
 	info->bfs_distance.visited = NULL;
 	return (1);
 }

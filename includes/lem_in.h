@@ -20,6 +20,13 @@
 
 # include "libft.h"
 
+typedef struct s_llist
+{
+	void	*content;
+	size_t	size;
+	s_llist	*next;
+}			t_llist;
+
 typedef struct s_read_flags
 {
 	int	start_flag;
@@ -39,7 +46,7 @@ typedef struct s_room
 
 typedef struct s_bfs_distance
 {
-	t_vec	queue;
+	t_llist	*queue;
 	int		*visited;
 }			t_bfs_distance;
 
@@ -64,6 +71,9 @@ int				pathfinder(t_info *info);
 int				hasher(t_info *info);
 int				add_distances(t_info *info);
 int				lem_in_line_len(char *buf, int start);
+int				llist_new(t_llist *new, void *content, size_t size);
+int				llist_push_back(const t_llist *dst, void *content, size_t size);
+void			llist_pop(t_llist *dst);
 int				parse_ant_count(t_info *info, char *data);
 int				parse_link(t_info *info, char *line);
 int				parse_room(t_info *info, char *line);
