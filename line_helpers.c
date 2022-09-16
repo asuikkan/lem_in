@@ -56,5 +56,6 @@ char	*lem_in_strnjoin(char *line, char *buf, int start, int n)
 		ret[i] = line[i];
 	while (n--)
 		ret[i++] = buf[start++];
+	ft_strdel(&line);
 	return (ret);
 }

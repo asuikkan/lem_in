@@ -12,10 +12,25 @@
 
 #include "lem_in.h"
 
+static void	print_rooms(t_vec room_table)
+{
+	t_room	*temp;
+	size_t	i;
+
+	i = 0;
+	while (i < room_table.len)
+	{
+		temp = vec_get(&room_table, i);
+		ft_printf("%s\n", temp->name);
+		i++;
+	}
+}
+
 static int	initialize_info(t_info *info)
 {
 	info->ant_count = -1;
-	info->room_table = NULL;
+	if (vec_new(&info->room_table, 2, sizeof(t_room)) == -1)
+		return (-1);
 	info->start = NULL;
 	info->end = NULL;
 	info->start_flag = 0;
@@ -27,8 +42,17 @@ int	main(void)
 {
 	t_info	info;
 
-	initialize_info(&info);
-	read_output(&info);
+	if (initialize_info(&info) == -1)
+	{
+		free_info(&info);
+		error_handler();
+	}
+	if (read_output(&info) == -1)
+	{
+		free_info(&info);
+		error_handler();
+	}
+	print_rooms(info.room_table);
 	free_info(&info);
 	return (0);
 }
