@@ -27,7 +27,7 @@ static int	parse_name(t_room *room, char *line)
 	len = ft_strclen(line, ' ');
 	if (len == 0)
 		return (-1);
-	if (line[len - 1] == '\n' || line[0] == 'L')
+	if (line[0] == 'L')
 		return (-1);
 	room->name = ft_strnew(len);
 	if (!room->name)
@@ -45,8 +45,6 @@ static int	parse_x(t_room *room, char *line)
 
 	len = ft_strclen(line, ' ');
 	if (len == 0)
-		return (-1);
-	if (line[len - 1] == '\n')
 		return (-1);
 	nb = 0;
 	i = -1;
@@ -69,12 +67,12 @@ static int	parse_y(t_room *room, char *line)
 	int		i;
 	long	nb;
 
-	len = ft_strclen(line, '\n');
+	len = ft_strlen(line);
 	if (len == 0)
 		return (-1);
 	nb = 0;
 	i = -1;
-	while (line[++i] != '\n')
+	while (line[++i])
 	{
 		if (!ft_isdigit(line[i]))
 			return (-1);
@@ -82,7 +80,7 @@ static int	parse_y(t_room *room, char *line)
 		if (nb > COORD_LIMIT)
 			return (-1);
 	}
-	ft_memmove(line, line + len, ft_strlen(line) - len);
+	ft_memmove(line, line + len, len);
 	room->y = (int)nb;
 	return (1);
 }
@@ -98,7 +96,7 @@ int	parse_room(t_info *info, char *line)
 		return (-1);
 	if (parse_y(&room, line) == -1)
 		return (-1);
-	if (*line != '\n')
+	if (*line)
 		return (-1);
 	room.index = info->room_table.len;
 	if (push_room(info, &room) == -1)

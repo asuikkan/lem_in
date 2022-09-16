@@ -66,7 +66,6 @@ int	parse_link(t_info *info, char *line)
 	node2 = ft_strdup(line);
 	if (!node2)
 		return (-1);
-	node2[ft_strlen(node2) - 1] = '\0';
 	if (save_link(info, node1, node2) == -1)
 		return (-1);
 	ft_strdel(&node1);

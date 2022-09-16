@@ -46,6 +46,7 @@ static void	add_to_list(t_room *dst, t_room *src)
 int	hasher(t_info *info)
 {
 	t_room			*temp;
+	t_room			*slotted;
 	size_t			i;
 	unsigned long	index;
 
@@ -57,13 +58,14 @@ int	hasher(t_info *info)
 		index = 0;
 		temp = vec_get(&info->room_table, i++);
 		index = hash(temp->name, info->room_table.len);
-		if (!info->hash_table.memory[index * info->hash_table.elem_size])
+		slotted = *(t_room **)vec_get(&info->hash_table, index);
+		if (!slotted)
 		{
 			if (vec_overwrite(&info->hash_table, &temp, index) == -1)
 				return (-1);
 		}
 		else
-			add_to_list(vec_get(&info->hash_table, index), temp);
+			add_to_list(slotted, temp);
 	}
 	return (1);
 }

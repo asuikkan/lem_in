@@ -47,7 +47,7 @@ int	compare_pathsets(t_info *info, t_pathset *new_pathset)
 		if (copy_pathset(&info->best_pathset, new_pathset) == -1)
 			return (-1);
 	}
-	else
-		free_paths(&new_pathset->paths);
+	vec_free(&new_pathset->paths);
+	//free_paths(&new_pathset->paths);
 	return (1);
 }

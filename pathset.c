@@ -44,8 +44,7 @@ static void	initialize_path(t_path *path)
 
 /*static int	initialize_pathset(t_pathset *pathset)
 {
-	if (vec_new(&pathset->paths, 1, sizeof(t_path)) == -1)
-		return (-1);
+	pathset->paths.memory = NULL;
 	pathset->total_time = 0;
 	return (1);
 }*/
@@ -55,8 +54,6 @@ static int	insert_to_position(t_pathset *pathset, t_path *path)
 	size_t	i;
 	t_path	*current;
 
-	if (vec_new(&pathset->paths, 1, sizeof(t_path)) == -1)
-		return (-1);
 	i = 0;
 	while (i < pathset->paths.len)
 	{
@@ -106,6 +103,8 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 	size_t		i;
 	int			link;
 
+	if (vec_new(&new_pathset->paths, 1, sizeof(t_path)) == -1)
+		return (-1);
 	current = vec_get(&info->room_table, info->start);
 	i = 0;
 	while (i < current->links.len)

@@ -19,7 +19,7 @@ int	parse_ant_count(t_info *info, char *line)
 
 	nb = 0;
 	i = -1;
-	while (line[++i] != '\n')
+	while (line[++i])
 	{
 		if (!ft_isdigit(line[i]))
 			return (-1);

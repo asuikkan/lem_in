@@ -26,9 +26,9 @@ static int	rooms_read(t_info *info, char *line)
 
 static int	comment_check(t_info *info, char *line)
 {
-	if (ft_strcmp(line, "##start\n") == 0)
+	if (ft_strcmp(line, "##start") == 0)
 		info->flags.start_flag = 1;
-	else if (ft_strcmp(line, "##end\n") == 0)
+	else if (ft_strcmp(line, "##end") == 0)
 		info->flags.end_flag = 1;
 	if ((info->flags.start_flag || info->flags.end_flag) && info->ant_count < 0)
 		return (-1);
@@ -62,7 +62,22 @@ static int	parse_info(t_info *info, char *line)
 	return (1);
 }
 
-static int	save_line(char *buf, t_info *info, char **line)
+int	read_output(t_info *info)
+{
+	char	*line;
+
+	if ((vec_new(&info->room_table, 2, sizeof(t_room))) == -1)
+		return (-1);
+	while (get_next_line(0, &line) > 0)
+	{
+		if (parse_info(info, line) == -1)
+				return (-1);
+		ft_strdel(&line);
+	}
+	return (1);
+}
+
+/*static int	save_line(char *buf, t_info *info, char **line)
 {
 	int			len;
 	static int	start;
@@ -114,4 +129,4 @@ int	read_output(t_info *info)
 	if (line || !info->adj_matrix || info->start < 0 || info->end < 0)
 		return (-1);
 	return (1);
-}
+}*/

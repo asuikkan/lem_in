@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include "ft_printf.h"
 # include "vec.h"
+# include "get_next_line.h"
 
 typedef struct s_list
 {

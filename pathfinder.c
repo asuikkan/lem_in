@@ -29,7 +29,6 @@ int	pathfinder(t_info *info)
 {
 	t_pathset	new_pathset;
 
-	new_pathset.paths.memory = NULL;
 	if (initialize_bfs(info) == -1)
 		return (-1);
 	while (augmenting_paths(info))

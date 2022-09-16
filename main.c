@@ -93,14 +93,13 @@ int	main(void)
 	t_info	info;
 
 	if (initialize_info(&info) == -1)
-		free_and_exit(&info, 1);
+		return (free_and_exit(&info, 1));
 	if (read_output(&info) == -1)
-		free_and_exit(&info, 1);
+		return (free_and_exit(&info, 1));
 	if (pathfinder(&info) == -1)
-		free_and_exit(&info, 1);
+		return (free_and_exit(&info, 1));
 	print_rooms(info.room_table);
 	print_adj_matrix(info.adj_matrix, info.room_count);
 	//print_path(&info);
-	free_and_exit(&info, 0);
-	return (0);
+	return (free_and_exit(&info, 0));
 }

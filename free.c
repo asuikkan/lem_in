@@ -52,7 +52,7 @@ static void	free_table(t_vec *table)
 	vec_free(table);
 }
 
-void	free_and_exit(t_info *info, int error_flag)
+int	free_and_exit(t_info *info, int error_flag)
 {
 	if (error_flag)
 		write(1, "ERROR\n", 6);
@@ -60,5 +60,5 @@ void	free_and_exit(t_info *info, int error_flag)
 	vec_free(&info->hash_table);
 	free_matrix(info->adj_matrix, info->room_count);
 	free_paths(&info->best_pathset.paths);
-	exit(1);
+	return (0);
 }
