@@ -69,6 +69,30 @@ static void	print_rooms(t_vec room_table)
 	}
 }
 
+static void	print_paths(t_pathset pathset)
+{
+	size_t	i;
+	size_t	j;
+	t_vec	*path;
+	t_room	*room;
+
+	i = 0;
+	while (i < pathset.paths.len)
+	{
+		path = vec_get(&pathset.paths, i++);
+		j = 0;
+		while (j < path->len)
+		{
+			room = *(t_room **)vec_get(path, j);
+			ft_printf("%s", room->name);
+			if (j != path->len - 1)
+				ft_printf("->");
+			j++;
+		}
+		ft_printf("\n");
+	}
+}
+
 static int	initialize_info(t_info *info)
 {
 	info->ant_count = -1;
@@ -84,7 +108,7 @@ static int	initialize_info(t_info *info)
 	info->bfs.visited = NULL;
 	info->bfs.parent = NULL;
 	info->adj_matrix = NULL;
-	info->best_pathset.paths.memory = NULL;
+	info->pathset.paths.memory = NULL;
 	return (1);
 }
 
@@ -100,6 +124,6 @@ int	main(void)
 		return (free_and_exit(&info, 1));
 	print_rooms(info.room_table);
 	print_adj_matrix(info.adj_matrix, info.room_count);
-	//print_path(&info);
+	print_paths(info.pathset);
 	return (free_and_exit(&info, 0));
 }

@@ -40,8 +40,11 @@ t_adj_state	**create_matrix(size_t size)
 	return (matrix);
 }
 
-void	initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2)
-{	
+int	initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2)
+{
+	if (adj_matrix[room1->index][room2->index] == NO_FLOW)
+		return (-1);
 	adj_matrix[room1->index][room2->index] = NO_FLOW;
 	adj_matrix[room2->index][room1->index] = NO_FLOW;
+	return (1);
 }

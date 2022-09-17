@@ -79,7 +79,7 @@ int	get_next_line(const int fd, char **line)
 		if (!array[fd])
 			array[fd] = ft_strdup(buf);
 		else
-			array[fd] = ft_strjoin_free(array[fd], buf);
+			array[fd] = ft_strjoin_free(&array[fd], buf);
 		return (get_next_line(fd, line));
 	}
 }

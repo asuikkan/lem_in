@@ -57,12 +57,6 @@ typedef enum e_adj_state
 	NEGATIVE_FLOW
 }	t_adj_state;
 
-typedef struct s_path
-{
-	t_llist	*rooms;
-	int		length;
-}			t_path;
-
 typedef struct s_pathset
 {
 	t_vec	paths;
@@ -88,7 +82,7 @@ typedef struct s_info
 	int				start;
 	int				end;
 	t_bfs			bfs;
-	t_pathset		best_pathset;
+	t_pathset		pathset;
 }					t_info;
 
 char			*lem_in_strndup(char *buf, int start, int n);
@@ -99,10 +93,10 @@ int				add_to_edge_list(t_vec *edge_list, int room1, int room2);
 int				add_adjacency(t_room *room1, t_room *room2);
 int				add_start(t_info *info, t_room *room);
 int				bfs(t_info *info);
-int				compare_pathsets(t_info *info, t_pathset *new_pathset);
 int				free_and_exit(t_info *info, int error_flag);
 int				hasher(t_info *info);
 int				initialize_bfs(t_info *info);
+int				initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2);
 int				is_better_path(t_info *info, t_room *end);
 int				lem_in_line_len(char *buf, int start);
 int				parse_ant_count(t_info *info, char *data);
@@ -121,9 +115,9 @@ int				llist_push(t_llist **dst, void *content, size_t size);
 int				llist_push_back(t_llist **dst, void *content, size_t size);
 void			llist_pop(t_llist **dst);
 unsigned long	hash(char *str, size_t len);
+void			compare_pathsets(t_pathset *new_pathset);
 void			error_handler(void);
-void			free_paths(t_vec *paths);
-void			initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2);
+void			free_pathset(t_pathset *pathset);
 void			update_flow(t_info *info);
 
 #endif

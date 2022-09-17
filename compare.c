@@ -12,24 +12,9 @@
 
 #include "lem_in.h"
 
-void	free_paths(t_vec *paths) 
+/*static int	copy_pathset(t_pathset *dst, t_pathset *src)
 {
-	size_t	i;
-	t_path	*path;
-
-	i = 0;
-	while (i < paths->len)
-	{
-		path = vec_get(paths, i++);
-		llist_free(&path->rooms);
-	}
-	vec_free(paths);
-}
-
-static int	copy_pathset(t_pathset *dst, t_pathset *src)
-{
-	if (dst->paths.memory)
-		free_paths(&dst->paths);
+	free_pathset(dst);
 	if (vec_from(&dst->paths,
 		src->paths.memory,
 		src->paths.len,
@@ -37,17 +22,20 @@ static int	copy_pathset(t_pathset *dst, t_pathset *src)
 		return (-1);
 	dst->total_time = src->total_time;
 	return (1);
-}
+}*/
 
-int	compare_pathsets(t_info *info, t_pathset *new_pathset)
+void	compare_pathsets(t_pathset *new_pathset)
 {
-	if (!info->best_pathset.paths.memory
-		|| info->best_pathset.total_time > new_pathset->total_time)
+	static t_pathset	best;
+
+	if (!best.paths.memory || best.total_time > new_pathset->total_time)
 	{
-		if (copy_pathset(&info->best_pathset, new_pathset) == -1)
-			return (-1);
+		free_pathset(&best);
+		best = *new_pathset;
 	}
-	vec_free(&new_pathset->paths);
-	//free_paths(&new_pathset->paths);
-	return (1);
+	else
+	{
+		free_pathset(new_pathset);
+		*new_pathset = best;
+	}
 }

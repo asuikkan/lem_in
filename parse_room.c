@@ -93,9 +93,9 @@ int	parse_room(t_info *info, char *line)
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)
-		return (-1);
+		return (free(room.name), -1);
 	if (parse_y(&room, line) == -1)
-		return (-1);
+		return (free(room.name), -1);
 	if (*line)
 		return (-1);
 	room.index = info->room_table.len;

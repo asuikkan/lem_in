@@ -27,16 +27,14 @@ static int	augmenting_paths(t_info *info)
 
 int	pathfinder(t_info *info)
 {
-	t_pathset	new_pathset;
-
 	if (initialize_bfs(info) == -1)
 		return (-1);
 	while (augmenting_paths(info))
 	{
 		update_flow(info);
-		if (save_pathset(info, &new_pathset) == -1)
+		if (save_pathset(info, &info->pathset) == -1)
 			return (-1);
-		compare_pathsets(info, &new_pathset);
+		compare_pathsets(&info->pathset);
 		if (reset_bfs(info) == -1)
 			return (-1);
 	}

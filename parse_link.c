@@ -46,7 +46,8 @@ static int	save_link(t_info *info, char *node1, char *node2)
 		return (-1);
 	if (!add_adjacency(room1, room2))
 		return (-1);
-	initialize_flow(info->adj_matrix, room1, room2);
+	if (initialize_flow(info->adj_matrix, room1, room2) == -1)
+		return (-1);
 	return (1);
 }
 
@@ -65,9 +66,9 @@ int	parse_link(t_info *info, char *line)
 	ft_memmove(line, line + node1_len + 1, ft_strlen(line) - node1_len);
 	node2 = ft_strdup(line);
 	if (!node2)
-		return (-1);
+		return (ft_strdel(&node1), -1);
 	if (save_link(info, node1, node2) == -1)
-		return (-1);
+		return (ft_strdel(&node1), ft_strdel(&node2), -1);
 	ft_strdel(&node1);
 	ft_strdel(&node2);
 	return (1);

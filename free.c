@@ -12,6 +12,20 @@
 
 #include "lem_in.h"
 
+void	free_pathset(t_pathset *pathset) 
+{
+	size_t	i;
+	t_vec	*path;
+
+	i = 0;
+	while (i < pathset->paths.len)
+	{
+		path = vec_get(&pathset->paths, i++);
+		vec_free(path);
+	}
+	vec_free(&pathset->paths);
+}
+
 static void	free_matrix(t_adj_state	**matrix, size_t size)
 {
 	size_t	i;
@@ -59,6 +73,10 @@ int	free_and_exit(t_info *info, int error_flag)
 	free_table(&info->room_table);
 	vec_free(&info->hash_table);
 	free_matrix(info->adj_matrix, info->room_count);
-	free_paths(&info->best_pathset.paths);
+	if (info->pathset.paths.memory)
+		free_pathset(&info->pathset);
+	free(info->bfs.visited);
+	free(info->bfs.parent);
+	llist_free(&info->bfs.queue);
 	return (0);
 }
