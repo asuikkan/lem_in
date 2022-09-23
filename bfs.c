@@ -60,7 +60,7 @@ static int	check_adjacent(t_info *info)
 		{
 			info->bfs.parent[target] = info->bfs.current;
 			info->bfs.visited[target] = 1;
-			if (llist_push_back(
+			if (llist_push(
 					&info->bfs.queue,
 					&target,
 					sizeof(int)) == -1)
@@ -73,7 +73,7 @@ static int	check_adjacent(t_info *info)
 int	bfs(t_info *info)
 {
 	info->bfs.visited[info->start] = 1;
-	llist_push_back(&info->bfs.queue, &info->start, sizeof(int));
+	llist_push(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
 	{
 		llist_copy_front(&info->bfs.current, info->bfs.queue);

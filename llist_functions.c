@@ -32,7 +32,7 @@ t_llist	*llist_new(void *content, size_t size)
 	return (new);
 }
 
-int	llist_push_back(t_llist **dst, void *content, size_t size)
+int	llist_push(t_llist **dst, void *content, size_t size)
 {
 	t_llist	*current;
 
@@ -52,30 +52,6 @@ int	llist_push_back(t_llist **dst, void *content, size_t size)
 		current->next = llist_new(content, size);
 		if (!current->next)
 			return (-1);
-	}
-	return (1);
-}
-
-int	llist_push(t_llist **dst, void *content, size_t size)
-{
-	t_llist	*temp;
-
-	if (!content || !size)
-		return (-1);
-	if (!*dst)
-	{
-		*dst = llist_new(content, size);
-		if (!*dst)
-			return (-1);
-	}
-	else
-	{
-		temp = NULL;
-		temp = llist_new(content, size);
-		if (!temp)
-			return (-1);
-		temp->next = *dst;
-		*dst = temp;
 	}
 	return (1);
 }

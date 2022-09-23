@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	print_paths(t_pathset pathset)
+static void	print_paths(t_pathset pathset) //temp
 {
 	size_t	i;
 	size_t	j;
@@ -56,7 +56,7 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count)
 		ants -= path->len * i - sum - 1;
 		time = path->len;
 	}
-	time = ants / i + ((ants % i) > 0);
+	time += ants / i + ((ants % i) > 0);
 	pathset->total_time = time;
 }
 
@@ -142,7 +142,8 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 				return (free_pathset(new_pathset), -1);
 		}
 	}
-	print_paths(*new_pathset);
+	print_paths(*new_pathset); //temp
+	ft_printf("Lines required: %d\n", new_pathset->total_time); //temp
 	calculate_total_time(new_pathset, info->ant_count);
 	return (1);
 }

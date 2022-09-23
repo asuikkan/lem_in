@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void	free_pathset(t_pathset *pathset) 
+void	free_pathset(t_pathset *pathset)
 {
 	size_t	i;
 	t_vec	*path;

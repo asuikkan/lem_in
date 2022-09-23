@@ -91,6 +91,7 @@ static void	print_paths(t_pathset pathset)
 		}
 		ft_printf("\n");
 	}
+	ft_printf("Lines required: %d\n", pathset.total_time);
 }
 
 static int	initialize_info(t_info *info)

@@ -12,18 +12,6 @@
 
 #include "lem_in.h"
 
-/*static int	copy_pathset(t_pathset *dst, t_pathset *src)
-{
-	free_pathset(dst);
-	if (vec_from(&dst->paths,
-		src->paths.memory,
-		src->paths.len,
-		src->paths.elem_size) == -1)
-		return (-1);
-	dst->total_time = src->total_time;
-	return (1);
-}*/
-
 void	compare_pathsets(t_pathset *new_pathset)
 {
 	static t_pathset	best;

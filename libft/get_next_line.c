@@ -12,6 +12,19 @@
 
 #include "get_next_line.h"
 
+static char	*cat_buffer(char *dst, char *buffer)
+{
+	char	*new;
+
+	new = ft_strnew(ft_strlen(dst) + ft_strlen(buffer));
+	if (!new)
+		return (NULL);
+	ft_strcpy(new, dst);
+	ft_strcat(new, buffer);
+	ft_strdel(&dst);
+	return (new);
+}
+
 static char	*set_line(char *data)
 {
 	char	*line;
@@ -79,7 +92,9 @@ int	get_next_line(const int fd, char **line)
 		if (!array[fd])
 			array[fd] = ft_strdup(buf);
 		else
-			array[fd] = ft_strjoin_free(&array[fd], buf);
+			array[fd] = cat_buffer(array[fd], buf);
+		if (!array[fd])
+			return (-1);
 		return (get_next_line(fd, line));
 	}
 }
