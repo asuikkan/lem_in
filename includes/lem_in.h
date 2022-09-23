@@ -57,6 +57,12 @@ typedef enum e_adj_state
 	NEGATIVE_FLOW
 }	t_adj_state;
 
+typedef struct s_path
+{
+	t_vec			rooms;
+	struct s_path	*hash_collision;
+}					t_path;
+
 typedef struct s_pathset
 {
 	t_vec	paths;
@@ -82,6 +88,7 @@ typedef struct s_info
 	int				start;
 	int				end;
 	t_bfs			bfs;
+	t_vec			path_list;
 	t_pathset		pathset;
 }					t_info;
 

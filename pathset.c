@@ -12,36 +12,12 @@
 
 #include "lem_in.h"
 
-static void	print_paths(t_pathset pathset) //temp
-{
-	size_t	i;
-	size_t	j;
-	t_vec	*path;
-	t_room	*room;
-
-	i = 0;
-	while (i < pathset.paths.len)
-	{
-		path = vec_get(&pathset.paths, i++);
-		j = 0;
-		while (j < path->len)
-		{
-			room = *(t_room **)vec_get(path, j);
-			ft_printf("%s", room->name);
-			if (j != path->len - 1)
-				ft_printf("->");
-			j++;
-		}
-		ft_printf("\n");
-	}
-}
-
 static void	calculate_total_time(t_pathset *pathset, int ant_count)
 {
 	int		time;
 	int		sum;
 	size_t	ants;
-	t_vec	*path;
+	t_path	*path;
 	size_t	i;
 
 	ants = ant_count;
@@ -50,32 +26,33 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count)
 	while (i < pathset->paths.len)
 	{
 		path = vec_get(&pathset->paths, i++);
-		sum += path->len;
-		if (ants <= path->len * i - sum)
+		sum += path->rooms.len;
+		if (ants <= path->rooms.len * i - sum)
 			break ;
-		ants -= path->len * i - sum - 1;
-		time = path->len;
+		ants -= path->rooms.len * i - sum - 1;
+		time = path->rooms.len;
 	}
 	time += ants / i + ((ants % i) > 0);
 	pathset->total_time = time;
 }
 
-static void	initialize_path(t_vec *path)
+static void	initialize_path(t_path *path)
 {
-	path->memory = NULL;
-	path->elem_size = sizeof(t_room *);
+	path->rooms.memory = NULL;
+	path->rooms.elem_size = sizeof(int);
+	path->hash_collision = NULL;
 }
 
-static int	insert_to_position(t_pathset *pathset, t_vec *path)
+static int	insert_to_position(t_pathset *pathset, t_path *path)
 {
 	size_t	i;
-	t_vec	*saved_path;
+	t_path	*saved_path;
 
 	i = 0;
 	while (i < pathset->paths.len)
 	{
 		saved_path = vec_get(&pathset->paths, i);
-		if (saved_path->len >= path->len)
+		if (saved_path->rooms.len >= path->rooms.len)
 			break ;
 		i++;
 	}
@@ -84,37 +61,39 @@ static int	insert_to_position(t_pathset *pathset, t_vec *path)
 	return (1);
 }
 
-static t_room	*find_next_room(t_info *info, t_room *current)
+static int	find_next_room(t_info *info, int current)
 {
+	t_room	*room;
 	size_t	i;
-	int		next_index;
+	int		next;
 
+	room = vec_get(&info->room_table, current);
 	i = 0;
-	while (i < current->links.len)
+	while (i < room->links.len)
 	{
-		next_index = *(int *)vec_get(&current->links, i++);
-		if (info->adj_matrix[current->index][next_index] == FLOW)
-			return (vec_get(&info->room_table, next_index));
+		next = *(int *)vec_get(&room->links, i++);
+		if (info->adj_matrix[room->index][next] == FLOW)
+			return (next);
 	}
 	return (NULL);
 }
 
 static int	add_path(t_info *info, t_pathset *pathset, int start)
 {
-	t_vec	new_path;
-	t_room	*current;
-	t_room	*next;
+	t_path	new_path;
+	int		current;
+	int		next;
 
 	initialize_path(&new_path);
-	current = vec_get(&info->room_table, start);
-	if (vec_push(&new_path, &current) == -1)
+	current = start;
+	if (vec_push(&new_path.rooms, &current) == -1)
 		return (-1);
-	while (current->index != info->end)
+	while (current != info->end)
 	{
 		next = find_next_room(info, current);
 		if (!next)
 			return (-1);
-		if (vec_push(&new_path, &next) == -1)
+		if (vec_push(&new_path.rooms, &next) == -1)
 			return (-1);
 		current = next;
 	}
@@ -129,7 +108,7 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 	size_t		i;
 	int			link;
 
-	if (vec_new(&new_pathset->paths, 1, sizeof(t_vec)) == -1)
+	if (vec_new(&new_pathset->paths, 1, sizeof(t_path *)) == -1)
 		return (-1);
 	current = vec_get(&info->room_table, info->start);
 	i = 0;
@@ -142,7 +121,6 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 				return (free_pathset(new_pathset), -1);
 		}
 	}
-	print_paths(*new_pathset); //temp
 	ft_printf("Lines required: %d\n", new_pathset->total_time); //temp
 	calculate_total_time(new_pathset, info->ant_count);
 	return (1);
