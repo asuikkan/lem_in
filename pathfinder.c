@@ -12,6 +12,21 @@
 
 #include "lem_in.h"
 
+static int	create_path_list(t_info *info)
+{
+	t_room	*room;
+	size_t	possible_paths;
+
+	room = vec_get(&info->room_table, info->start);
+	possible_paths = room->links.len;
+	room = vec_get(&info->room_table, info->end);
+	if (room->links.len < possible_paths)
+		possible_paths = room->links.len;
+	if (vec_new(&info->path_list, possible_paths, sizeof(t_path)) == -1)
+		return (-1);
+	return (1);
+}
+
 static int	augmenting_paths(t_info *info)
 {
 	int	state;
@@ -28,6 +43,8 @@ static int	augmenting_paths(t_info *info)
 int	pathfinder(t_info *info)
 {
 	if (initialize_bfs(info) == -1)
+		return (-1);
+	if (create_path_list(info) == -1)
 		return (-1);
 	while (augmenting_paths(info))
 	{

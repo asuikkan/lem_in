@@ -59,6 +59,7 @@ typedef enum e_adj_state
 
 typedef struct s_path
 {
+	char			*name;
 	t_vec			rooms;
 	struct s_path	*hash_collision;
 }					t_path;

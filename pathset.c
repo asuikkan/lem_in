@@ -38,6 +38,7 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count)
 
 static void	initialize_path(t_path *path)
 {
+	path->name = NULL;
 	path->rooms.memory = NULL;
 	path->rooms.elem_size = sizeof(int);
 	path->hash_collision = NULL;

@@ -109,6 +109,7 @@ static int	initialize_info(t_info *info)
 	info->bfs.visited = NULL;
 	info->bfs.parent = NULL;
 	info->adj_matrix = NULL;
+	info->path_list.memory = NULL;
 	info->pathset.paths.memory = NULL;
 	return (1);
 }
