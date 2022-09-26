@@ -78,7 +78,6 @@ int	read_output(t_info *info)
 	{
 		if (state >= 0)
 			state = parse_info(info, line);
-		ft_printf("%s\n", line);
 		ft_strdel(&line);
 	}
 	return (state);

@@ -46,6 +46,9 @@ typedef struct s_room
 	int				y;
 	int				index;
 	t_vec			links;
+	int				flow_from;
+	int				flow_to;
+	int				flow_switched;
 	struct s_room	*next;
 }					t_room;
 

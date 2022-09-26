@@ -44,13 +44,11 @@ int	reset_bfs(t_info *info)
 	return (1);
 }
 
-static int	check_adjacent(t_info *info)
+static int	iterate_links(t_info *info, t_room *current)
 {
-	t_room	*current;
 	size_t	i;
 	int		target;
 
-	current = vec_get(&info->room_table, info->bfs.current);
 	i = 0;
 	while (i < current->links.len)
 	{
@@ -64,10 +62,29 @@ static int	check_adjacent(t_info *info)
 					&info->bfs.queue,
 					&target,
 					sizeof(int)) == -1)
-				return (ERROR);
+				return (-1);
 		}
 	}
-	return (0);
+	return (1);
+}
+
+static int	check_adjacent(t_info *info)
+{
+	t_room	*current;
+
+	current = vec_get(&info->room_table, info->bfs.current);
+	if (current->flow_from > 0 && current->flow_switched == 0)
+	{
+		current->flow_switched = 1;
+		info->bfs.visited[info->bfs.current] = 0;
+		info->bfs.parent[current->flow_from] = info->bfs.current;
+		info->bfs.visited[current->flow_from] = 1;
+		if (llist_push(&info->bfs.queue, &current->flow_from, sizeof(int)) == -1)
+			return (-1);
+		return (1);
+	}
+	else
+		return (iterate_links(info, current));
 }
 
 int	bfs(t_info *info)

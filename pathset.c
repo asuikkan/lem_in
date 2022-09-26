@@ -12,30 +12,6 @@
 
 #include "lem_in.h"
 
-static void	print_paths(t_pathset pathset) //temp
-{
-	size_t	i;
-	size_t	j;
-	t_vec	*path;
-	t_room	*room;
-
-	i = 0;
-	while (i < pathset.paths.len)
-	{
-		path = vec_get(&pathset.paths, i++);
-		j = 0;
-		while (j < path->len)
-		{
-			room = *(t_room **)vec_get(path, j);
-			ft_printf("%s", room->name);
-			if (j != path->len - 1)
-				ft_printf("->");
-			j++;
-		}
-		ft_printf("\n");
-	}
-}
-
 static void	calculate_total_time(t_pathset *pathset, int ant_count)
 {
 	int		time;
@@ -53,7 +29,8 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count)
 		sum += path->len;
 		if (ants <= path->len * i - sum)
 			break ;
-		ants -= path->len * i - sum - 1;
+		ants -= path->len * i - sum;
+		ants--;
 		time = path->len;
 	}
 	time += ants / i + ((ants % i) > 0);
@@ -142,8 +119,7 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 				return (free_pathset(new_pathset), -1);
 		}
 	}
-	print_paths(*new_pathset); //temp
-	ft_printf("Lines required: %d\n", new_pathset->total_time); //temp
 	calculate_total_time(new_pathset, info->ant_count);
+	ft_printf("Lines required: %d\n", new_pathset->total_time); //temp
 	return (1);
 }
