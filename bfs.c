@@ -23,7 +23,7 @@ static void	initialize_parent_list(int **list, int size)
 
 int	initialize_bfs(t_info *info)
 {
-	info->bfs.visited = ft_memalloc(sizeof(int) * info->room_count);
+	info->bfs.visited = ft_memalloc(sizeof(t_entries) * info->room_count);
 	if (!info->bfs.visited)
 		return (-1);
 	info->bfs.current = info->start;
@@ -44,23 +44,47 @@ int	reset_bfs(t_info *info)
 	return (1);
 }
 
+static int	validate_visit(t_info *info, t_room *current, t_room *target)
+{
+	if (info->bfs.visited[target->index] == BOTH)
+		return (0);
+	if (info->bfs.visited[target->index] == POSITIVE && info->adj_matrix[current->index][target->index] == NO_FLOW)
+		return (0);
+	if (info->bfs.visited[target->index] == NEGATIVE && info->adj_matrix[current->index][target->index] == NEGATIVE_FLOW)
+		return (0);
+	return (1);
+}
+
+static void	update_visitation(t_info *info, t_room *current, t_room *target)
+{
+	if (info->bfs.visited[target->index] == POSITIVE || info->bfs.visited[target->index] == NEGATIVE)
+		info->bfs.visited[target->index] = BOTH;
+	else if (info->adj_matrix[current->index][target->index] == NO_FLOW)
+		info->bfs.visited[target->index] = POSITIVE;
+	else
+		info->bfs.visited[target->index] = NEGATIVE;
+}
+
 static int	iterate_links(t_info *info, t_room *current)
 {
+	int		target_index;
 	size_t	i;
-	int		target;
+	t_room	*target;
 
 	i = 0;
 	while (i < current->links.len)
 	{
-		target = *(int *)vec_get(&current->links, i++);
-		if (!info->bfs.visited[target]
-			&& info->adj_matrix[current->index][target] != FLOW)
+		target_index = *(int *)vec_get(&current->links, i++);
+		target = vec_get(&info->room_table, target_index);
+		if (validate_visit(info, current, target)
+			&& info->adj_matrix[current->index][target_index] != FLOW)
 		{
-			info->bfs.parent[target] = info->bfs.current;
-			info->bfs.visited[target] = 1;
+			if (info->bfs.parent[target_index] < 0)
+				info->bfs.parent[target_index] = current->index;
+			update_visitation(info, current, target);
 			if (llist_push(
 					&info->bfs.queue,
-					&target,
+					&target_index,
 					sizeof(int)) == -1)
 				return (-1);
 		}
@@ -73,12 +97,11 @@ static int	check_adjacent(t_info *info)
 	t_room	*current;
 
 	current = vec_get(&info->room_table, info->bfs.current);
-	if (current->flow_from > 0 && current->flow_switched == 0)
+	if (current->flow_from >= 0 && info->bfs.visited[current->index] == POSITIVE)
 	{
-		current->flow_switched = 1;
-		info->bfs.visited[info->bfs.current] = 0;
-		info->bfs.parent[current->flow_from] = info->bfs.current;
-		info->bfs.visited[current->flow_from] = 1;
+		if (info->bfs.parent[current->flow_from] < 0)
+			info->bfs.parent[current->flow_from] = info->bfs.current;
+		update_visitation(info, current, vec_get(&info->room_table, current->flow_from));
 		if (llist_push(&info->bfs.queue, &current->flow_from, sizeof(int)) == -1)
 			return (-1);
 		return (1);
@@ -89,7 +112,7 @@ static int	check_adjacent(t_info *info)
 
 int	bfs(t_info *info)
 {
-	info->bfs.visited[info->start] = 1;
+	info->bfs.visited[info->start] = BOTH;
 	llist_push(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
 	{

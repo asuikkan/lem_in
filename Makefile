@@ -14,7 +14,7 @@ CC		= gcc
 
 FLAGS	= -Wall -Werror -Wextra
 
-NAME	= lem_in
+NAME	= lem-in
 
 INC		= ./includes
 

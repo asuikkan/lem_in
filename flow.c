@@ -32,16 +32,21 @@ static void	update_link(t_info *info, int from, int to, int state)
 
 void	update_flow(t_info *info)
 {
-	int	parent;
-	int	current;
-	int	state;
+	int		prev_flow;
+	t_room	*parent;
+	t_room	*current;
+	int		state;
 
-	current = info->bfs.current;
-	while (current != info->start)
+	prev_flow = -1;
+	current = vec_get(&info->room_table, info->bfs.current);
+	while (current->index != info->start)
 	{
-		parent = info->bfs.parent[current];
-		state = info->adj_matrix[parent][current];
-		update_link(info, parent, current, state);
+		parent = vec_get(&info->room_table, info->bfs.parent[current->index]);
+		if (prev_flow > 0 && prev_flow != parent->index)
+			parent = vec_get(&info->room_table, prev_flow);
+		prev_flow = parent->flow_to;
+		state = info->adj_matrix[parent->index][current->index];
+		update_link(info, parent->index, current->index, state);
 		current = parent;
 	}
 }

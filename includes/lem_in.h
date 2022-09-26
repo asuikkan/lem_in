@@ -32,6 +32,14 @@ enum e_pathset_check
 	PATH_FOUND
 };
 
+typedef enum e_entries
+{
+	NONE,
+	POSITIVE,
+	NEGATIVE,
+	BOTH
+}	t_entries;
+
 typedef struct s_read_flags
 {
 	int	start_flag;
@@ -48,7 +56,6 @@ typedef struct s_room
 	t_vec			links;
 	int				flow_from;
 	int				flow_to;
-	int				flow_switched;
 	struct s_room	*next;
 }					t_room;
 
@@ -69,7 +76,7 @@ typedef struct s_pathset
 typedef struct s_bfs
 {
 	t_llist		*queue;
-	int			*visited;
+	t_entries	*visited;
 	int			*parent;
 	int			current;
 }				t_bfs;
