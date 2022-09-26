@@ -18,6 +18,8 @@ static void	initialize_room(t_room *room)
 	room->next = NULL;
 	room->links.memory = NULL;
 	room->links.elem_size = sizeof(int);
+	room->flow_from = -1;
+	room->flow_to = -1;
 }
 
 static int	parse_name(t_room *room, char *line)

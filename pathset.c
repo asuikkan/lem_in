@@ -79,6 +79,25 @@ static int	find_next_room(t_info *info, int current)
 	return (NULL);
 }
 
+static int	add_room(t_path *path, t_room *room)
+{
+	char	*temp;
+
+	temp = path->name;
+	if (!temp)
+		path->name = ft_strdup(room->name);
+	else
+	{
+		path->name = ft_strjoin(path->name, room->name);
+		ft_strdel(&temp);
+	}
+	if (!path->name)
+		return (-1);
+	if (vec_push(&path->rooms, &room->index) == -1)
+		return (-1);
+	return (1);
+}
+
 static int	add_path(t_info *info, t_pathset *pathset, int start)
 {
 	t_path	new_path;
@@ -87,16 +106,16 @@ static int	add_path(t_info *info, t_pathset *pathset, int start)
 
 	initialize_path(&new_path);
 	current = start;
-	if (vec_push(&new_path.rooms, &current) == -1)
+	if (add_room(&new_path, vec_get(&info->room_table, current)) == -1)
 		return (-1);
 	while (current != info->end)
 	{
 		next = find_next_room(info, current);
 		if (!next)
 			return (-1);
-		if (vec_push(&new_path.rooms, &next) == -1)
-			return (-1);
 		current = next;
+		if (add_room(&new_path, vec_get(&info->room_table, current)) == -1)
+			return (-1);
 	}
 	if (insert_to_position(pathset, &new_path) == -1)
 		return (-1);
