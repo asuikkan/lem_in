@@ -75,8 +75,7 @@ int	free_and_exit(t_info *info, int error_flag)
 	free_matrix(info->adj_matrix, info->room_count);
 	if (info->pathset.paths.memory)
 		free_pathset(&info->pathset);
-	free(info->bfs.visited);
-	free(info->bfs.parent);
+	free_bfs(&info->bfs, info->room_count);
 	llist_free(&info->bfs.queue);
 	return (0);
 }

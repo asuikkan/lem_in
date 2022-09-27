@@ -39,7 +39,15 @@ void	update_flow(t_info *info)
 	current = vec_get(&info->room_table, info->bfs.current);
 	while (current->index != info->start)
 	{
-		parent = vec_get(&info->room_table, info->bfs.parent[current->index]);
+		if (info->bfs.visited[current->index] == BOTH)
+		{
+			parent = vec_get(&info->room_table,
+					info->bfs.parent[current->index][1]);
+			info->bfs.visited[current->index]--;
+		}
+		else
+			parent = vec_get(&info->room_table,
+					info->bfs.parent[current->index][0]);
 		state = info->adj_matrix[parent->index][current->index];
 		update_link(info, parent->index, current->index, state);
 		current = parent;

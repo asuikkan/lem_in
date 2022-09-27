@@ -12,38 +12,6 @@
 
 #include "lem_in.h"
 
-static void	initialize_parent_list(int **list, int size)
-{
-	int	i;
-
-	i = -1;
-	while (++i < size)
-		(*list)[i] = -1;
-}
-
-int	initialize_bfs(t_info *info)
-{
-	info->bfs.visited = ft_memalloc(sizeof(t_entries) * info->room_count);
-	if (!info->bfs.visited)
-		return (-1);
-	info->bfs.current = info->start;
-	info->bfs.parent = (int *)malloc(sizeof(int) * info->room_count);
-	if (!info->bfs.parent)
-		return (-1);
-	initialize_parent_list(&info->bfs.parent, info->room_count);
-	return (1);
-}
-
-int	reset_bfs(t_info *info)
-{
-	free(info->bfs.visited);
-	free(info->bfs.parent);
-	llist_free(&info->bfs.queue);
-	if (initialize_bfs(info) == -1)
-		return (-1);
-	return (1);
-}
-
 static int	validate_visit(t_info *info, t_room *current, t_room *target)
 {
 	if (info->bfs.visited[target->index] == BOTH)
@@ -65,6 +33,14 @@ static void	update_visitation(t_info *info, t_room *current, t_room *target)
 		info->bfs.visited[target->index] = NEGATIVE;
 }
 
+static void	update_parents(int **parent_list, int target, int parent)
+{
+	if (parent_list[target][0] < 0)
+		parent_list[target][0] = parent;
+	else
+		parent_list[target][1] = parent;
+}
+
 static int	iterate_links(t_info *info, t_room *current)
 {
 	int		target_index;
@@ -79,8 +55,7 @@ static int	iterate_links(t_info *info, t_room *current)
 		if (validate_visit(info, current, target)
 			&& info->adj_matrix[current->index][target_index] != FLOW)
 		{
-			if (info->bfs.parent[target_index] < 0)
-				info->bfs.parent[target_index] = current->index;
+			update_parents(info->bfs.parent, target_index, current->index);
 			update_visitation(info, current, target);
 			if (llist_push(
 					&info->bfs.queue,
@@ -97,11 +72,10 @@ static int	check_adjacent(t_info *info)
 	t_room	*current;
 
 	current = vec_get(&info->room_table, info->bfs.current);
-	ft_printf("%s\n", current->name);
+	//ft_printf("%s\n", current->name);
 	if (current->flow_from >= 0 && info->bfs.visited[current->index] == POSITIVE)
 	{
-		if (info->bfs.parent[current->flow_from] < 0)
-			info->bfs.parent[current->flow_from] = info->bfs.current;
+		update_parents(info->bfs.parent, current->flow_from, current->index);
 		update_visitation(info, current, vec_get(&info->room_table, current->flow_from));
 		if (llist_push(&info->bfs.queue, &current->flow_from, sizeof(int)) == -1)
 			return (-1);

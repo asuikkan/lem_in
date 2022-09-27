@@ -77,7 +77,7 @@ typedef struct s_bfs
 {
 	t_llist		*queue;
 	t_entries	*visited;
-	int			*parent;
+	int			**parent;
 	int			current;
 }				t_bfs;
 
@@ -127,6 +127,7 @@ void			llist_pop(t_llist **dst);
 unsigned long	hash(char *str, size_t len);
 void			compare_pathsets(t_pathset *new_pathset);
 void			error_handler(void);
+void			free_bfs(t_bfs *bfs, int size);
 void			free_pathset(t_pathset *pathset);
 void			update_flow(t_info *info);
 
