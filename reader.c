@@ -26,6 +26,7 @@ static int	rooms_read(t_info *info, char *line)
 
 static int	comment_check(t_info *info, char *line)
 {
+<<<<<<< HEAD
 	if (ft_strcmp(line, "##start\n") == 0)
 	{
 		if (info->start)
@@ -35,6 +36,17 @@ static int	comment_check(t_info *info, char *line)
 	else if (ft_strcmp(line, "##end\n") == 0)
 	{
 		if (info->end)
+=======
+	if (ft_strcmp(line, "##start") == 0)
+	{
+		if (info->flags.start_flag)
+			return (-1);
+		info->flags.start_flag = 1;
+	}
+	else if (ft_strcmp(line, "##end") == 0)
+	{
+		if (info->flags.end_flag)
+>>>>>>> adj_rework
 			return (-1);
 		info->flags.end_flag = 1;
 	}
@@ -54,6 +66,7 @@ static int	parse_info(t_info *info, char *line)
 		if (!rooms_read(info, line))
 			return (parse_room(info, line));
 	}
+<<<<<<< HEAD
 	if (info->flags.room_flag)
 	{
 		if (!info->adj_matrix)
@@ -94,10 +107,23 @@ static int	save_line(char *buf, t_info *info, char **line)
 	}
 	start = 0;
 	return (1);
+=======
+	if (!info->adj_matrix)
+	{
+		if (hasher(info) == -1)
+			return (-1);
+		info->adj_matrix = create_matrix(info->room_table.len);
+		if (!info->adj_matrix)
+			return (-1);
+		info->room_count = info->room_table.len;
+	}
+	return (parse_link(info, line));
+>>>>>>> adj_rework
 }
 
 int	read_output(t_info *info)
 {
+<<<<<<< HEAD
 	static char		buf[BUF_SIZE + 1];
 	char			*line;
 	int				bytes;
@@ -122,4 +148,25 @@ int	read_output(t_info *info)
 	if (line || !info->adj_matrix || !info->start || !info->end)
 		return (-1);
 	return (1);
+=======
+	char	*line;
+	char	*temp;
+	int		state;
+
+	if ((vec_new(&info->room_table, 2, sizeof(t_room))) == -1)
+		return (-1);
+	state = 1;
+	while (get_next_line(0, &line) > 0)
+	{
+		if (vec_push(&info->map_info, &line) == -1)
+			return (-1);
+		temp = ft_strdup(line);
+		if (!temp)
+			return (-1);
+		if (state >= 0)
+			state = parse_info(info, temp);
+		ft_strdel(&temp);
+	}
+	return (state);
+>>>>>>> adj_rework
 }

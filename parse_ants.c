@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_get.c                                          :+:      :+:    :+:   */
+/*   parse_ants.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/05 16:31:59 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/05 16:32:00 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/08/30 13:00:21 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/08/30 13:00:23 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec.h"
+#include "lem_in.h"
 
-void	*vec_get(t_vec *src, size_t index)
+int	parse_ant_count(t_info *info, char *line)
 {
-	if (!src)
-		return (NULL);
-	if (!src->memory)
-		return (NULL);
-<<<<<<< HEAD
-	if (src->len - 1 < index)
-		return (NULL);
-=======
->>>>>>> adj_rework
-	return (&src->memory[index * src->elem_size]);
+	long	nb;
+	int		i;
+
+	nb = 0;
+	i = -1;
+	while (line[++i])
+	{
+		if (!ft_isdigit(line[i]))
+			return (-1);
+		nb = nb * 10 + (line[i] - '0');
+		if (nb > COORD_LIMIT)
+			return (-1);
+	}
+	info->ant_count = nb;
+	return (1);
 }
+

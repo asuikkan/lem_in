@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_get.c                                          :+:      :+:    :+:   */
+/*   compare.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/05 16:31:59 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/05 16:32:00 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/09/09 15:26:19 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/09/09 15:26:20 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec.h"
+#include "lem_in.h"
 
-void	*vec_get(t_vec *src, size_t index)
+void	compare_pathsets(t_pathset *new_pathset)
 {
-	if (!src)
-		return (NULL);
-	if (!src->memory)
-		return (NULL);
-<<<<<<< HEAD
-	if (src->len - 1 < index)
-		return (NULL);
-=======
->>>>>>> adj_rework
-	return (&src->memory[index * src->elem_size]);
+	static t_pathset	best;
+
+	if (!best.paths.memory || best.total_time > new_pathset->total_time)
+	{
+		free_pathset(&best);
+		best = *new_pathset;
+	}
+	else
+	{
+		free_pathset(new_pathset);
+		*new_pathset = best;
+	}
 }

@@ -31,7 +31,11 @@ unsigned long	hash(char *str, size_t len)
 
 static int	init_hash_table(t_vec *dst, t_vec *src)
 {
+<<<<<<< HEAD
 	if (vec_new(dst, src->len, src->elem_size) == -1)
+=======
+	if (vec_new(dst, src->len, sizeof(t_room *)) == -1)
+>>>>>>> adj_rework
 		return (-1);
 	return (1);
 }
@@ -46,6 +50,10 @@ static void	add_to_list(t_room *dst, t_room *src)
 int	hasher(t_info *info)
 {
 	t_room			*temp;
+<<<<<<< HEAD
+=======
+	t_room			*slotted;
+>>>>>>> adj_rework
 	size_t			i;
 	unsigned long	index;
 
@@ -57,6 +65,7 @@ int	hasher(t_info *info)
 		index = 0;
 		temp = vec_get(&info->room_table, i++);
 		index = hash(temp->name, info->room_table.len);
+<<<<<<< HEAD
 		if (!info->hash_table.memory[index * info->hash_table.elem_size])
 		{
 			if (vec_overwrite(&info->hash_table, temp, index) == -1)
@@ -64,6 +73,16 @@ int	hasher(t_info *info)
 		}
 		else
 			add_to_list(vec_get(&info->hash_table, index), temp);
+=======
+		slotted = *(t_room **)vec_get(&info->hash_table, index);
+		if (!slotted)
+		{
+			if (vec_overwrite(&info->hash_table, &temp, index) == -1)
+				return (-1);
+		}
+		else
+			add_to_list(slotted, temp);
+>>>>>>> adj_rework
 	}
 	return (1);
 }

@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_get.c                                          :+:      :+:    :+:   */
+/*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/05 16:31:59 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/05 16:32:00 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/09/27 15:48:59 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/09/27 15:49:00 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec.h"
+#include "lem_in.h"
 
-void	*vec_get(t_vec *src, size_t index)
+static void	print_map_info(t_vec *map_info)
 {
-	if (!src)
-		return (NULL);
-	if (!src->memory)
-		return (NULL);
-<<<<<<< HEAD
-	if (src->len - 1 < index)
-		return (NULL);
-=======
->>>>>>> adj_rework
-	return (&src->memory[index * src->elem_size]);
+	char	**line;
+	size_t	i;
+
+	i = 0;
+	while (i < map_info->len)
+	{
+		line = vec_get(map_info, i++);
+		ft_putendl(*line);
+	}
+}
+
+void	print_solution(int ant_count, t_vec *map_info, t_pathset *pathset)
+{
+	(void) ant_count;
+	(void) pathset;
+	print_map_info(map_info);
 }
