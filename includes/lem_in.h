@@ -25,13 +25,6 @@ typedef struct s_llist
 	struct s_llist	*next;
 }					t_llist;
 
-<<<<<<< HEAD
-typedef struct s_path
-{
-	t_llist	*path;
-	int		length;
-}			t_path;
-=======
 enum e_pathset_check
 {
 	ERROR,
@@ -46,7 +39,6 @@ typedef enum e_entries
 	NEGATIVE,
 	BOTH
 }	t_entries;
->>>>>>> adj_rework
 
 typedef struct s_read_flags
 {
@@ -60,30 +52,6 @@ typedef struct s_room
 	char			*name;
 	int				x;
 	int				y;
-<<<<<<< HEAD
-	int				matrix_index;
-	int				distance;
-	struct s_room	*next;
-}					t_room;
-
-typedef struct s_bfs_distance
-{
-	t_llist	*queue;
-	int		*visited;
-	int		*index;
-}			t_bfs_distance;
-
-typedef struct s_bfs_path
-{
-	t_llist	*queue;
-	int		*visited;
-	int		*closed;
-	int		*index;
-}			t_bfs_path;
-
-typedef struct s_info
-{
-=======
 	int				index;
 	t_vec			links;
 	int				flow_from;
@@ -116,52 +84,20 @@ typedef struct s_bfs
 typedef struct s_info
 {
 	t_vec			map_info;
->>>>>>> adj_rework
 	int				ant_count;
 	int				room_count;
 	t_read_flags	flags;
 	t_vec			room_table;
 	t_vec			hash_table;
-<<<<<<< HEAD
-	int				**adj_matrix;
-	t_room			*start;
-	t_room			*end;
-	t_bfs_distance	bfs_distance;
-	t_bfs_path		bfs_path;
-=======
 	t_adj_state		**adj_matrix;
 	int				start;
 	int				end;
 	t_bfs			bfs;
 	t_pathset		pathset;
->>>>>>> adj_rework
 }					t_info;
 
 char			*lem_in_strndup(char *buf, int start, int n);
 char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
-<<<<<<< HEAD
-int				add_start(t_info *info, t_room *room);
-int				add_end(t_info *info, t_room *room);
-int				pathfinder(t_info *info);
-int				hasher(t_info *info);
-int				add_distances(t_info *info);
-int				lem_in_line_len(char *buf, int start);
-void			*llist_copy_front(void *dst, t_llist *src, size_t size);
-void			llist_free(t_llist **src);
-t_llist			*llist_new(void *content, size_t size);
-int				llist_push(t_llist *dst, void *content, size_t size);
-int				llist_push_back(t_llist **dst, void *content, size_t size);
-void			llist_pop(t_llist **dst);
-int				parse_ant_count(t_info *info, char *data);
-int				parse_link(t_info *info, char *line);
-int				parse_room(t_info *info, char *line);
-int				push_room(t_info *info, t_room *room);
-int				read_output(t_info *info);
-int				**create_matrix(size_t size);
-unsigned long	hash(char *str, size_t len);
-void			error_handler(void);
-void			free_and_exit(t_info *info, int error_flag);
-=======
 int				add_distances(t_info *info);
 int				add_end(t_info *info, t_room *room);
 int				add_to_edge_list(t_vec *edge_list, int room1, int room2);
@@ -196,6 +132,5 @@ void			free_bfs(t_bfs *bfs, int size);
 void			free_pathset(t_pathset *pathset);
 void			print_solution(int ant_count, t_vec *map_info, t_pathset *pathset);
 void			update_flow(t_info *info);
->>>>>>> adj_rework
 
 #endif

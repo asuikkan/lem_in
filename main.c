@@ -12,11 +12,7 @@
 
 #include "lem_in.h"
 
-<<<<<<< HEAD
-static void	print_adj_matrix(int **matrix, int size)
-=======
 /*static void	print_adj_matrix(t_adj_state **matrix, int size)
->>>>>>> adj_rework
 {
 	int	i;
 	int	j;
@@ -33,11 +29,6 @@ static void	print_adj_matrix(int **matrix, int size)
 		ft_printf("\n");
 	}
 	ft_printf("\n");
-<<<<<<< HEAD
-}
-
-static void	print_rooms(t_vec room_table)
-=======
 }*/
 
 /*static void	print_links(t_room *room)
@@ -55,7 +46,6 @@ static void	print_rooms(t_vec room_table)
 }*/
 
 /*static void	print_rooms(t_vec room_table)
->>>>>>> adj_rework
 {
 	t_room	*temp;
 	size_t	i;
@@ -65,14 +55,9 @@ static void	print_rooms(t_vec room_table)
 	{
 		temp = vec_get(&room_table, i);
 		ft_printf("name  = %s\n", temp->name);
-<<<<<<< HEAD
-		ft_printf("index = %d\n", temp->matrix_index);
-		ft_printf("dist  = %d\n\n", temp->distance);
-=======
 		ft_printf("index = %d\n", temp->index);
 		print_links(temp);
 		ft_printf("\n");
->>>>>>> adj_rework
 		while (temp->next)
 		{
 			temp = temp->next;
@@ -82,8 +67,6 @@ static void	print_rooms(t_vec room_table)
 		}
 		i++;
 	}
-<<<<<<< HEAD
-=======
 }*/
 
 static void	print_paths(t_pathset pathset)
@@ -109,16 +92,12 @@ static void	print_paths(t_pathset pathset)
 		ft_printf("\n");
 	}
 	ft_printf("Lines required: %d\n", pathset.total_time);
->>>>>>> adj_rework
 }
 
 static int	initialize_info(t_info *info)
 {
-<<<<<<< HEAD
-=======
 	info->map_info.memory = NULL;
 	info->map_info.elem_size = sizeof(char *);
->>>>>>> adj_rework
 	info->ant_count = -1;
 	info->room_count = -1;
 	info->flags.end_flag = 0;
@@ -126,18 +105,6 @@ static int	initialize_info(t_info *info)
 	info->flags.room_flag = 0;
 	info->room_table.memory = NULL;
 	info->hash_table.memory = NULL;
-<<<<<<< HEAD
-	info->adj_matrix = NULL;
-	info->start = NULL;
-	info->end = NULL;
-	info->bfs_distance.queue = NULL;
-	info->bfs_distance.visited = NULL;
-	info->bfs_distance.index = NULL;
-	info->bfs_path.queue = NULL;
-	info->bfs_path.visited = NULL;
-	info->bfs_path.closed = NULL;
-	info->bfs_path.index = NULL;
-=======
 	info->start = -1;
 	info->end = -1;
 	info->bfs.queue = NULL;
@@ -145,7 +112,6 @@ static int	initialize_info(t_info *info)
 	info->bfs.parent = NULL;
 	info->adj_matrix = NULL;
 	info->pathset.paths.memory = NULL;
->>>>>>> adj_rework
 	return (1);
 }
 
@@ -154,18 +120,6 @@ int	main(void)
 	t_info	info;
 
 	if (initialize_info(&info) == -1)
-<<<<<<< HEAD
-		free_and_exit(&info, 1);
-	if (read_output(&info) == -1)
-		free_and_exit(&info, 1);
-	if (add_distances(&info) == -1)
-		free_and_exit(&info, 1);
-	//pathfinder(&info);
-	print_rooms(info.room_table);
-	print_adj_matrix(info.adj_matrix, info.room_count);
-	free_and_exit(&info, 0);
-	return (0);
-=======
 		return (free_and_exit(&info, 1));
 	if (read_output(&info) == -1)
 		return (free_and_exit(&info, 1));
@@ -176,5 +130,4 @@ int	main(void)
 	print_solution(info.ant_count, &info.map_info, &info.pathset);
 	print_paths(info.pathset);
 	return (free_and_exit(&info, 0));
->>>>>>> adj_rework
 }
