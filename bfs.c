@@ -72,7 +72,6 @@ static int	check_adjacent(t_info *info)
 	t_room	*current;
 
 	current = vec_get(&info->room_table, info->bfs.current);
-	//ft_printf("%s\n", current->name);
 	if (current->flow_from >= 0 && info->bfs.visited[current->index] == POSITIVE)
 	{
 		update_parents(info->bfs.parent, current->flow_from, current->index);

@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	print_adj_matrix(t_adj_state **matrix, int size)
+/*static void	print_adj_matrix(t_adj_state **matrix, int size)
 {
 	int	i;
 	int	j;
@@ -29,9 +29,9 @@ static void	print_adj_matrix(t_adj_state **matrix, int size)
 		ft_printf("\n");
 	}
 	ft_printf("\n");
-}
+}*/
 
-static void	print_links(t_room *room)
+/*static void	print_links(t_room *room)
 {
 	size_t	i;
 	int		link;
@@ -43,9 +43,9 @@ static void	print_links(t_room *room)
 		link = *(int *)vec_get(&room->links, i++);
 		ft_printf("%d\n", link);
 	}
-}
+}*/
 
-static void	print_rooms(t_vec room_table)
+/*static void	print_rooms(t_vec room_table)
 {
 	t_room	*temp;
 	size_t	i;
@@ -58,16 +58,16 @@ static void	print_rooms(t_vec room_table)
 		ft_printf("index = %d\n", temp->index);
 		print_links(temp);
 		ft_printf("\n");
-		/*while (temp->next)
+		while (temp->next)
 		{
 			temp = temp->next;
 			ft_printf("name  = %s\n", temp->name);
 			ft_printf("index = %d\n", temp->matrix_index);
 			ft_printf("dist  = %d\n\n", temp->distance);
-		}*/
+		}
 		i++;
 	}
-}
+}*/
 
 static void	print_paths(t_pathset pathset)
 {
@@ -96,6 +96,8 @@ static void	print_paths(t_pathset pathset)
 
 static int	initialize_info(t_info *info)
 {
+	info->map_info.memory = NULL;
+	info->map_info.elem_size = sizeof(char *);
 	info->ant_count = -1;
 	info->room_count = -1;
 	info->flags.end_flag = 0;
@@ -123,8 +125,9 @@ int	main(void)
 		return (free_and_exit(&info, 1));
 	if (pathfinder(&info) == -1)
 		return (free_and_exit(&info, 1));
-	print_rooms(info.room_table);
-	print_adj_matrix(info.adj_matrix, info.room_count);
+	//print_rooms(info.room_table);
+	//print_adj_matrix(info.adj_matrix, info.room_count);
+	print_solution(info.ant_count, &info.map_info, &info.pathset);
 	print_paths(info.pathset);
 	return (free_and_exit(&info, 0));
 }

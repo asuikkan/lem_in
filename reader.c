@@ -69,6 +69,7 @@ static int	parse_info(t_info *info, char *line)
 int	read_output(t_info *info)
 {
 	char	*line;
+	char	*temp;
 	int		state;
 
 	if ((vec_new(&info->room_table, 2, sizeof(t_room))) == -1)
@@ -76,63 +77,14 @@ int	read_output(t_info *info)
 	state = 1;
 	while (get_next_line(0, &line) > 0)
 	{
+		if (vec_push(&info->map_info, &line) == -1)
+			return (-1);
+		temp = ft_strdup(line);
+		if (!temp)
+			return (-1);
 		if (state >= 0)
-			state = parse_info(info, line);
-		ft_strdel(&line);
+			state = parse_info(info, temp);
+		ft_strdel(&temp);
 	}
 	return (state);
 }
-
-/*static int	save_line(char *buf, t_info *info, char **line)
-{
-	int			len;
-	static int	start;
-
-	while (buf[start])
-	{
-		len = lem_in_line_len(buf, start);
-		if (!(*line))
-			*line = lem_in_strndup(buf, start, len);
-		else
-			*line = lem_in_strnjoin(*line, buf, start, len);
-		if (!(*line))
-			return (-1);
-		if (ft_strrchr(*line, '\n'))
-		{
-			if (parse_info(info, *line) == -1)
-				return (-1);
-			ft_strdel(line);
-		}
-		start += len;
-	}
-	start = 0;
-	return (1);
-}
-
-int	read_output(t_info *info)
-{
-	static char		buf[BUF_SIZE + 1];
-	char			*line;
-	int				bytes;
-
-	if ((vec_new(&info->room_table, 2, sizeof(t_room))) == -1)
-		return (-1);
-	line = NULL;
-	while (1)
-	{
-		bytes = read(0, buf, BUF_SIZE);
-		if (bytes == 0)
-			break ;
-		if (bytes < 0)
-			return (-1);
-		buf[bytes] = '\0';
-		if (save_line(buf, info, &line) == -1)
-		{
-			ft_strdel(&line);
-			return (-1);
-		}
-	}
-	if (line || !info->adj_matrix || info->start < 0 || info->end < 0)
-		return (-1);
-	return (1);
-}*/

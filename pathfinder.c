@@ -38,5 +38,7 @@ int	pathfinder(t_info *info)
 		if (reset_bfs(info) == -1)
 			return (-1);
 	}
+	if (info->pathset.paths.memory == NULL)
+		return (-1);
 	return (1);
 }

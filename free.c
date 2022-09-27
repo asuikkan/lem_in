@@ -66,10 +66,25 @@ static void	free_table(t_vec *table)
 	vec_free(table);
 }
 
+static void	free_map_info(t_vec *map_info)
+{
+	size_t	i;
+	char	**line;
+
+	i = 0;
+	while (i < map_info->len)
+	{
+		line = vec_get(map_info, i++);
+		free(*line);
+	}
+	vec_free(map_info);
+}
+
 int	free_and_exit(t_info *info, int error_flag)
 {
 	if (error_flag)
 		write(1, "ERROR\n", 6);
+	free_map_info(&info->map_info);
 	free_table(&info->room_table);
 	vec_free(&info->hash_table);
 	free_matrix(info->adj_matrix, info->room_count);
