@@ -18,10 +18,5 @@ void	*vec_get(t_vec *src, size_t index)
 		return (NULL);
 	if (!src->memory)
 		return (NULL);
-<<<<<<< HEAD
-	if (src->len - 1 < index)
-		return (NULL);
-=======
->>>>>>> adj_rework
 	return (&src->memory[index * src->elem_size]);
 }

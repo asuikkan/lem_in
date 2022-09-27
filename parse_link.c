@@ -12,29 +12,11 @@
 
 #include "lem_in.h"
 
-<<<<<<< HEAD
-static void	add_to_matrix(t_info *info, t_room *room1, t_room *room2)
-{
-	if (room1 == room2)
-		info->adj_matrix[room1->matrix_index][room1->matrix_index] = 2;
-	else
-	{
-		info->adj_matrix[room1->matrix_index][room2->matrix_index] = 1;
-		info->adj_matrix[room2->matrix_index][room1->matrix_index] = 1;
-	}
-}
-
-=======
->>>>>>> adj_rework
 static t_room	*validate_node(t_vec *table, char *room_name, int index)
 {
 	t_room	*temp;
 
-<<<<<<< HEAD
-	temp = vec_get(table, index);
-=======
 	temp = *(t_room **)vec_get(table, index);
->>>>>>> adj_rework
 	if (ft_strcmp(temp->name, room_name))
 	{
 		while (temp->next)
@@ -62,14 +44,10 @@ static int	save_link(t_info *info, char *node1, char *node2)
 	room2 = validate_node(&info->hash_table, node2, index);
 	if (!room2)
 		return (-1);
-<<<<<<< HEAD
-	add_to_matrix(info, room1, room2);
-=======
 	if (!add_adjacency(room1, room2))
 		return (-1);
 	if (initialize_flow(info->adj_matrix, room1, room2) == -1)
 		return (-1);
->>>>>>> adj_rework
 	return (1);
 }
 
@@ -88,16 +66,9 @@ int	parse_link(t_info *info, char *line)
 	ft_memmove(line, line + node1_len + 1, ft_strlen(line) - node1_len);
 	node2 = ft_strdup(line);
 	if (!node2)
-<<<<<<< HEAD
-		return (-1);
-	node2[ft_strlen(node2) - 1] = '\0';
-	if (save_link(info, node1, node2) == -1)
-		return (-1);
-=======
 		return (ft_strdel(&node1), -1);
 	if (save_link(info, node1, node2) == -1)
 		return (ft_strdel(&node1), ft_strdel(&node2), -1);
->>>>>>> adj_rework
 	ft_strdel(&node1);
 	ft_strdel(&node2);
 	return (1);

@@ -32,26 +32,18 @@ t_llist	*llist_new(void *content, size_t size)
 	return (new);
 }
 
-<<<<<<< HEAD
-int	llist_push_back(t_llist **dst, void *content, size_t size)
-=======
 int	llist_push(t_llist **dst, void *content, size_t size)
->>>>>>> adj_rework
 {
 	t_llist	*current;
 
 	if (!content || !size)
 		return (-1);
 	if (!*dst)
-<<<<<<< HEAD
-		*dst = llist_new(content, size);
-=======
 	{
 		*dst = llist_new(content, size);
 		if (!*dst)
 			return (-1);
 	}
->>>>>>> adj_rework
 	else
 	{
 		current = *dst;
@@ -64,29 +56,6 @@ int	llist_push(t_llist **dst, void *content, size_t size)
 	return (1);
 }
 
-<<<<<<< HEAD
-int	llist_push(t_llist *dst, void *content, size_t size)
-{
-	t_llist	*temp;
-
-	if (!content || !size)
-		return (-1);
-	if (!dst)
-		dst = llist_new(content, size);
-	else
-	{
-		temp = NULL;
-		temp = llist_new(content, size);
-		if (!temp)
-			return (-1);
-		temp->next = dst;
-		dst = temp;
-	}
-	return (1);
-}
-
-=======
->>>>>>> adj_rework
 void	llist_pop(t_llist **dst)
 {
 	t_llist	*temp;
@@ -100,31 +69,15 @@ void	llist_pop(t_llist **dst)
 	*dst = temp;
 }
 
-<<<<<<< HEAD
-void	*llist_copy_front(void *dst, t_llist *src, size_t size)
-{
-	if (!src || !src->content)
-		return (NULL);
-	return (ft_memcpy(dst, src->content, size));
-=======
 void	*llist_copy_front(void *dst, t_llist *src)
 {
 	if (!dst || !src || !src->content)
 		return (NULL);
 	return (ft_memcpy(dst, src->content, src->size));
->>>>>>> adj_rework
 }
 
 void	llist_free(t_llist **src)
 {
-<<<<<<< HEAD
-	while (*src)
-	{
-		free((*src)->content);
-		(*src)->content = NULL;
-		free(*src);
-		*src = (*src)->next;
-=======
 	t_llist	*temp;
 
 	while (*src)
@@ -134,6 +87,5 @@ void	llist_free(t_llist **src)
 		(*src)->content = NULL;
 		free(*src);
 		*src = temp;
->>>>>>> adj_rework
 	}
 }

@@ -18,10 +18,7 @@
 # include <unistd.h>
 # include "ft_printf.h"
 # include "vec.h"
-<<<<<<< HEAD
-=======
 # include "get_next_line.h"
->>>>>>> adj_rework
 
 typedef struct s_list
 {

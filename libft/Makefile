@@ -35,12 +35,8 @@ SRCS	=	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c	\
 			handlers2.c handlers3.c handlers4.c helpers.c				\
 			modifiers1.c print.c ft_printf.c vec_new.c vec_free.c		\
 			vec_from.c vec_copy.c vec_resize.c vec_push.c vec_pop.c		\
-<<<<<<< HEAD
-			vec_get.c vec_insert.c vec_remove.c vec_overwrite.c
-=======
 			vec_get.c vec_insert.c vec_remove.c vec_overwrite.c			\
 			get_next_line.c
->>>>>>> adj_rework
 
 OBJ		=	$(SRCS:.c=.o)
 
