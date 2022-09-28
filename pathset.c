@@ -12,32 +12,6 @@
 
 #include "lem_in.h"
 
-static void	calculate_total_time(t_pathset *pathset, int ant_count)
-{
-	int		time;
-	int		sum;
-	size_t	ants;
-	t_vec	*path;
-	size_t	i;
-
-	ants = ant_count;
-	sum = 0;
-	i = 0;
-	while (i < pathset->paths.len)
-	{
-		path = vec_get(&pathset->paths, i);
-		sum += path->len;
-		if (ants <= path->len * (i + 1) - sum)
-			break ;
-		i++;
-		ants -= path->len * i - sum;
-		ants--;
-		time = path->len;
-	}
-	time += ants / i + ((ants % i) > 0);
-	pathset->total_time = time;
-}
-
 static void	initialize_path(t_vec *path)
 {
 	path->memory = NULL;

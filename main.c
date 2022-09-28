@@ -127,7 +127,7 @@ int	main(void)
 		return (free_and_exit(&info, 1));
 	//print_rooms(info.room_table);
 	//print_adj_matrix(info.adj_matrix, info.room_count);
-	print_solution(info.ant_count, &info.map_info, &info.pathset);
+	print_final(info.ant_count, &info.map_info, &info.pathset);
 	print_paths(info.pathset);
 	return (free_and_exit(&info, 0));
 }
