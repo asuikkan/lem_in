@@ -25,10 +25,11 @@ static void	calculate_total_time(t_pathset *pathset, int ant_count)
 	i = 0;
 	while (i < pathset->paths.len)
 	{
-		path = vec_get(&pathset->paths, i++);
+		path = vec_get(&pathset->paths, i);
 		sum += path->len;
-		if (ants <= path->len * i - sum)
+		if (ants <= path->len * (i + 1) - sum)
 			break ;
+		i++;
 		ants -= path->len * i - sum;
 		ants--;
 		time = path->len;

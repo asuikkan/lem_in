@@ -130,7 +130,7 @@ void			compare_pathsets(t_pathset *new_pathset);
 void			error_handler(void);
 void			free_bfs(t_bfs *bfs, int size);
 void			free_pathset(t_pathset *pathset);
-void			print_solution(int ant_count, t_vec *map_info, t_pathset *pathset);
+int				print_solution(int ant_count, t_vec *map_info, t_pathset *pathset);
 void			update_flow(t_info *info);
 
 #endif
