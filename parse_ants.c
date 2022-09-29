@@ -30,4 +30,3 @@ int	parse_ant_count(t_info *info, char *line)
 	info->ant_count = nb;
 	return (1);
 }
-

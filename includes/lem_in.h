@@ -97,7 +97,9 @@ int				free_and_exit(t_info *info, int error_flag);
 int				hasher(t_info *info);
 int				init_room_info(size_t ***room_info, t_pathset *pathset);
 int				initialize_bfs(t_info *info);
-int				initialize_flow(t_adj_state **adj_matrix, t_room *room1, t_room *room2);
+int				initialize_flow(t_adj_state **adj_matrix,
+					t_room *room1,
+					t_room *room2);
 int				parse_ant_count(t_info *info, char *data);
 int				parse_link(t_info *info, char *line);
 int				parse_room(t_info *info, char *line);

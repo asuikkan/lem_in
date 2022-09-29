@@ -16,16 +16,19 @@ static int	validate_visit(t_info *info, t_room *current, t_room *target)
 {
 	if (info->bfs.visited[target->index] == BOTH)
 		return (0);
-	if (info->bfs.visited[target->index] == POSITIVE && info->adj_matrix[current->index][target->index] == NO_FLOW)
+	if (info->bfs.visited[target->index] == POSITIVE
+		&& info->adj_matrix[current->index][target->index] == NO_FLOW)
 		return (0);
-	if (info->bfs.visited[target->index] == NEGATIVE && info->adj_matrix[current->index][target->index] == NEGATIVE_FLOW)
+	if (info->bfs.visited[target->index] == NEGATIVE
+		&& info->adj_matrix[current->index][target->index] == NEGATIVE_FLOW)
 		return (0);
 	return (1);
 }
 
 static void	update_visitation(t_info *info, t_room *current, t_room *target)
 {
-	if (info->bfs.visited[target->index] == POSITIVE || info->bfs.visited[target->index] == NEGATIVE)
+	if (info->bfs.visited[target->index] == POSITIVE
+		|| info->bfs.visited[target->index] == NEGATIVE)
 		info->bfs.visited[target->index] = BOTH;
 	else if (info->adj_matrix[current->index][target->index] == NO_FLOW)
 		info->bfs.visited[target->index] = POSITIVE;
@@ -72,11 +75,18 @@ static int	check_adjacent(t_info *info)
 	t_room	*current;
 
 	current = vec_get(&info->room_table, info->bfs.current);
-	if (current->flow_from >= 0 && info->bfs.visited[current->index] == POSITIVE)
+	if (current->flow_from >= 0
+		&& info->bfs.visited[current->index] == POSITIVE)
 	{
-		update_parents(info->bfs.parent, current->flow_from, current->index);
-		update_visitation(info, current, vec_get(&info->room_table, current->flow_from));
-		if (llist_push(&info->bfs.queue, &current->flow_from, sizeof(int)) == -1)
+		update_parents(info->bfs.parent,
+			current->flow_from,
+			current->index);
+		update_visitation(info,
+			current,
+			vec_get(&info->room_table, current->flow_from));
+		if (llist_push(&info->bfs.queue,
+				&current->flow_from,
+				sizeof(int)) == -1)
 			return (-1);
 		return (1);
 	}
@@ -90,7 +100,6 @@ int	bfs(t_info *info)
 	llist_push(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
 	{
-		//llist_copy_front(&info->bfs.current, info->bfs.queue);
 		if (info->bfs.current == info->end)
 			return (PATH_FOUND);
 		if (llist_pop(&info->bfs.current, &info->bfs.queue) == -1)
