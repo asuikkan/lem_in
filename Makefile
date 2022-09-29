@@ -19,9 +19,9 @@ NAME	= lem-in
 INC		= ./includes
 
 SRC		= main.c reader.c parse_room.c free.c room_aux.c					\
-		  parse_link.c hasher.c pathfinder.c llist_functions.c				\
-		  parse_ants.c pathset.c flow.c bfs.c bfs_tools.c adjacency.c		\
-		  compare.c printer.c pathset_tools.c
+		  parse_link.c hasher.c pathfinder.c parse_ants.c					\
+		  pathset.c flow.c bfs.c bfs_tools.c adjacency.c					\
+		  compare.c printer.c pathset_tools.c printer_tools.c
 
 OBJ		= $(SRC:.c=.o)
 

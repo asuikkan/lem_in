@@ -90,10 +90,11 @@ int	bfs(t_info *info)
 	llist_push(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
 	{
-		llist_copy_front(&info->bfs.current, info->bfs.queue);
+		//llist_copy_front(&info->bfs.current, info->bfs.queue);
 		if (info->bfs.current == info->end)
 			return (PATH_FOUND);
-		llist_pop(&info->bfs.queue);
+		if (llist_pop(&info->bfs.current, &info->bfs.queue) == -1)
+			return (-1);
 		if (check_adjacent(info) == -1)
 			return (ERROR);
 	}

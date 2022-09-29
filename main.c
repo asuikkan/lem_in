@@ -12,63 +12,6 @@
 
 #include "lem_in.h"
 
-/*static void	print_adj_matrix(t_adj_state **matrix, int size)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	ft_printf("\nMATRIX:\n");
-	while (++i < size)
-	{
-		j = -1;
-		while (++j < size)
-		{
-			ft_printf("%d", matrix[i][j]);
-		}
-		ft_printf("\n");
-	}
-	ft_printf("\n");
-}*/
-
-/*static void	print_links(t_room *room)
-{
-	size_t	i;
-	int		link;
-
-	ft_printf("LINKS:\n");
-	i = 0;
-	while (i < room->links.len)
-	{
-		link = *(int *)vec_get(&room->links, i++);
-		ft_printf("%d\n", link);
-	}
-}*/
-
-/*static void	print_rooms(t_vec room_table)
-{
-	t_room	*temp;
-	size_t	i;
-
-	i = 0;
-	while (i < room_table.len)
-	{
-		temp = vec_get(&room_table, i);
-		ft_printf("name  = %s\n", temp->name);
-		ft_printf("index = %d\n", temp->index);
-		print_links(temp);
-		ft_printf("\n");
-		while (temp->next)
-		{
-			temp = temp->next;
-			ft_printf("name  = %s\n", temp->name);
-			ft_printf("index = %d\n", temp->matrix_index);
-			ft_printf("dist  = %d\n\n", temp->distance);
-		}
-		i++;
-	}
-}*/
-
 static void	print_paths(t_pathset pathset)
 {
 	size_t	i;

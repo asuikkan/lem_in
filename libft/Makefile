@@ -17,9 +17,8 @@ FLAGS	=	-Wall -Wextra -Werror
 NAME	=	libft.a
 
 SRCS	=	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c	\
-			ft_isdigit.c ft_isprint.c ft_itoa.c ft_lstadd.c ft_lstdel.c	\
- 			ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c			\
-			 ft_memalloc.c ft_memccpy.c ft_memchr.c ft_memcmp.c			\
+			ft_isdigit.c ft_isprint.c ft_itoa.c	ft_strclr.c				\
+			ft_memalloc.c ft_memccpy.c ft_memchr.c ft_memcmp.c			\
 			ft_memcpy.c ft_memdel.c ft_memmove.c ft_memset.c			\
 			ft_putchar_fd.c ft_putchar.c ft_putendl_fd.c ft_putendl.c	\
 			ft_putnbr_fd.c ft_putnbr.c ft_putstr_fd.c ft_putstr.c		\
@@ -29,14 +28,14 @@ SRCS	=	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c	\
 			ft_strncat.c ft_strncmp.c ft_strncpy.c ft_strmapi.c			\
 			ft_strnequ.c ft_strnew.c ft_strnstr.c ft_strrchr.c			\
 			ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c			\
-			ft_tolower.c ft_toupper.c ft_strclr.c ft_strclen.c			\
-			ft_strjoin_free.c ft_strdup_free.c address.c ft_ftoa.c		\
-			ft_anyitoa.c ftoa_helper.c ft_count_digits.c handlers1.c	\
+			ft_tolower.c ft_toupper.c ft_strclen.c ft_strjoin_free.c	\
+			ft_strdup_free.c address.c ft_ftoa.c ft_count_digits.c		\
+			ft_anyitoa.c ftoa_helper.c handlers1.c ft_printf.c			\
 			handlers2.c handlers3.c handlers4.c helpers.c				\
-			modifiers1.c print.c ft_printf.c vec_new.c vec_free.c		\
+			modifiers1.c print.c llist_free.c llist_pop.c llist_push.c	\
+			llist_new.c get_next_line.c vec_new.c vec_free.c			\
 			vec_from.c vec_copy.c vec_resize.c vec_push.c vec_pop.c		\
-			vec_get.c vec_insert.c vec_remove.c vec_overwrite.c			\
-			get_next_line.c
+			vec_get.c vec_insert.c vec_remove.c vec_overwrite.c
 
 OBJ		=	$(SRCS:.c=.o)
 
