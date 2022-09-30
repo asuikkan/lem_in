@@ -101,6 +101,6 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 		}
 	}
 	calculate_total_time(new_pathset, info->ant_count);
-	print_paths(new_pathset);
+	//print_paths(new_pathset); //temp
 	return (1);
 }
