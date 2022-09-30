@@ -20,7 +20,7 @@ static void	initialize_room(t_room *room)
 	room->links.elem_size = sizeof(int);
 	room->links.len = 0;
 	room->flow_from = -1;
-	room->flow_to = -1;
+	//room->flow_to = -1;
 }
 
 static int	parse_name(t_room *room, char *line)
