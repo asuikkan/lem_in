@@ -14,6 +14,9 @@
 
 static int	validate_visit(t_info *info, t_room *current, t_room *target)
 {
+	if (info->bfs.parent[current->index][0] == target->index
+		|| info->bfs.parent[current->index][1] == target->index)
+		return (0);
 	if (info->bfs.visited[target->index] == BOTH)
 		return (0);
 	if (info->bfs.visited[target->index] == POSITIVE
@@ -100,10 +103,10 @@ int	bfs(t_info *info)
 	llist_push(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
 	{
-		if (info->bfs.current == info->end)
-			return (PATH_FOUND);
 		if (llist_pop(&info->bfs.current, &info->bfs.queue) == -1)
 			return (-1);
+		if (info->bfs.current == info->end)
+			return (PATH_FOUND);
 		if (check_adjacent(info) == -1)
 			return (ERROR);
 	}

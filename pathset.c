@@ -39,6 +39,7 @@ static int	insert_to_position(t_pathset *pathset, t_vec *path)
 static t_room	*find_next_room(t_info *info, t_room *current)
 {
 	size_t	i;
+	t_room	*next;
 	int		next_index;
 
 	i = 0;
@@ -46,7 +47,12 @@ static t_room	*find_next_room(t_info *info, t_room *current)
 	{
 		next_index = *(int *)vec_get(&current->links, i++);
 		if (info->adj_matrix[current->index][next_index] == FLOW)
-			return (vec_get(&info->room_table, next_index));
+		{
+			next = vec_get(&info->room_table, next_index);
+			current->flow_to = next_index;
+			next->flow_from = current->index;
+			return (next);
+		}
 	}
 	return (NULL);
 }
@@ -95,5 +101,6 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 		}
 	}
 	calculate_total_time(new_pathset, info->ant_count);
+	print_paths(new_pathset);
 	return (1);
 }

@@ -50,8 +50,6 @@ static void	traverse_ants(size_t **room_info, t_pathset *pathset)
 		j = path->len - 1;
 		while (j >= 0 && room_info[i][j] == 0)
 			j--;
-		if (j < 0)
-			break ;
 		while (j >= 0 && room_info[i][j] > 0)
 		{
 			room = *(t_room **)vec_get(path, j + 1);
@@ -89,6 +87,8 @@ static void	ant_control(int ant_count, t_pathset *pathset, size_t **room_info)
 		while (ants > 0 && i < pathset->paths.len)
 		{
 			path = vec_get(&pathset->paths, i);
+			if (path->len > (size_t)line_count)
+				break ;
 			send_ants(room_info, i, path);
 			ants--;
 			i++;

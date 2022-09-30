@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	print_paths(t_pathset pathset)
+void	print_paths(t_pathset *pathset)
 {
 	size_t	i;
 	size_t	j;
@@ -20,9 +20,9 @@ static void	print_paths(t_pathset pathset)
 	t_room	*room;
 
 	i = 0;
-	while (i < pathset.paths.len)
+	while (i < pathset->paths.len)
 	{
-		path = vec_get(&pathset.paths, i++);
+		path = vec_get(&pathset->paths, i++);
 		j = 0;
 		while (j < path->len)
 		{
@@ -34,7 +34,7 @@ static void	print_paths(t_pathset pathset)
 		}
 		ft_printf("\n");
 	}
-	ft_printf("Lines required: %d\n", pathset.total_time);
+	ft_printf("Lines required: %d\n", pathset->total_time);
 }
 
 static int	initialize_info(t_info *info)
@@ -71,6 +71,6 @@ int	main(void)
 	//print_rooms(info.room_table);
 	//print_adj_matrix(info.adj_matrix, info.room_count);
 	print_final(info.ant_count, &info.map_info, &info.pathset);
-	print_paths(info.pathset);
+	print_paths(&info.pathset);
 	return (free_and_exit(&info, 0));
 }

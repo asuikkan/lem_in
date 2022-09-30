@@ -20,6 +20,7 @@ static void	free_parents(int **parent_list, int size)
 	while (++i < size && parent_list[i])
 		free(parent_list[i]);
 	free(parent_list);
+	parent_list = NULL;
 }
 
 static int	initialize_parent_list(int **list, int size)

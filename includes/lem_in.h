@@ -118,6 +118,7 @@ void			free_bfs(t_bfs *bfs, int size);
 void			free_pathset(t_pathset *pathset);
 void			free_room_info(size_t **room_info, size_t size);
 void			print_map_info(t_vec *map_info);
+void			print_paths(t_pathset *pathset);
 void			update_flow(t_info *info);
 
 #endif
