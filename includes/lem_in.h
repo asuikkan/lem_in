@@ -65,11 +65,24 @@ typedef struct s_pathset
 	int		total_time;
 }			t_pathset;
 
+typedef struct s_visit
+{
+	int		done: 1;
+	int		parent;
+	t_vec	children;
+}			t_visit;
+
+typedef struct s_trace
+{
+	t_visit		first_visit;
+	t_visit		second_visit;
+	t_entries	entry_history;
+}				t_trace;
+
 typedef struct s_bfs
 {
 	t_llist		*queue;
-	t_entries	*visited;
-	int			**parent;
+	t_trace		*trace;
 	int			current;
 }				t_bfs;
 

@@ -39,12 +39,17 @@ static void	update_visitation(t_info *info, t_room *current, t_room *target)
 		info->bfs.visited[target->index] = NEGATIVE;
 }
 
-static void	update_parents(int **parent_list, int target, int parent)
+static void	update_parents(t_trace *trace, int target, int parent)
 {
 	if (parent_list[target][0] < 0)
 		parent_list[target][0] = parent;
 	else
 		parent_list[target][1] = parent;
+}
+
+static void	update_trace(t_trace *trace, int target, int parent) //finish here!!
+{
+
 }
 
 static int	iterate_links(t_info *info, t_room *current)
@@ -77,11 +82,11 @@ static int	check_adjacent(t_info *info)
 {
 	t_room	*current;
 
-	current = vec_get(&info->room_table, info->bfs.current);
+	/*current = vec_get(&info->room_table, info->bfs.current);
 	if (current->flow_from >= 0
-		&& info->bfs.visited[current->index] == POSITIVE)
+		&& info->bfs.trace[current->index].entry_history == POSITIVE)
 	{
-		update_parents(info->bfs.parent,
+		update_trace(info->bfs.trace,
 			current->flow_from,
 			current->index);
 		update_visitation(info,
@@ -92,19 +97,19 @@ static int	check_adjacent(t_info *info)
 				sizeof(int)) == -1)
 			return (-1);
 		return (1);
-	}
-	else
+	}*/
+	//else
 		return (iterate_links(info, current));
 }
 
 int	bfs(t_info *info)
 {
-	info->bfs.visited[info->start] = BOTH;
+	info->bfs.trace[info->start].entry_history = BOTH;
 	llist_push(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
 	{
 		if (llist_pop(&info->bfs.current, &info->bfs.queue) == -1)
-			return (-1);
+			return (ERROR);
 		if (info->bfs.current == info->end)
 			return (PATH_FOUND);
 		if (check_adjacent(info) == -1)

@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	free_parents(int **parent_list, int size)
+/*static void	free_parents(int **parent_list, int size)
 {
 	int	i;
 
@@ -21,9 +21,41 @@ static void	free_parents(int **parent_list, int size)
 		free(parent_list[i]);
 	free(parent_list);
 	parent_list = NULL;
+}*/
+
+static void	initialize_trace(t_trace *trace, int size)
+{
+	int	i;
+
+	i = -1;
+	while (++i < size)
+	{
+		trace[i].first_visit.done = 0;
+		trace[i].first_visit.parent = -1;
+		trace[i].first_visit.children.memory = NULL;
+		trace[i].first_visit.children.elem_size = sizeof(int);
+		trace[i].second_visit.done = 0;
+		trace[i].second_visit.parent = -1;
+		trace[i].second_visit.children.memory = NULL;
+		trace[i].second_visit.children.elem_size = sizeof(int);
+		trace[i].entry_history = NONE;
+	}
 }
 
-static int	initialize_parent_list(int **list, int size)
+static void	free_trace(t_trace *trace, int size)
+{
+	int	i;
+
+	i = -1;
+	while (++i < size)
+	{
+		vec_free(&trace->first_visit.children);
+		vec_free(&trace->second_visit.children);
+	}
+	free(trace);
+}
+
+/*static int	initialize_parent_list(int **list, int size)
 {
 	int	i;
 
@@ -37,29 +69,29 @@ static int	initialize_parent_list(int **list, int size)
 		list[i][1] = -1;
 	}
 	return (1);
-}
+}*/
 
 int	initialize_bfs(t_info *info)
 {
-	info->bfs.visited = ft_memalloc(sizeof(t_entries) * info->room_count);
-	if (!info->bfs.visited)
-		return (-1);
 	info->bfs.current = info->start;
-	info->bfs.parent = (int **)malloc(sizeof(int *) * info->room_count);
-	if (!info->bfs.parent)
+	info->bfs.trace = (t_trace *)malloc(sizeof(t_trace) * info->room_count);
+	if (!info->bfs.trace)
 		return (-1);
-	if (initialize_parent_list(info->bfs.parent, info->room_count) == -1)
-		return (-1);
+	/*if (initialize_parent_list(info->bfs.trace, info->room_count) == -1)
+		return (-1);*/
+	initialize_trace(info->bfs.trace, info->room_count);
 	return (1);
 }
 
 void	free_bfs(t_bfs *bfs, int size)
 {
-	free(bfs->visited);
-	bfs->visited = NULL;
-	if (bfs->parent)
-		free_parents(bfs->parent, size);
-	bfs->parent = NULL;
+	//free(bfs->visited);
+	//bfs->visited = NULL;
+	//if (bfs->trace)
+	//	free_parents(bfs->trace, size);
+	//bfs->parent = NULL;
+	free_trace(&bfs->trace, size);
+	bfs->trace = NULL;
 	llist_free(&bfs->queue);
 	bfs->queue = NULL;
 }
