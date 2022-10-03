@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static int	validate_visit(t_info *info, t_room *current, t_room *target)
+/*static int	validate_visit(t_info *info, t_room *current, t_room *target)
 {
 	if (info->bfs.parent[current->index][0] == target->index
 		|| info->bfs.parent[current->index][1] == target->index)
@@ -26,9 +26,9 @@ static int	validate_visit(t_info *info, t_room *current, t_room *target)
 		&& info->adj_matrix[current->index][target->index] == NEGATIVE_FLOW)
 		return (0);
 	return (1);
-}
+}*/
 
-static void	update_visitation(t_info *info, t_room *current, t_room *target)
+/*static void	update_visitation(t_info *info, t_room *current, t_room *target)
 {
 	if (info->bfs.visited[target->index] == POSITIVE
 		|| info->bfs.visited[target->index] == NEGATIVE)
@@ -37,19 +37,26 @@ static void	update_visitation(t_info *info, t_room *current, t_room *target)
 		info->bfs.visited[target->index] = POSITIVE;
 	else
 		info->bfs.visited[target->index] = NEGATIVE;
-}
+}*/
 
-static void	update_parents(t_trace *trace, int target, int parent)
+/*static void	update_parents(t_trace *trace, int target, int parent)
 {
 	if (parent_list[target][0] < 0)
 		parent_list[target][0] = parent;
 	else
 		parent_list[target][1] = parent;
-}
+}*/
 
-static void	update_trace(t_trace *trace, int target, int parent) //finish here!!
+static void	update_trace(t_info *info, int target, int parent) //finish here!!
 {
+	t_visit	*visit;
 
+	if (!info->bfs.trace[target].first_visit.done)
+		visit = &info->bfs.trace[target].first_visit;
+	else
+		visit = &info->bfs.trace[target].second_visit;
+	visit->parent = parent;
+	update_children(info, target);
 }
 
 static int	iterate_links(t_info *info, t_room *current)
@@ -86,7 +93,7 @@ static int	check_adjacent(t_info *info)
 	if (current->flow_from >= 0
 		&& info->bfs.trace[current->index].entry_history == POSITIVE)
 	{
-		update_trace(info->bfs.trace,
+		update_trace(info,
 			current->flow_from,
 			current->index);
 		update_visitation(info,
