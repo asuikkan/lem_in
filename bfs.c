@@ -12,54 +12,31 @@
 
 #include "lem_in.h"
 
-/*static int	validate_visit(t_info *info, t_room *current, t_room *target)
+static void	update_visitation(t_info *info, int current, int target)
 {
-	if (info->bfs.parent[current->index][0] == target->index
-		|| info->bfs.parent[current->index][1] == target->index)
-		return (0);
-	if (info->bfs.visited[target->index] == BOTH)
-		return (0);
-	if (info->bfs.visited[target->index] == POSITIVE
-		&& info->adj_matrix[current->index][target->index] == NO_FLOW)
-		return (0);
-	if (info->bfs.visited[target->index] == NEGATIVE
-		&& info->adj_matrix[current->index][target->index] == NEGATIVE_FLOW)
-		return (0);
-	return (1);
-}*/
+	t_entries	*history;
 
-/*static void	update_visitation(t_info *info, t_room *current, t_room *target)
-{
-	if (info->bfs.visited[target->index] == POSITIVE
-		|| info->bfs.visited[target->index] == NEGATIVE)
-		info->bfs.visited[target->index] = BOTH;
-	else if (info->adj_matrix[current->index][target->index] == NO_FLOW)
-		info->bfs.visited[target->index] = POSITIVE;
+	history = &info->bfs.trace[target].entry_history;
+	if (*history == POSITIVE || *history == NEGATIVE)
+		*history = BOTH;
+	else if (info->adj_matrix[current][target] == NO_FLOW)
+		*history = POSITIVE;
 	else
-		info->bfs.visited[target->index] = NEGATIVE;
-}*/
-
-/*static void	update_parents(t_trace *trace, int target, int parent)
-{
-	if (parent_list[target][0] < 0)
-		parent_list[target][0] = parent;
-	else
-		parent_list[target][1] = parent;
-}*/
-
-static void	update_trace(t_info *info, int target, int parent) //finish here!!
-{
-	t_visit	*visit;
-
-	if (!info->bfs.trace[target].first_visit.done)
-		visit = &info->bfs.trace[target].first_visit;
-	else
-		visit = &info->bfs.trace[target].second_visit;
-	visit->parent = parent;
-	update_children(info, target);
+		*history = NEGATIVE;
 }
 
-static int	iterate_links(t_info *info, t_room *current)
+static int	update_trace(t_trace *trace, t_visit *visit, int target, int parent)
+{
+	if (trace[target].first_visit.parent < 0)
+		trace[target].first_visit.parent = parent;
+	else
+		trace[target].second_visit.parent = parent;
+	if (vec_push(&visit->children, &target) == -1)
+		return (-1);
+	return (1);
+}
+
+static int	iterate_links(t_info *info, t_room *current, t_visit *visit)
 {
 	int		target_index;
 	size_t	i;
@@ -73,8 +50,9 @@ static int	iterate_links(t_info *info, t_room *current)
 		if (validate_visit(info, current, target)
 			&& info->adj_matrix[current->index][target_index] != FLOW)
 		{
-			update_parents(info->bfs.parent, target_index, current->index);
-			update_visitation(info, current, target);
+			if (update_trace(info->bfs.trace, visit, target_index, current->index) == -1)
+				return (-1);
+			update_visitation(info, current->index, target_index);
 			if (llist_push(
 					&info->bfs.queue,
 					&target_index,
@@ -85,32 +63,33 @@ static int	iterate_links(t_info *info, t_room *current)
 	return (1);
 }
 
-static int	check_adjacent(t_info *info)
+static int	check_adjacent(t_info *info, t_visit *visit)
 {
 	t_room	*current;
 
-	/*current = vec_get(&info->room_table, info->bfs.current);
+	current = vec_get(&info->room_table, info->bfs.current);
 	if (current->flow_from >= 0
-		&& info->bfs.trace[current->index].entry_history == POSITIVE)
+		&& info->adj_matrix[visit->parent][info->bfs.current] == NO_FLOW)
 	{
-		update_trace(info,
+		update_trace(info->bfs.trace,
+			visit,
 			current->flow_from,
 			current->index);
-		update_visitation(info,
-			current,
-			vec_get(&info->room_table, current->flow_from));
+		update_visitation(info, current->index, current->flow_from);
 		if (llist_push(&info->bfs.queue,
 				&current->flow_from,
 				sizeof(int)) == -1)
 			return (-1);
 		return (1);
-	}*/
-	//else
-		return (iterate_links(info, current));
+	}
+	else
+		return (iterate_links(info, current, visit));
 }
 
 int	bfs(t_info *info)
 {
+	t_visit	*visit;
+
 	info->bfs.trace[info->start].entry_history = BOTH;
 	llist_push(&info->bfs.queue, &info->start, sizeof(int));
 	while (info->bfs.queue)
@@ -119,7 +98,11 @@ int	bfs(t_info *info)
 			return (ERROR);
 		if (info->bfs.current == info->end)
 			return (PATH_FOUND);
-		if (check_adjacent(info) == -1)
+		if (!info->bfs.trace[info->bfs.current].first_visit.done)
+			visit = &info->bfs.trace[info->bfs.current].first_visit;
+		else
+			visit = &info->bfs.trace[info->bfs.current].second_visit;
+		if (check_adjacent(info, visit) == -1)
 			return (ERROR);
 	}
 	return (PATH_NOT_FOUND);
