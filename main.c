@@ -51,8 +51,7 @@ static int	initialize_info(t_info *info)
 	info->start = -1;
 	info->end = -1;
 	info->bfs.queue = NULL;
-	info->bfs.visited = NULL;
-	info->bfs.parent = NULL;
+	info->bfs.trace = NULL;
 	info->adj_matrix = NULL;
 	info->pathset.paths.memory = NULL;
 	return (1);

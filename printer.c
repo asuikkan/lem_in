@@ -104,6 +104,8 @@ int	print_final(int ant_count, t_vec *map_info, t_pathset *pathset)
 
 	if (init_room_info(&room_info, pathset) == -1)
 		return (-1);
+	//(void)map_info; //temp
+	//(void)ant_count; //temp
 	print_map_info(map_info);
 	ant_control(ant_count, pathset, room_info);
 	free_room_info(room_info, pathset->paths.len);

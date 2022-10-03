@@ -12,6 +12,21 @@
 
 #include "lem_in.h"
 
+static int	validate_visit(t_info *info, t_visit *visit, t_room *current, t_room *target)
+{
+	if (visit->parent == target->index)
+		return (0);
+	if (info->bfs.trace[target->index].entry_history == BOTH)
+		return (0);
+	if (info->bfs.trace[target->index].entry_history == POSITIVE
+		&& info->adj_matrix[current->index][target->index] == NO_FLOW)
+		return (0);
+	if (info->bfs.trace[target->index].entry_history == NEGATIVE
+		&& info->adj_matrix[current->index][target->index] == NEGATIVE_FLOW)
+		return (0);
+	return (1);
+}
+
 static void	update_visitation(t_info *info, int current, int target)
 {
 	t_entries	*history;
@@ -47,7 +62,7 @@ static int	iterate_links(t_info *info, t_room *current, t_visit *visit)
 	{
 		target_index = *(int *)vec_get(&current->links, i++);
 		target = vec_get(&info->room_table, target_index);
-		if (validate_visit(info, current, target)
+		if (validate_visit(info, visit, current, target)
 			&& info->adj_matrix[current->index][target_index] != FLOW)
 		{
 			if (update_trace(info->bfs.trace, visit, target_index, current->index) == -1)
@@ -104,6 +119,7 @@ int	bfs(t_info *info)
 			visit = &info->bfs.trace[info->bfs.current].second_visit;
 		if (check_adjacent(info, visit) == -1)
 			return (ERROR);
+		visit->done = 1;
 	}
 	return (PATH_NOT_FOUND);
 }

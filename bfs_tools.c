@@ -90,7 +90,7 @@ void	free_bfs(t_bfs *bfs, int size)
 	//if (bfs->trace)
 	//	free_parents(bfs->trace, size);
 	//bfs->parent = NULL;
-	free_trace(&bfs->trace, size);
+	free_trace(bfs->trace, size);
 	bfs->trace = NULL;
 	llist_free(&bfs->queue);
 	bfs->queue = NULL;

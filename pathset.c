@@ -49,7 +49,6 @@ static t_room	*find_next_room(t_info *info, t_room *current)
 		if (info->adj_matrix[current->index][next_index] == FLOW)
 		{
 			next = vec_get(&info->room_table, next_index);
-			//current->flow_to = next_index;
 			next->flow_from = current->index;
 			return (next);
 		}
@@ -57,14 +56,12 @@ static t_room	*find_next_room(t_info *info, t_room *current)
 	return (NULL);
 }
 
-static int	add_path(t_info *info, t_pathset *pathset, int start)
+static int	add_path(t_info *info, t_pathset *pathset, t_room *current)
 {
 	t_vec	new_path;
-	t_room	*current;
 	t_room	*next;
 
 	initialize_path(&new_path);
-	current = vec_get(&info->room_table, start);
 	if (vec_push(&new_path, &current) == -1)
 		return (-1);
 	while (current->index != info->end)
@@ -83,9 +80,10 @@ static int	add_path(t_info *info, t_pathset *pathset, int start)
 
 int	save_pathset(t_info *info, t_pathset *new_pathset)
 {
-	t_room		*current;
-	size_t		i;
-	int			link;
+	t_room	*current;
+	t_room	*next;
+	size_t	i;
+	int		next_index;
 
 	if (vec_new(&new_pathset->paths, 1, sizeof(t_vec)) == -1)
 		return (-1);
@@ -93,10 +91,12 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 	i = 0;
 	while (i < current->links.len)
 	{
-		link = *(int *)vec_get(&current->links, i++);
-		if (info->adj_matrix[current->index][link] == FLOW)
+		next_index = *(int *)vec_get(&current->links, i++);
+		if (info->adj_matrix[current->index][next_index] == FLOW)
 		{
-			if (add_path(info, new_pathset, link) == -1)
+			next = vec_get(&info->room_table, next_index);
+			next->flow_from = current->index;
+			if (add_path(info, new_pathset, next) == -1)
 				return (free_pathset(new_pathset), -1);
 		}
 	}
