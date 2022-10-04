@@ -70,7 +70,8 @@ int	main(void)
 	//print_rooms(info.room_table);
 	//print_adj_matrix(info.adj_matrix, info.room_count);
 	print_final(info.ant_count, &info.map_info, &info.pathset);
-	ft_printf("ANT COUNT: %d\n\n", info.ant_count); // temp
+	ft_printf(">>>> %d <<<<\n", info.pathset.total_time);
+	//ft_printf("ANT COUNT: %d\n\n", info.ant_count); // temp
 	print_paths(&info.pathset); //temp
 	return (free_and_exit(&info, 0));
 }

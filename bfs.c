@@ -12,7 +12,8 @@
 
 #include "lem_in.h"
 
-static int	validate_visit(t_info *info, t_visit *visit, t_room *current, t_room *target)
+static int	validate_visit(t_info *info,
+	t_visit *visit, t_room *current, t_room *target)
 {
 	if (visit->parent == target->index)
 		return (0);
@@ -44,8 +45,10 @@ static int	update_trace(t_trace *trace, t_visit *visit, int target, int parent)
 {
 	if (trace[target].first_visit.parent < 0)
 		trace[target].first_visit.parent = parent;
-	else
+	else if (trace[target].second_visit.parent < 0)
 		trace[target].second_visit.parent = parent;
+	else
+		return (-1);
 	if (vec_push(&visit->children, &target) == -1)
 		return (-1);
 	return (1);
