@@ -80,6 +80,7 @@ static int	add_path(t_info *info, t_pathset *pathset, t_room *current)
 
 int	save_pathset(t_info *info, t_pathset *new_pathset)
 {
+	//static int	temp; //temp
 	t_room	*current;
 	t_room	*next;
 	size_t	i;
@@ -101,6 +102,8 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 		}
 	}
 	calculate_total_time(new_pathset, info->ant_count);
-	//print_paths(new_pathset); //temp
+	//temp++;
+	//if (temp == 4)
+		print_paths(new_pathset); //temp
 	return (1);
 }

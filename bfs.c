@@ -13,17 +13,17 @@
 #include "lem_in.h"
 
 static int	validate_visit(t_info *info,
-	t_visit *visit, t_room *current, t_room *target)
+	t_visit *visit, int current, int target)
 {
-	if (visit->parent == target->index)
+	if (visit->parent == target)
 		return (0);
-	if (info->bfs.trace[target->index].entry_history == BOTH)
+	if (info->bfs.trace[target].entry_history == BOTH)
 		return (0);
-	if (info->bfs.trace[target->index].entry_history == POSITIVE
-		&& info->adj_matrix[current->index][target->index] == NO_FLOW)
+	if (info->bfs.trace[target].entry_history == POSITIVE
+		&& info->adj_matrix[current][target] == NO_FLOW)
 		return (0);
-	if (info->bfs.trace[target->index].entry_history == NEGATIVE
-		&& info->adj_matrix[current->index][target->index] == NEGATIVE_FLOW)
+	if (info->bfs.trace[target].entry_history == NEGATIVE
+		&& info->adj_matrix[current][target] == NEGATIVE_FLOW)
 		return (0);
 	return (1);
 }
@@ -65,7 +65,7 @@ static int	iterate_links(t_info *info, t_room *current, t_visit *visit)
 	{
 		target_index = *(int *)vec_get(&current->links, i++);
 		target = vec_get(&info->room_table, target_index);
-		if (validate_visit(info, visit, current, target)
+		if (validate_visit(info, visit, current->index, target->index)
 			&& info->adj_matrix[current->index][target_index] != FLOW)
 		{
 			if (update_trace(info->bfs.trace, visit, target_index, current->index) == -1)
@@ -89,15 +89,18 @@ static int	check_adjacent(t_info *info, t_visit *visit)
 	if (current->flow_from >= 0
 		&& info->adj_matrix[visit->parent][info->bfs.current] == NO_FLOW)
 	{
-		update_trace(info->bfs.trace,
-			visit,
-			current->flow_from,
-			current->index);
-		update_visitation(info, current->index, current->flow_from);
-		if (llist_push(&info->bfs.queue,
-				&current->flow_from,
-				sizeof(int)) == -1)
-			return (-1);
+		if (validate_visit(info, visit, current->index, current->flow_from))
+		{
+			update_trace(info->bfs.trace,
+				visit,
+				current->flow_from,
+				current->index);
+			update_visitation(info, current->index, current->flow_from);
+			if (llist_push(&info->bfs.queue,
+					&current->flow_from,
+					sizeof(int)) == -1)
+				return (-1);
+		}
 		return (1);
 	}
 	else
