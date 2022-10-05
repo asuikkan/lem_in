@@ -12,17 +12,6 @@
 
 #include "lem_in.h"
 
-/*static void	free_parents(int **parent_list, int size)
-{
-	int	i;
-
-	i = -1;
-	while (++i < size && parent_list[i])
-		free(parent_list[i]);
-	free(parent_list);
-	parent_list = NULL;
-}*/
-
 static void	initialize_trace(t_trace *trace, int size)
 {
 	int	i;
@@ -33,10 +22,12 @@ static void	initialize_trace(t_trace *trace, int size)
 		trace[i].first_visit.done = 0;
 		trace[i].first_visit.parent = -1;
 		trace[i].first_visit.children.memory = NULL;
+		trace[i].first_visit.children.len = 0;
 		trace[i].first_visit.children.elem_size = sizeof(int);
 		trace[i].second_visit.done = 0;
 		trace[i].second_visit.parent = -1;
 		trace[i].second_visit.children.memory = NULL;
+		trace[i].second_visit.children.len = 0;
 		trace[i].second_visit.children.elem_size = sizeof(int);
 		trace[i].entry_history = NONE;
 	}

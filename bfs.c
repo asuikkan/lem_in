@@ -17,6 +17,8 @@ static int	validate_visit(t_info *info,
 {
 	if (visit->parent == target)
 		return (0);
+	if (info->adj_matrix[current][target] == FLOW)
+		return (0);
 	if (info->bfs.trace[target].entry_history == BOTH)
 		return (0);
 	if (info->bfs.trace[target].entry_history == POSITIVE
@@ -25,32 +27,6 @@ static int	validate_visit(t_info *info,
 	if (info->bfs.trace[target].entry_history == NEGATIVE
 		&& info->adj_matrix[current][target] == NEGATIVE_FLOW)
 		return (0);
-	return (1);
-}
-
-static void	update_visitation(t_info *info, int current, int target)
-{
-	t_entries	*history;
-
-	history = &info->bfs.trace[target].entry_history;
-	if (*history == POSITIVE || *history == NEGATIVE)
-		*history = BOTH;
-	else if (info->adj_matrix[current][target] == NO_FLOW)
-		*history = POSITIVE;
-	else
-		*history = NEGATIVE;
-}
-
-static int	update_trace(t_trace *trace, t_visit *visit, int target, int parent)
-{
-	if (trace[target].first_visit.parent < 0)
-		trace[target].first_visit.parent = parent;
-	else if (trace[target].second_visit.parent < 0)
-		trace[target].second_visit.parent = parent;
-	else
-		return (-1);
-	if (vec_push(&visit->children, &target) == -1)
-		return (-1);
 	return (1);
 }
 
@@ -65,10 +41,10 @@ static int	iterate_links(t_info *info, t_room *current, t_visit *visit)
 	{
 		target_index = *(int *)vec_get(&current->links, i++);
 		target = vec_get(&info->room_table, target_index);
-		if (validate_visit(info, visit, current->index, target->index)
-			&& info->adj_matrix[current->index][target_index] != FLOW)
+		if (validate_visit(info, visit, current->index, target->index))
 		{
-			if (update_trace(info->bfs.trace, visit, target_index, current->index) == -1)
+			if (update_trace(info->bfs.trace,
+					visit, target_index, current->index) == -1)
 				return (-1);
 			update_visitation(info, current->index, target_index);
 			if (llist_push(

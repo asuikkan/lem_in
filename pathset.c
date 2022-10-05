@@ -15,6 +15,7 @@
 static void	initialize_path(t_vec *path)
 {
 	path->memory = NULL;
+	path->len = 0;
 	path->elem_size = sizeof(t_room *);
 }
 
@@ -80,7 +81,6 @@ static int	add_path(t_info *info, t_pathset *pathset, t_room *current)
 
 int	save_pathset(t_info *info, t_pathset *new_pathset)
 {
-	//static int	temp; //temp
 	t_room	*current;
 	t_room	*next;
 	size_t	i;
@@ -102,8 +102,5 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 		}
 	}
 	calculate_total_time(new_pathset, info->ant_count);
-	//temp++;
-	//if (temp == 4)
-		print_paths(new_pathset); //temp
 	return (1);
 }

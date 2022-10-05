@@ -71,9 +71,10 @@ static void	send_ants(size_t **room_info, size_t path_index, t_vec *path)
 	room_info[path_index][0] = ant_number;
 }
 
-static void	ant_control(int ant_count, t_pathset *pathset, size_t **room_info)
+static void	ant_control(size_t ant_count,
+	t_pathset *pathset, size_t **room_info)
 {
-	int		line_count;
+	size_t	line_count;
 	size_t	ants;
 	size_t	i;
 	t_vec	*path;
@@ -87,7 +88,7 @@ static void	ant_control(int ant_count, t_pathset *pathset, size_t **room_info)
 		while (ants > 0 && i < pathset->paths.len)
 		{
 			path = vec_get(&pathset->paths, i);
-			if (path->len > (size_t)line_count)
+			if (path->len > line_count)
 				break ;
 			send_ants(room_info, i, path);
 			ants--;
@@ -98,14 +99,12 @@ static void	ant_control(int ant_count, t_pathset *pathset, size_t **room_info)
 	}
 }
 
-int	print_final(int ant_count, t_vec *map_info, t_pathset *pathset)
+int	print_final(size_t ant_count, t_vec *map_info, t_pathset *pathset)
 {
 	size_t	**room_info;
 
 	if (init_room_info(&room_info, pathset) == -1)
 		return (-1);
-	//(void)map_info; //temp
-	//(void)ant_count; //temp
 	print_map_info(map_info);
 	ant_control(ant_count, pathset, room_info);
 	free_room_info(room_info, pathset->paths.len);

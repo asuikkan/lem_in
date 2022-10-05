@@ -42,24 +42,19 @@ static void	free_matrix(t_adj_state	**matrix, size_t size)
 	free(matrix);
 }
 
-static void	free_room(t_room *room)
-{
-	ft_strdel(&room->name);
-	vec_free(&room->links);
-}
-
 static void	free_table(t_vec *table)
 {
 	size_t	i;
-	t_room	*temp;
+	t_room	*room;
 
 	if (table->len > 0)
 	{
 		i = 0;
 		while (i < table->len)
 		{
-			temp = vec_get(table, i);
-			free_room(temp);
+			room = vec_get(table, i);
+			ft_strdel(&room->name);
+			vec_free(&room->links);
 			i++;
 		}
 	}
