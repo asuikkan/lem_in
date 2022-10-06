@@ -36,11 +36,18 @@ static int	init_hash_table(t_vec *dst, t_vec *src)
 	return (1);
 }
 
-static void	add_to_list(t_room *dst, t_room *src)
+static int	add_to_list(t_room *dst, t_room *src)
 {
+	if (!ft_strcmp(dst->name, src->name))
+		return (-1);
 	while (dst->next)
+	{
 		dst = dst->next;
+		if (!ft_strcmp(dst->name, src->name))
+			return (-1);
+	}
 	dst->next = src;
+	return (1);
 }
 
 int	hasher(t_info *info)
@@ -64,8 +71,8 @@ int	hasher(t_info *info)
 			if (vec_overwrite(&info->hash_table, &temp, index) == -1)
 				return (-1);
 		}
-		else
-			add_to_list(slotted, temp);
+		else if (add_to_list(slotted, temp) == -1)
+			return (-1);
 	}
 	return (1);
 }

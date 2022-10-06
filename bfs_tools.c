@@ -58,7 +58,8 @@ int	initialize_bfs(t_info *info)
 
 void	free_bfs(t_bfs *bfs, int size)
 {
-	free_trace(bfs->trace, size);
+	if (bfs->trace)
+		free_trace(bfs->trace, size);
 	bfs->trace = NULL;
 	llist_free(&bfs->queue);
 	bfs->queue = NULL;

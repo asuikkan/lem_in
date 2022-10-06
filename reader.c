@@ -87,5 +87,7 @@ int	read_output(t_info *info)
 			state = parse_info(info, temp);
 		ft_strdel(&temp);
 	}
+	if (info->start < 0 || info->end < 0 || !info->flags.room_flag)
+		return (-1);
 	return (state);
 }
