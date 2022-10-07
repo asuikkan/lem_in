@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix.c                                           :+:      :+:    :+:   */
+/*   llist_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 16:22:07 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/27 16:22:10 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/09/29 16:52:11 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/09/29 16:52:12 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "libft.h"
 
-int	**create_matrix(size_t size)
+t_llist	*llist_new(void *content, size_t size)
 {
-	int		**matrix;
-	size_t	i;
+	t_llist	*new;
 
-	matrix = ft_memalloc(sizeof(int *) * size);
-	if (!matrix)
+	if (!content || !size)
 		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		matrix[i] = ft_memalloc(sizeof(int) * size);
-		if (!matrix[i])
-			return (NULL);
-		i++;
-	}
-	return (matrix);
+	if (size == 0)
+		return (NULL);
+	new = (t_llist *)malloc(sizeof(t_llist));
+	if (!new)
+		return (NULL);
+	new->content = (void *)malloc(size);
+	if (!new->content)
+		return (NULL);
+	ft_memcpy(new->content, content, size);
+	new->size = size;
+	new->next = NULL;
+	return (new);
 }

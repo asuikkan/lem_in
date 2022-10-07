@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room_aux.c                                         :+:      :+:    :+:   */
+/*   llist_push.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 17:39:45 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/12 17:39:46 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/09/29 16:51:29 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/09/29 16:51:30 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "libft.h"
 
-int	add_start(t_info *info, t_room *room)
+int	llist_push(t_llist **dst, void *content, size_t size)
 {
-	if (info->start >= 0)
-		return (-1);
-	info->start = room->index;
-	info->flags.start_flag = 0;
-	return (1);
-}
+	t_llist	*current;
 
-int	add_end(t_info *info, t_room *room)
-{
-	if (info->end >= 0)
+	if (!content || !size)
 		return (-1);
-	info->end = room->index;
-	info->flags.end_flag = 0;
-	return (1);
-}
-
-int	push_room(t_info *info, t_room *room)
-{
-	if (vec_push(&info->room_table, room) == -1)
-		return (-1);
+	if (!*dst)
+	{
+		*dst = llist_new(content, size);
+		if (!*dst)
+			return (-1);
+	}
+	else
+	{
+		current = *dst;
+		while (current->next)
+			current = current->next;
+		current->next = llist_new(content, size);
+		if (!current->next)
+			return (-1);
+	}
 	return (1);
 }

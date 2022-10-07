@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room_aux.c                                         :+:      :+:    :+:   */
+/*   compare.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 17:39:45 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/12 17:39:46 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/09/09 15:26:19 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/09/09 15:26:20 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int	add_start(t_info *info, t_room *room)
+void	compare_pathsets(t_pathset *new_pathset)
 {
-	if (info->start >= 0)
-		return (-1);
-	info->start = room->index;
-	info->flags.start_flag = 0;
-	return (1);
-}
+	static t_pathset	best;
 
-int	add_end(t_info *info, t_room *room)
-{
-	if (info->end >= 0)
-		return (-1);
-	info->end = room->index;
-	info->flags.end_flag = 0;
-	return (1);
-}
-
-int	push_room(t_info *info, t_room *room)
-{
-	if (vec_push(&info->room_table, room) == -1)
-		return (-1);
-	return (1);
+	if (!best.paths.memory || best.total_time > new_pathset->total_time)
+	{
+		free_pathset(&best);
+		best = *new_pathset;
+	}
+	else
+	{
+		free_pathset(new_pathset);
+		*new_pathset = best;
+	}
 }

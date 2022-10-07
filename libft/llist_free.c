@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   llist_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuikkan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 11:52:47 by asuikkan          #+#    #+#             */
-/*   Updated: 2021/11/03 13:53:50 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/09/29 16:44:33 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/09/29 16:44:35 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-void	*ft_memset(void *str, int c, size_t n)
+void	llist_free(t_llist **src)
 {
-	unsigned char	uc;
-	unsigned long	i;
+	t_llist	*temp;
 
-	uc = c;
-	i = 0;
-	while (i < n)
+	while (*src)
 	{
-		((unsigned char *)str)[i] = uc;
-		i++;
+		temp = (*src)->next;
+		free((*src)->content);
+		(*src)->content = NULL;
+		free(*src);
+		*src = temp;
 	}
-	return (str);
 }

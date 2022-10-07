@@ -18,7 +18,5 @@ void	*vec_get(t_vec *src, size_t index)
 		return (NULL);
 	if (!src->memory)
 		return (NULL);
-	if (src->len - 1 < index)
-		return (NULL);
 	return (&src->memory[index * src->elem_size]);
 }

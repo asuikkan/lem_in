@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room_aux.c                                         :+:      :+:    :+:   */
+/*   parse_ants.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 17:39:45 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/12 17:39:46 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/08/30 13:00:21 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/08/30 13:00:23 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int	add_start(t_info *info, t_room *room)
+int	parse_ant_count(t_info *info, char *line)
 {
-	if (info->start >= 0)
-		return (-1);
-	info->start = room->index;
-	info->flags.start_flag = 0;
-	return (1);
-}
+	long	nb;
+	int		i;
 
-int	add_end(t_info *info, t_room *room)
-{
-	if (info->end >= 0)
-		return (-1);
-	info->end = room->index;
-	info->flags.end_flag = 0;
-	return (1);
-}
-
-int	push_room(t_info *info, t_room *room)
-{
-	if (vec_push(&info->room_table, room) == -1)
-		return (-1);
+	nb = 0;
+	i = -1;
+	while (line[++i])
+	{
+		if (!ft_isdigit(line[i]))
+			return (-1);
+		nb = nb * 10 + (line[i] - '0');
+		if (nb > COORD_LIMIT)
+			return (-1);
+	}
+	info->ant_count = nb;
 	return (1);
 }

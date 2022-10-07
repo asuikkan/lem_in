@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room_aux.c                                         :+:      :+:    :+:   */
+/*   llist_pop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuikkan <asuikkan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 17:39:45 by asuikkan          #+#    #+#             */
-/*   Updated: 2022/07/12 17:39:46 by asuikkan         ###   ########.fr       */
+/*   Created: 2022/09/29 16:50:54 by asuikkan          #+#    #+#             */
+/*   Updated: 2022/09/29 16:50:55 by asuikkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "libft.h"
 
-int	add_start(t_info *info, t_room *room)
+int	llist_pop(void *dst, t_llist **src)
 {
-	if (info->start >= 0)
-		return (-1);
-	info->start = room->index;
-	info->flags.start_flag = 0;
-	return (1);
-}
+	t_llist	*temp;
 
-int	add_end(t_info *info, t_room *room)
-{
-	if (info->end >= 0)
+	if (!*src)
 		return (-1);
-	info->end = room->index;
-	info->flags.end_flag = 0;
-	return (1);
-}
-
-int	push_room(t_info *info, t_room *room)
-{
-	if (vec_push(&info->room_table, room) == -1)
+	if (!dst)
 		return (-1);
+	ft_memcpy(dst, (*src)->content, (*src)->size);
+	temp = (*src)->next;
+	free((*src)->content);
+	(*src)->content = NULL;
+	free(*src);
+	*src = temp;
 	return (1);
 }

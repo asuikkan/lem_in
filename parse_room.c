@@ -12,23 +12,15 @@
 
 #include "lem_in.h"
 
-int	parse_ant_count(t_info *info, char *line)
+static void	initialize_room(t_room *room)
 {
-	long	nb;
-	int		i;
-
-	nb = 0;
-	i = -1;
-	while (line[++i] != '\n')
-	{
-		if (!ft_isdigit(line[i]))
-			return (-1);
-		nb = nb * 10 + (line[i] - '0');
-		if (nb > COORD_LIMIT)
-			return (-1);
-	}
-	info->ant_count = nb;
-	return (1);
+	room->name = NULL;
+	room->next = NULL;
+	room->links.memory = NULL;
+	room->links.elem_size = sizeof(int);
+	room->links.len = 0;
+	room->flow_from = -1;
+	room->flow_to = -1;
 }
 
 static int	parse_name(t_room *room, char *line)
@@ -38,7 +30,7 @@ static int	parse_name(t_room *room, char *line)
 	len = ft_strclen(line, ' ');
 	if (len == 0)
 		return (-1);
-	if (line[len - 1] == '\n' || line[0] == 'L')
+	if (line[0] == 'L')
 		return (-1);
 	room->name = ft_strnew(len);
 	if (!room->name)
@@ -56,8 +48,6 @@ static int	parse_x(t_room *room, char *line)
 
 	len = ft_strclen(line, ' ');
 	if (len == 0)
-		return (-1);
-	if (line[len - 1] == '\n')
 		return (-1);
 	nb = 0;
 	i = -1;
@@ -80,12 +70,12 @@ static int	parse_y(t_room *room, char *line)
 	int		i;
 	long	nb;
 
-	len = ft_strclen(line, '\n');
+	len = ft_strlen(line);
 	if (len == 0)
 		return (-1);
 	nb = 0;
 	i = -1;
-	while (line[++i] != '\n')
+	while (line[++i])
 	{
 		if (!ft_isdigit(line[i]))
 			return (-1);
@@ -93,7 +83,7 @@ static int	parse_y(t_room *room, char *line)
 		if (nb > COORD_LIMIT)
 			return (-1);
 	}
-	ft_memmove(line, line + len, ft_strlen(line) - len);
+	ft_memmove(line, line + len, len);
 	room->y = (int)nb;
 	return (1);
 }
@@ -102,21 +92,16 @@ int	parse_room(t_info *info, char *line)
 {
 	t_room		room;
 
-	room.name = NULL;
-	room.next = NULL;
-	if (info->flags.end_flag)
-		room.distance = 0;
-	else
-		room.distance = -1;
+	initialize_room(&room);
 	if (parse_name(&room, line) == -1)
 		return (-1);
 	if (parse_x(&room, line) == -1)
-		return (-1);
+		return (free(room.name), -1);
 	if (parse_y(&room, line) == -1)
+		return (free(room.name), -1);
+	if (*line)
 		return (-1);
-	if (*line != '\n')
-		return (-1);
-	room.matrix_index = info->room_table.len;
+	room.index = info->room_table.len;
 	if (push_room(info, &room) == -1)
 		return (-1);
 	if (info->flags.start_flag == 1)

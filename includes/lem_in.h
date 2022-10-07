@@ -18,18 +18,20 @@
 
 # include "libft.h"
 
-typedef struct s_llist
+enum e_pathset_check
 {
-	void			*content;
-	size_t			size;
-	struct s_llist	*next;
-}					t_llist;
+	ERROR,
+	PATH_NOT_FOUND,
+	PATH_FOUND
+};
 
-typedef struct s_path
+typedef enum e_entries
 {
-	t_llist	*path;
-	int		length;
-}			t_path;
+	NONE,
+	POSITIVE,
+	NEGATIVE,
+	BOTH
+}	t_entries;
 
 typedef struct s_read_flags
 {
@@ -43,62 +45,80 @@ typedef struct s_room
 	char			*name;
 	int				x;
 	int				y;
-	int				matrix_index;
-	int				distance;
+	int				index;
+	t_vec			links;
+	int				flow_from;
+	int				flow_to;
 	struct s_room	*next;
 }					t_room;
 
-typedef struct s_bfs_distance
+typedef enum e_adj_state
 {
-	t_llist	*queue;
-	int		*visited;
-	int		*index;
-}			t_bfs_distance;
+	NO_LINK,
+	NO_FLOW,
+	FLOW,
+	NEGATIVE_FLOW
+}	t_adj_state;
 
-typedef struct s_bfs_path
+typedef struct s_pathset
 {
-	t_llist	*queue;
-	int		*visited;
-	int		*closed;
-	int		*index;
-}			t_bfs_path;
+	t_vec	paths;
+	int		total_time;
+}			t_pathset;
+
+typedef struct s_bfs
+{
+	t_llist		*queue;
+	t_entries	*visited;
+	int			**parent;
+	int			current;
+}				t_bfs;
 
 typedef struct s_info
 {
+	t_vec			map_info;
 	int				ant_count;
 	int				room_count;
 	t_read_flags	flags;
 	t_vec			room_table;
 	t_vec			hash_table;
-	int				**adj_matrix;
-	t_room			*start;
-	t_room			*end;
-	t_bfs_distance	bfs_distance;
-	t_bfs_path		bfs_path;
+	t_adj_state		**adj_matrix;
+	int				start;
+	int				end;
+	t_bfs			bfs;
+	t_pathset		pathset;
 }					t_info;
 
-char			*lem_in_strndup(char *buf, int start, int n);
-char			*lem_in_strnjoin(char *line, char *buf, int start, int n);
-int				add_start(t_info *info, t_room *room);
+int				add_adjacency(t_room *room1, t_room *room2);
 int				add_end(t_info *info, t_room *room);
-int				pathfinder(t_info *info);
+int				add_start(t_info *info, t_room *room);
+int				bfs(t_info *info);
+int				free_and_exit(t_info *info, int error_flag);
 int				hasher(t_info *info);
-int				add_distances(t_info *info);
-int				lem_in_line_len(char *buf, int start);
-void			*llist_copy_front(void *dst, t_llist *src, size_t size);
-void			llist_free(t_llist **src);
-t_llist			*llist_new(void *content, size_t size);
-int				llist_push(t_llist *dst, void *content, size_t size);
-int				llist_push_back(t_llist **dst, void *content, size_t size);
-void			llist_pop(t_llist **dst);
+int				init_room_info(size_t ***room_info, t_pathset *pathset);
+int				initialize_bfs(t_info *info);
+int				initialize_flow(t_adj_state **adj_matrix,
+					t_room *room1,
+					t_room *room2);
 int				parse_ant_count(t_info *info, char *data);
 int				parse_link(t_info *info, char *line);
 int				parse_room(t_info *info, char *line);
+int				pathfinder(t_info *info);
+int				print_ant(size_t ant, t_vec *path, size_t room_i, int printed);
+int				print_final(int ant_count, t_vec *map_info, t_pathset *pathset);
 int				push_room(t_info *info, t_room *room);
 int				read_output(t_info *info);
-int				**create_matrix(size_t size);
+int				reset_bfs(t_info *info);
+int				save_pathset(t_info *info, t_pathset *new_pathset);
+t_adj_state		**create_matrix(size_t size);
 unsigned long	hash(char *str, size_t len);
-void			error_handler(void);
-void			free_and_exit(t_info *info, int error_flag);
+void			calculate_total_time(t_pathset *pathset, int ant_count);
+void			compare_pathsets(t_pathset *new_pathset);
+void			free_bfs(t_bfs *bfs, int size);
+void			free_pathset(t_pathset *pathset);
+void			free_room_info(size_t **room_info, size_t size);
+void			print_map_info(t_vec *map_info);
+void			print_paths(t_pathset *pathset);
+void			update_flow(t_info *info);
 
 #endif
