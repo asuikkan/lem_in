@@ -42,6 +42,7 @@ static int	initialize_info(t_info *info)
 {
 	info->map_info.memory = NULL;
 	info->map_info.elem_size = sizeof(char *);
+	info->map_info.len = 0;
 	info->ant_count = 0;
 	info->room_count = -1;
 	info->flags.end_flag = 0;
@@ -69,7 +70,7 @@ int	main(void)
 	if (pathfinder(&info) == -1)
 		return (free_and_exit(&info, 1));
 	print_final(info.ant_count, &info.map_info, &info.pathset);
-	//ft_printf(">>>> %d <<<<\n", info.pathset.total_time);
+	ft_printf(">>>> %d <<<<\n", info.pathset.total_time);
 	//ft_printf("ANT COUNT: %d\n\n", info.ant_count); // temp
 	//print_paths(&info.pathset); //temp
 	return (free_and_exit(&info, 0));
