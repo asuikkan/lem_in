@@ -38,7 +38,8 @@ static int	comment_check(t_info *info, char *line)
 			return (-1);
 		info->flags.end_flag = 1;
 	}
-	if ((info->flags.start_flag || info->flags.end_flag) && info->ant_count < 0)
+	if ((info->flags.start_flag || info->flags.end_flag)
+		&& info->ant_count == 0)
 		return (-1);
 	return (1);
 }
@@ -47,7 +48,7 @@ static int	parse_info(t_info *info, char *line)
 {
 	if (line[0] == '#')
 		return (comment_check(info, line));
-	else if (info->ant_count < 0)
+	else if (info->ant_count == 0)
 		return (parse_ant_count(info, line));
 	else if (!info->flags.room_flag)
 	{
@@ -86,5 +87,7 @@ int	read_output(t_info *info)
 			state = parse_info(info, temp);
 		ft_strdel(&temp);
 	}
+	if (info->start < 0 || info->end < 0 || !info->flags.room_flag)
+		return (-1);
 	return (state);
 }

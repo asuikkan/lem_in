@@ -16,7 +16,9 @@ void	compare_pathsets(t_pathset *new_pathset)
 {
 	static t_pathset	best;
 
-	if (!best.paths.memory || best.total_time > new_pathset->total_time)
+	if ((!best.paths.memory || best.total_time > new_pathset->total_time)
+		|| (best.total_time == new_pathset->total_time
+			&& best.paths.len < new_pathset->paths.len))
 	{
 		free_pathset(&best);
 		best = *new_pathset;

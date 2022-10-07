@@ -48,7 +48,6 @@ typedef struct s_room
 	int				index;
 	t_vec			links;
 	int				flow_from;
-	int				flow_to;
 	struct s_room	*next;
 }					t_room;
 
@@ -66,18 +65,31 @@ typedef struct s_pathset
 	int		total_time;
 }			t_pathset;
 
+typedef struct s_visit
+{
+	int		done: 1;
+	int		parent;
+	t_vec	children;
+}			t_visit;
+
+typedef struct s_trace
+{
+	t_visit		first_visit;
+	t_visit		second_visit;
+	t_entries	entry_history;
+}				t_trace;
+
 typedef struct s_bfs
 {
 	t_llist		*queue;
-	t_entries	*visited;
-	int			**parent;
+	t_trace		*trace;
 	int			current;
 }				t_bfs;
 
 typedef struct s_info
 {
 	t_vec			map_info;
-	int				ant_count;
+	size_t			ant_count;
 	int				room_count;
 	t_read_flags	flags;
 	t_vec			room_table;
@@ -97,22 +109,24 @@ int				free_and_exit(t_info *info, int error_flag);
 int				hasher(t_info *info);
 int				init_room_info(size_t ***room_info, t_pathset *pathset);
 int				initialize_bfs(t_info *info);
-int				initialize_flow(t_adj_state **adj_matrix,
-					t_room *room1,
+int				initialize_flow(t_adj_state **adj_matrix, t_room *room1,
 					t_room *room2);
 int				parse_ant_count(t_info *info, char *data);
 int				parse_link(t_info *info, char *line);
 int				parse_room(t_info *info, char *line);
 int				pathfinder(t_info *info);
 int				print_ant(size_t ant, t_vec *path, size_t room_i, int printed);
-int				print_final(int ant_count, t_vec *map_info, t_pathset *pathset);
+int				print_final(size_t ant_count,
+					t_vec *map_info, t_pathset *pathset);
 int				push_room(t_info *info, t_room *room);
 int				read_output(t_info *info);
 int				reset_bfs(t_info *info);
 int				save_pathset(t_info *info, t_pathset *new_pathset);
+int				update_trace(t_trace *trace,
+					t_visit *visit, int target, int parent);
 t_adj_state		**create_matrix(size_t size);
 unsigned long	hash(char *str, size_t len);
-void			calculate_total_time(t_pathset *pathset, int ant_count);
+void			calculate_total_time(t_pathset *pathset, size_t ant_count);
 void			compare_pathsets(t_pathset *new_pathset);
 void			free_bfs(t_bfs *bfs, int size);
 void			free_pathset(t_pathset *pathset);
@@ -120,5 +134,6 @@ void			free_room_info(size_t **room_info, size_t size);
 void			print_map_info(t_vec *map_info);
 void			print_paths(t_pathset *pathset);
 void			update_flow(t_info *info);
+void			update_visitation(t_info *info, int current, int target);
 
 #endif

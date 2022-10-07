@@ -19,6 +19,7 @@ void	print_paths(t_pathset *pathset)
 	t_vec	*path;
 	t_room	*room;
 
+	ft_printf("\n");
 	i = 0;
 	while (i < pathset->paths.len)
 	{
@@ -27,12 +28,12 @@ void	print_paths(t_pathset *pathset)
 		while (j < path->len)
 		{
 			room = *(t_room **)vec_get(path, j);
-			ft_printf("%s", room->name);
+			ft_printf("|%s| ", room->name);
 			if (j != path->len - 1)
-				ft_printf("->");
+				ft_printf("-> ");
 			j++;
 		}
-		ft_printf("\n");
+		ft_printf("\n------------\n");
 	}
 	ft_printf("Lines required: %d\n", pathset->total_time);
 }
@@ -41,7 +42,7 @@ static int	initialize_info(t_info *info)
 {
 	info->map_info.memory = NULL;
 	info->map_info.elem_size = sizeof(char *);
-	info->ant_count = -1;
+	info->ant_count = 0;
 	info->room_count = -1;
 	info->flags.end_flag = 0;
 	info->flags.start_flag = 0;
@@ -51,8 +52,7 @@ static int	initialize_info(t_info *info)
 	info->start = -1;
 	info->end = -1;
 	info->bfs.queue = NULL;
-	info->bfs.visited = NULL;
-	info->bfs.parent = NULL;
+	info->bfs.trace = NULL;
 	info->adj_matrix = NULL;
 	info->pathset.paths.memory = NULL;
 	return (1);
@@ -68,10 +68,9 @@ int	main(void)
 		return (free_and_exit(&info, 1));
 	if (pathfinder(&info) == -1)
 		return (free_and_exit(&info, 1));
-	//print_rooms(info.room_table);
-	//print_adj_matrix(info.adj_matrix, info.room_count);
 	print_final(info.ant_count, &info.map_info, &info.pathset);
-	ft_printf("ANT COUNT: %d\n\n", info.ant_count); // temp
-	print_paths(&info.pathset); //temp
+	//ft_printf(">>>> %d <<<<\n", info.pathset.total_time);
+	//ft_printf("ANT COUNT: %d\n\n", info.ant_count); // temp
+	//print_paths(&info.pathset); //temp
 	return (free_and_exit(&info, 0));
 }

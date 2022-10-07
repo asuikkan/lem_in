@@ -18,7 +18,7 @@ static int	augmenting_paths(t_info *info)
 
 	state = bfs(info);
 	if (state == ERROR)
-		free_and_exit(info, 1);
+		return (free_and_exit(info, 1), 0);
 	if (state == PATH_NOT_FOUND)
 		return (0);
 	else

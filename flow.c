@@ -18,38 +18,51 @@ static void	update_link(t_info *info, int from, int to, int state)
 	{
 		info->adj_matrix[from][to] = FLOW;
 		info->adj_matrix[to][from] = NEGATIVE_FLOW;
-		//((t_room *)(vec_get(&info->room_table, from)))->flow_to = to;
-		//((t_room *)(vec_get(&info->room_table, to)))->flow_from = from;
 	}
 	else if (state == NEGATIVE_FLOW)
 	{
 		info->adj_matrix[from][to] = NO_FLOW;
 		info->adj_matrix[to][from] = NO_FLOW;
-		//((t_room *)(vec_get(&info->room_table, from)))->flow_to = -1;
-		//((t_room *)(vec_get(&info->room_table, to)))->flow_from = -1;
 	}
+}
+
+int	check_parent(t_trace *trace, int current, int prev)
+{
+	int			child;
+	t_visit		*visit;
+	size_t		i;
+
+	visit = &trace[current].first_visit;
+	if (!trace[current].second_visit.done)
+		return (visit->parent);
+	else
+	{
+		i = 0;
+		while (i < visit->children.len)
+		{
+			child = *(int *)vec_get(&visit->children, i++);
+			if (child == prev)
+				return (visit->parent);
+		}
+	}
+	return (trace[current].second_visit.parent);
 }
 
 void	update_flow(t_info *info)
 {
-	t_room	*parent;
-	t_room	*current;
+	int		prev;
+	int		parent;
+	int		current;
 	int		state;
 
-	current = vec_get(&info->room_table, info->bfs.current);
-	while (current->index != info->start)
+	prev = -1;
+	current = info->bfs.current;
+	while (current != info->start)
 	{
-		if (info->bfs.visited[current->index] == BOTH)
-		{
-			parent = vec_get(&info->room_table,
-					info->bfs.parent[current->index][1]);
-			info->bfs.visited[current->index]--;
-		}
-		else
-			parent = vec_get(&info->room_table,
-					info->bfs.parent[current->index][0]);
-		state = info->adj_matrix[parent->index][current->index];
-		update_link(info, parent->index, current->index, state);
+		parent = check_parent(info->bfs.trace, current, prev);
+		state = info->adj_matrix[parent][current];
+		update_link(info, parent, current, state);
+		prev = current;
 		current = parent;
 	}
 }

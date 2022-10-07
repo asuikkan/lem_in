@@ -14,7 +14,7 @@
 
 int	parse_ant_count(t_info *info, char *line)
 {
-	long	nb;
+	size_t	nb;
 	int		i;
 
 	nb = 0;
@@ -27,6 +27,8 @@ int	parse_ant_count(t_info *info, char *line)
 		if (nb > COORD_LIMIT)
 			return (-1);
 	}
+	if (nb == 0)
+		return (-1);
 	info->ant_count = nb;
 	return (1);
 }
