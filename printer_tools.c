@@ -12,6 +12,24 @@
 
 #include "lem_in.h"
 
+void	print_single_line(size_t ant_count, t_pathset *pathset)
+{
+	size_t	i;
+	t_vec	*path;
+	t_room	*end;
+
+	path = vec_get(&pathset->paths, 0);
+	end = *(t_room **)vec_get(path, 0);
+	i = 0;
+	while (++i <= ant_count)
+	{
+		if (i > 1)
+			ft_putchar(' ');
+		ft_printf("L%lu-%s", i, end->name);
+	}
+	ft_putchar('\n');
+}
+
 void	free_room_info(size_t **room_info, size_t size)
 {
 	size_t	i;

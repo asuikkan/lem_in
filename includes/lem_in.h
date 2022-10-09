@@ -13,7 +13,6 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
-# define BUF_SIZE 2
 # define COORD_LIMIT 2147483647
 
 # include "libft.h"
@@ -32,6 +31,12 @@ typedef enum e_entries
 	NEGATIVE,
 	BOTH
 }	t_entries;
+
+typedef struct s_print_flags
+{
+	int	path_flag;
+	int	line_flag;
+}		t_print_flags;
 
 typedef struct s_read_flags
 {
@@ -105,7 +110,6 @@ int				add_adjacency(t_room *room1, t_room *room2);
 int				add_end(t_info *info, t_room *room);
 int				add_start(t_info *info, t_room *room);
 int				bfs(t_info *info);
-int				free_and_exit(t_info *info, int error_flag);
 int				hasher(t_info *info);
 int				init_room_info(size_t ***room_info, t_pathset *pathset);
 int				initialize_bfs(t_info *info);
@@ -127,12 +131,14 @@ int				update_trace(t_trace *trace,
 t_adj_state		**create_matrix(size_t size);
 unsigned long	hash(char *str, size_t len);
 void			calculate_total_time(t_pathset *pathset, size_t ant_count);
+void			cleanup(t_info *info, int error_flag);
 void			compare_pathsets(t_pathset *new_pathset);
 void			free_bfs(t_bfs *bfs, int size);
 void			free_pathset(t_pathset *pathset);
 void			free_room_info(size_t **room_info, size_t size);
 void			print_map_info(t_vec *map_info);
 void			print_paths(t_pathset *pathset);
+void			print_single_line(size_t ant_count, t_pathset *pathset);
 void			update_flow(t_info *info);
 void			update_visitation(t_info *info, int current, int target);
 

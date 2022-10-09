@@ -85,6 +85,7 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 	size_t	i;
 	int		next_index;
 
+	new_pathset->total_time = -1;
 	if (vec_new(&new_pathset->paths, 1, sizeof(t_vec)) == -1)
 		return (-1);
 	current = vec_get(&info->room_table, info->start);

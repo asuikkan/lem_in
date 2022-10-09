@@ -30,6 +30,8 @@ static size_t	set_time(size_t ant_count, size_t longest, size_t i, int sum)
 {
 	size_t	remaining_ants;
 
+	if (longest == 1)
+		return (1);
 	remaining_ants = ant_count - (longest * i - sum) - i;
 	longest += remaining_ants / i + ((remaining_ants % i) > 0);
 	return (longest);
