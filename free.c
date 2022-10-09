@@ -75,7 +75,7 @@ static void	free_map_info(t_vec *map_info)
 	vec_free(map_info);
 }
 
-int	free_and_exit(t_info *info, int error_flag)
+void	cleanup(t_info *info, int error_flag)
 {
 	if (error_flag)
 		write(1, "ERROR\n", 6);
@@ -87,5 +87,4 @@ int	free_and_exit(t_info *info, int error_flag)
 		free_pathset(&info->pathset);
 	free_bfs(&info->bfs, info->room_count);
 	llist_free(&info->bfs.queue);
-	return (0);
 }

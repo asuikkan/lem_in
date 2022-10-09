@@ -83,7 +83,7 @@ int	get_next_line(const int fd, char **line)
 		return (find_line(array, fd, line));
 	bytes = read(fd, buf, BUFF_SIZE);
 	if (bytes == -1)
-		return (-1);
+		return (free(array[fd]), -1);
 	else if (bytes == 0)
 		return (find_line(array, fd, line));
 	else

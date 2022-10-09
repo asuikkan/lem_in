@@ -102,7 +102,10 @@ int	print_final(size_t ant_count, t_vec *map_info, t_pathset *pathset)
 	if (init_room_info(&room_info, pathset) == -1)
 		return (-1);
 	print_map_info(map_info);
-	ant_control(ant_count, pathset, room_info);
+	if (pathset->total_time == 1)
+		print_single_line(ant_count, pathset);
+	else
+		ant_control(ant_count, pathset, room_info);
 	free_room_info(room_info, pathset->paths.len);
 	return (1);
 }

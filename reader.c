@@ -28,13 +28,13 @@ static int	comment_check(t_info *info, char *line)
 {
 	if (ft_strcmp(line, "##start") == 0)
 	{
-		if (info->flags.start_flag)
+		if (info->flags.start_flag || info->start >= 0)
 			return (-1);
 		info->flags.start_flag = 1;
 	}
 	else if (ft_strcmp(line, "##end") == 0)
 	{
-		if (info->flags.end_flag)
+		if (info->flags.end_flag || info->end >= 0)
 			return (-1);
 		info->flags.end_flag = 1;
 	}

@@ -50,7 +50,6 @@ static t_room	*find_next_room(t_info *info, t_room *current)
 		if (info->adj_matrix[current->index][next_index] == FLOW)
 		{
 			next = vec_get(&info->room_table, next_index);
-			next->flow_from = current->index;
 			return (next);
 		}
 	}
@@ -86,6 +85,7 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 	size_t	i;
 	int		next_index;
 
+	new_pathset->total_time = -1;
 	if (vec_new(&new_pathset->paths, 1, sizeof(t_vec)) == -1)
 		return (-1);
 	current = vec_get(&info->room_table, info->start);
@@ -96,7 +96,6 @@ int	save_pathset(t_info *info, t_pathset *new_pathset)
 		if (info->adj_matrix[current->index][next_index] == FLOW)
 		{
 			next = vec_get(&info->room_table, next_index);
-			next->flow_from = current->index;
 			if (add_path(info, new_pathset, next) == -1)
 				return (free_pathset(new_pathset), -1);
 		}
