@@ -26,11 +26,19 @@ static void	remove_extra_paths(t_pathset *pathset, size_t limit)
 	}
 }
 
+static size_t	set_time(size_t ant_count, size_t longest, size_t i, int sum)
+{
+	size_t	remaining_ants;
+
+	remaining_ants = ant_count - (longest * i - sum) - i;
+	longest += remaining_ants / i + ((remaining_ants % i) > 0);
+	return (longest);
+}
+
 void	calculate_total_time(t_pathset *pathset, size_t ant_count)
 {
 	int		sum;
 	size_t	longest;
-	size_t	remaining_ants;
 	t_vec	*path;
 	size_t	i;
 
@@ -47,9 +55,7 @@ void	calculate_total_time(t_pathset *pathset, size_t ant_count)
 		sum += path->len;
 		i++;
 	}
-	remaining_ants = ant_count - (longest * i - sum) - i;
-	longest += remaining_ants / i + ((remaining_ants % i) > 0);
-	pathset->total_time = longest;
+	pathset->total_time = set_time(ant_count, longest, i, sum);
 	if (i < pathset->paths.len)
 		remove_extra_paths(pathset, i);
 }

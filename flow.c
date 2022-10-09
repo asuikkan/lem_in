@@ -14,13 +14,21 @@
 
 static void	update_link(t_info *info, int from, int to, int state)
 {
+	t_room *room;
+
+	room = vec_get(&info->room_table, to);
 	if (state == NO_FLOW)
 	{
+		room = vec_get(&info->room_table, to);
+		room->flow_from = from;
 		info->adj_matrix[from][to] = FLOW;
 		info->adj_matrix[to][from] = NEGATIVE_FLOW;
+		
 	}
 	else if (state == NEGATIVE_FLOW)
 	{
+		room = vec_get(&info->room_table, from);
+		room->flow_from = -1;
 		info->adj_matrix[from][to] = NO_FLOW;
 		info->adj_matrix[to][from] = NO_FLOW;
 	}

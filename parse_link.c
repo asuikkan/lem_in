@@ -44,10 +44,13 @@ static int	save_link(t_info *info, char *node1, char *node2)
 	room2 = validate_node(&info->hash_table, node2, index);
 	if (!room2)
 		return (-1);
-	if (!add_adjacency(room1, room2))
-		return (-1);
-	if (initialize_flow(info->adj_matrix, room1, room2) == -1)
-		return (-1);
+	if (room1->index != room2->index)
+	{
+		if (add_adjacency(room1, room2) == -1)
+			return (-1);
+		if (initialize_flow(info->adj_matrix, room1, room2) == -1)
+			return (-1);
+	}
 	return (1);
 }
 

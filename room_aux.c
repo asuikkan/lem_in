@@ -16,6 +16,8 @@ int	add_start(t_info *info, t_room *room)
 {
 	if (info->start >= 0)
 		return (-1);
+	if (info->end < 0 && info->flags.end_flag)
+		return (-1);
 	info->start = room->index;
 	info->flags.start_flag = 0;
 	return (1);
@@ -24,6 +26,8 @@ int	add_start(t_info *info, t_room *room)
 int	add_end(t_info *info, t_room *room)
 {
 	if (info->end >= 0)
+		return (-1);
+	if (info->start < 0 && info->flags.start_flag)
 		return (-1);
 	info->end = room->index;
 	info->flags.end_flag = 0;
