@@ -74,7 +74,7 @@ static int	check_options(int argc, char **argv, t_print_flags *print_flags)
 	{
 		len = ft_strlen(argv[i]);
 		if (len < 2)
-			return (ft_putendl("Usage: ./lem-in [OPTION]... < [FILE]"), -1);
+			return (ft_putendl("Invalid option"), -1);
 		j = -1;
 		while (argv[i][++j])
 		{
@@ -85,7 +85,7 @@ static int	check_options(int argc, char **argv, t_print_flags *print_flags)
 			else if (argv[i][j] == 'l')
 				print_flags->line_flag = 1;
 			else
-				return (ft_putendl("Usage: ./lem-in [OPTION]... < [FILE]"), -1);
+				return (ft_putendl("Invalid option"), -1);
 		}
 	}
 	return (1);
