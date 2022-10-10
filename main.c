@@ -113,7 +113,6 @@ int	main(int argc, char **argv)
 		print_paths(&info.pathset);
 	if (print_flags.line_flag)
 		ft_printf("Lines required: %d\n", info.pathset.total_time);
-	//ft_printf(">>>> %d <<<<\n", info.pathset.total_time);
 	cleanup(&info, 0);
 	return (0);
 }
