@@ -37,7 +37,7 @@ char	*ft_anyitoa(unsigned long long nb, int base, int sign)
 		count++;
 	str = ft_strnew(count);
 	if (str == NULL)
-		exit(1);
+		return (NULL);
 	if (nb == 0)
 		str[0] = '0';
 	while (nb > 0)
