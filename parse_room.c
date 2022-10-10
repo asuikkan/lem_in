@@ -56,7 +56,7 @@ static int	parse_x(t_room *room, char *line)
 	i = -1 + (sign < 0);
 	while (line[++i] != ' ')
 	{
-		if (!validate_digit(line[i], &nb, sign))
+		if (!validate_digit(line[i], &nb, sign, i))
 			return (-1);
 	}
 	ft_memmove(line, line + len + 1, ft_strlen(line) - len);
@@ -68,23 +68,24 @@ static int	parse_y(t_room *room, char *line)
 {
 	int		len;
 	int		i;
+	int		sign;
 	long	nb;
 
 	len = ft_strlen(line);
 	if (len == 0)
 		return (-1);
+	sign = 1;
+	if (line[0] == '-')
+		sign = -1;
 	nb = 0;
-	i = -1;
+	i = -1 + (sign < 0);
 	while (line[++i])
 	{
-		if (!ft_isdigit(line[i]))
-			return (-1);
-		nb = nb * 10 + (line[i] - '0');
-		if (nb > COORD_LIMIT)
+		if (!validate_digit(line[i], &nb, sign, i))
 			return (-1);
 	}
 	ft_memmove(line, line + len, len);
-	room->y = (int)nb;
+	room->y = (int)(nb * sign);
 	return (1);
 }
 
