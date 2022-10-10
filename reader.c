@@ -67,21 +67,34 @@ static int	parse_info(t_info *info, char *line)
 	return (parse_link(info, line));
 }
 
+static int	save_and_copy_line(t_vec *map_info, char **dst, char *line)
+{
+	if (vec_push(map_info, &line) == -1)
+		return (-1);
+	*dst = ft_strdup(line);
+	if (!(*dst))
+		return (-1);
+	return (1);
+}
+
 int	read_output(t_info *info)
 {
+	int		state;
+	int		ret;
 	char	*line;
 	char	*temp;
-	int		state;
 
 	if ((vec_new(&info->room_table, 2, sizeof(t_room))) == -1)
 		return (-1);
 	state = 1;
-	while (get_next_line(0, &line) > 0)
+	while (1)
 	{
-		if (vec_push(&info->map_info, &line) == -1)
+		ret = get_next_line(0, &line);
+		if (ret == -1)
 			return (-1);
-		temp = ft_strdup(line);
-		if (!temp)
+		if (ret == 0)
+			break ;
+		if (save_and_copy_line(&info->map_info, &temp, line) == -1)
 			return (-1);
 		if (state >= 0)
 			state = parse_info(info, temp);
