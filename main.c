@@ -61,20 +61,19 @@ static void	initialize_flags(t_print_flags *print_flags)
 {
 	print_flags->path_flag = 0;
 	print_flags->line_flag = 0;
+	print_flags->script_flag = 0;
 }
 
 static int	check_options(int argc, char **argv, t_print_flags *print_flags)
 {
 	int	i;
 	int	j;
-	int	len;
 
 	i = 0;
 	while (++i < argc)
 	{
-		len = ft_strlen(argv[i]);
-		if (len < 2)
-			return (ft_putendl("Invalid option"), -1);
+		if (ft_strlen(argv[i]) < 2)
+			return (ft_putendl("Invalid option(s)"), -1);
 		j = -1;
 		while (argv[i][++j])
 		{
@@ -84,8 +83,10 @@ static int	check_options(int argc, char **argv, t_print_flags *print_flags)
 				print_flags->path_flag = 1;
 			else if (argv[i][j] == 'l')
 				print_flags->line_flag = 1;
+			else if (argv[i][j] == 's')
+				print_flags->script_flag = 1;
 			else
-				return (ft_putendl("Invalid option"), -1);
+				return (ft_putendl("Invalid option(s)"), -1);
 		}
 	}
 	return (1);
@@ -113,6 +114,8 @@ int	main(int argc, char **argv)
 		print_paths(&info.pathset);
 	if (print_flags.line_flag)
 		ft_printf("Lines required: %d\n", info.pathset.total_time);
+	if (print_flags.script_flag)
+		ft_printf(">>>> %d <<<<\n", info.pathset.total_time);
 	cleanup(&info, 0);
 	return (0);
 }

@@ -36,6 +36,7 @@ typedef struct s_print_flags
 {
 	int	path_flag;
 	int	line_flag;
+	int	script_flag;
 }		t_print_flags;
 
 typedef struct s_read_flags
