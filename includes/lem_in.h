@@ -128,6 +128,7 @@ int				reset_bfs(t_info *info);
 int				save_pathset(t_info *info, t_pathset *new_pathset);
 int				update_trace(t_trace *trace,
 					t_visit *visit, int target, int parent);
+int				validate_digit(char digit, long *number, int sign, int i);
 t_adj_state		**create_matrix(size_t size);
 unsigned long	hash(char *str, size_t len);
 void			calculate_total_time(t_pathset *pathset, size_t ant_count);
