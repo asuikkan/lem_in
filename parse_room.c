@@ -84,7 +84,6 @@ static int	parse_y(t_room *room, char *line)
 		if (!validate_digit(line[i], &nb, sign, i))
 			return (-1);
 	}
-	ft_memmove(line, line + len, len);
 	room->y = (int)(nb * sign);
 	return (1);
 }
@@ -100,8 +99,6 @@ int	parse_room(t_info *info, char *line)
 		return (free(room.name), -1);
 	if (parse_y(&room, line) == -1)
 		return (free(room.name), -1);
-	if (*line)
-		return (-1);
 	room.index = info->room_table.len;
 	if (push_room(info, &room) == -1)
 		return (-1);

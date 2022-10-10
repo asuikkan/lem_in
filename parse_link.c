@@ -17,6 +17,8 @@ static t_room	*validate_node(t_vec *table, char *room_name, int index)
 	t_room	*temp;
 
 	temp = *(t_room **)vec_get(table, index);
+	if (temp == NULL)
+		return (NULL);
 	if (ft_strcmp(temp->name, room_name))
 	{
 		while (temp->next)
