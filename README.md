@@ -95,7 +95,7 @@ There is a map generator in `maps/` . The generator’s commands can be checked 
 
 ### Script
 
-The script `[run.sh](http://run.sh)` located in the `maps/` directory will run the program N number of times with maps created by the generator with its big-superposition command. The script should be moved to the repository’s root directory before running it. Example
+The script `run.sh` located in the `maps/` directory will run the program N number of times with maps created by the generator with its big-superposition command. The script should be moved to the repository’s root directory before running it. Example
 
 ```bash
 ./run.sh 20
@@ -104,7 +104,7 @@ The script `[run.sh](http://run.sh)` located in the `maps/` directory will run t
 will run the program with 20 big-superposition maps.
 
 <aside>
-💡 The script is made by GitHub user **reviisori**, all credit go to them
+💡 The script is made by GitHub user reviisori, all credit go to them
 
 </aside>
 
