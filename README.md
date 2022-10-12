@@ -57,7 +57,7 @@ L7-05 L9-04 L8-05 L10-03
 L9-05 L10-05
 ```
 
-One field of the output, `L1-01` 
+One field of the output, e.g. `L1-01` 
 
 - always starts with an ‘L’
 - followed by the ant’s number
@@ -84,6 +84,10 @@ Run the program with a map as input
 ```bash
 ./lem-in [OPTIONS] < [path_to_map_file]
 ```
+Options include
+- -p for printing the chosen paths through the map (excluding the start room)
+- -l for printing the line count of the solution, formatted as `Lines required: [line count]`
+- -s for printing the line count in the format the script introduced below requires
 
 ### Generator
 
