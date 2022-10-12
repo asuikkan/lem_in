@@ -2,7 +2,7 @@
 
 The goal of this project is to make an algorithm that finds the shortest possible way for a number of ants to traverse a map from start to finish. This is measured by the number of lines the program outputs as a solution.
 
-## Rules
+## Overview
 
 ### Map
 
