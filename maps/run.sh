@@ -47,17 +47,17 @@ printf "\nTesting $1 big-superposition maps.\n\n"
 while [[ I -lt $1 ]]
 do
 	mkdir -p maps/trace_maps/
-	./maps/generator --big-superposition > maps/trace_maps/temp.map
+	./maps/generator --big > maps/trace_maps/temp.map
 	EXPECTED=( `grep "required: " maps/trace_maps/temp.map | cut -f8 -d " " | head -1` )
 	(time ./lem-in -s <  maps/trace_maps/temp.map) > maps/trace_maps/temp_res.txt 2> maps/trace_maps/temp_time.txt
 	RESULT=( `grep ">>>>" maps/trace_maps/temp_res.txt | cut -f2 -d " "` )
 	if [ "$RESULT" == "" ]
 	then
-		printf "ERROR:\tPlease make sure your lem-in outputs the result\n\tformated as: '${YELLOW}>>>> [number of lines] <<<<${EOC}' followed by a newline.\n\n"
+		printf "ERROR:\tPlease make sure your lem-in outputs the result\n\tformatted as: '${YELLOW}>>>> [number of lines] <<<<${EOC}' followed by a newline.\n\n"
 		rm -fr maps/trace_maps/
 		exit
 	fi
-	S_TIME=( `grep "user" maps/trace_maps/temp_time.txt | cut -f2 -d "m"` )
+	S_TIME=( `grep "real" maps/trace_maps/temp_time.txt | cut -f2 -d "m"` )
 	F_TIME=( `echo $S_TIME | grep -Eo "[+-]?[0-9]+([.][0-9]+)?"` )
 	
 	COLOR=${EOC}
@@ -135,7 +135,7 @@ printf " ${GREEN}${UNDER}${EOC}/$1 of maps were solved better than expected.\n"
 if [ $UNDER -gt 0 ]
 then
 	U_AVR=$(echo "$U_RES/$UNDER" | bc -l)
-	printf "  avarage: +"
+	printf "  average: +"
 	printf %.2f $U_AVR
 	printf " | best: ${WIN}\n"
 fi
@@ -144,12 +144,12 @@ printf " ${RED}${OVER}${EOC}/$1 of maps were solved worse than expected.\n"
 if [ $OVER -gt 0 ]
 then
 	O_AVR=$(echo "$O_RES/$OVER" | bc -l)
-	printf "  avarage: -"
+	printf "  average: -"
 	printf %.2f $O_AVR
 	printf " | worst: ${LOSS}\n"
 fi
 
-printf "Time:\n  avarage: "
+printf "Time:\n  average: "
 T_AVR=$(echo "$T/$1" | bc -l)
 T_AVR_COLOR=$EOC
 if [ $(echo "$SLOWEST > 2.999" | bc -l) -eq 1 ]
